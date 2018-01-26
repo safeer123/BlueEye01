@@ -1,0 +1,90 @@
+@import './fonts/font-family.scss';
+
+$header_height: 7%;
+$theme_color:#064a62;
+$main_font_family: "Open Sans";
+
+body, html{
+    height: 100%;
+    overflow: hidden;
+    font-family: "Open Sans";
+}
+#root{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.main-header, .main-footer{
+    background-color: $theme_color;
+    width: 100%;
+    height: $header_height;
+    color: #DDD;
+}
+
+.main-header {
+    border-bottom: 1px solid #777;
+}
+
+.main-footer {
+    height: $header_height / 2;
+}
+
+.header-items {
+    margin-left: 50px;
+    padding: 10px;
+    float: left;
+}
+
+.header-right-content {
+    float: right;
+}
+
+.wrapper {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.main-content{
+    background-color: #ced1d2;
+    width: 100%;
+    height: calc(100% - #{$header_height});
+    position: relative;
+
+    .canvas-wrapper{
+        height: 95%;
+        width: 100%;
+        background-color: #ced1d2;
+    }
+
+    .timeline-wrapper{
+        height: 5%;
+        width: 100%;
+        border-top: 1px solid #AAA;
+        background-color: darken($theme_color, 5);
+    }
+
+    .loader{
+        position: absolute;
+        top: 50%;
+        left: 40%;
+        font-size: 18px;
+        letter-spacing: 2;
+        font-weight: bold;
+        color: #666;
+    }
+}
+
+.custom-popover{
+    font-family: $main_font_family;
+    position: absolute;
+    background-color: #EEE;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid #CCC;
+    border-radius: 3px;
+    z-index: 2;
+    pointer-events: none;
+    margin-left: -5px;
+    margin-top: 5px;
+    padding: 10px;
+}
