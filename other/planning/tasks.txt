@@ -1,0 +1,170 @@
+
+DONE -->  add new shader Pair for 3d
+DONE -->  Get and use/learn the best m4 library
+DONE -->  Create Triangle3D, Derive Quad3D from Triangle 3D
+DONE -->  add folder named ShaderFactory // Building Base
+	- config.js
+		- list of { program ID, shaderIds, attribs, uniforms, (texture) }
+	- constants.js
+		- Program ID Enum
+	- GLInitializer.js
+		- Takes list of program Ids to initialize with
+		- shaderPrograms[id] = { ...programCongig }
+		- initLocations
+	- Canvas.js
+		- constructor(programIdList)
+		
+DONE -->  Create first 3d scene with camera
+DONE -->  enable depth test
+DONE -->  face culling
+DONE -->  SceneConfig class - constructor(viewport, camera)
+DONE -->  create instances sceneConfig1, sceneConfig2, ... with different camera/viewport
+DONE -->  render(sceneConfig) => { wo.render(sceneConfig) => setCamera()}
+DONE -->  Change Transform matrix - add class
+DONE -->  ModelTransformMatrix for objects
+DONE -->  Matrix4:getInverseTransposeMatrix()
+DONE -->  Matrix4:applyInverseTransposeMatrix(vec3)
+DONE -->  Add normals based on a flag, in the buffers
+DONE -->  Add new shader program for directional light
+DONE -->  Add new renderConfig file named renderConfigLight
+DONE -->  set UniformGetter for additional uniforms
+DONE -->  fix the Matrix4 multiply order
+DONE -->  create Box3D
+DONE -->  Add ambient term in the shader
+DONE -->  define material properties for WorldObject as defineProperty
+DONE -->  make coefficients as zero by default
+	k_ambient
+	k_diffuse
+	k_specular
+	shininess
+	emissive_color
+
+DONE -->  Fix issue while thetaPhi cam is on top objects get too closer
+setProperty if min or max is defined keep values bound by them
+getProperty should consider calling getter if available and return the property
+floor is again a box
+Create 2 box pillars
+one side wall
+
+each derived Wobject should have a config file with material properties
+WorldObject has defaultConfig and customConfig
+WO constructor take a config object as argument
+defaultConfig.PropertyList
+customConfig.PropertyList
+customConfig.InitList
+
+WO:defineGeometry()
+
+Rename Cam to Camera (Camera Abstraction)
+
+Sun setupScene(ObjRenderer) set color and direction getters 
+Light setupScene(ObjRenderer) set light position and color getters 
+Shader: WorldViewprojection => ViewProjection * World
+Camera setupScene, set ViewProjection matrix getter
+===========================================
+
+KeySubscriberConfig.js 
+	[subscriberInfo]
+Define KeyEventManager
+	subscribeEvent(subscriberInfo);
+	addEventListener('keydown' and 'keyup') notify subscribers
+
+ceiling is a box
+
+
+WO:addChild()
+childList = []
+WO:property "world_matrix"
+traverse from top to bottom
+world_matrix of child = world_matrix of parent * model_matrix
+
+change SHADER_VARS.u_Lights_0_lightColor to SHADER_VARS.u_LightColor(0)
+
+change sceneConfig object to SceneManager class instances
+define setupScene => call setupScene of sceneSetters
+prop "viewport" is not needed. use it as SceneManager.viewport
+
+commit code into github account
+
+canvas clearColor to skyColor = sunColor (for now)
+
+Disc3D, innerRadius, OuterRadius
+Cylinder3D, closeTop, closeBottom
+Cone3D
+
+sceneGraph each node has its matrix
+traverse down and set world_matrix for each node
+pass world_matrix to u_world
+
+React based configure popup using a configurables object and set UI
+callback whenever a change is triggered from user and return the config state
+
+Every WO has a configurable list.
+populate and get the popup for configuration
+
+Wire view Rendering
+
+Currently we have per quad color for objects. Change to per vertex color.
+
+add normal for surface3D plane
+
+colorGetter() default and overrides
+
+remove unwanted imports from files
+addVector, subt.. move to V3 and import V3
+
+Optimize: Add pseudo rand Util method for colors
+
+length and area based surface division to quad3ds
+use sin(theta) to decide n at each height of sphere3d.
+(this can save/improve efficiency for objects)
+
+
+==+ LIGHT +===
+
+float3 ambient = u_Ka * ambientLightColor;
+
+float3 L = normalize(u_lightPosition - P);
+float3 N = normalize(v_normal);
+float3 diffuse = u_Kd * u_lightColor * diffuseLight;
+float diffuseLight = max(dot(N, L), 0);
+
+
+Ideally we should have provition to add normal per vertex for quad
+Since we use only spherical objects keep normal as the vertex itself
+
+Draw 2d lines for viewports- objectGroup2D
+
+Create 3D line segment.
+Draw y axis as a 3D line seg.
+
+viewport 1 large and other small
+
+colorBandWidth = 0 => single color, else multi
+later make custom color generator callbacks
+
+
+
+
+make appUtils default export	
+color as input for RectSurface3D, Sphere3D
+moving shaders into static text files and read from it
+create path alias/shortcuts and use them appropriately
+WorldScene0 - RoomObject 3 walls and a pillar in  cylinder shape
+			- A ball on the floor
+			- A box on the floor
+			(Create a folder for each and create WorldObjects for each)
+
+
+Figure out how to convert 16byte float color to 4byte(4 unsigned_byte)
+	- Did not work out we need more time
+	
+	
+Object Detection:
+Entire problem will come down to solving ==> Given a line ( Point + Vector ) which side of the box it will hit next
+OR short grid path from (i1, j1) to (i2, j2)
+slope m = j2-j1 / i2-i1
+line j-j1 / i-i1  =   m
+iterate from i1 to i2 find j as ceil and floor both
+
+M = inverse(projectionViewMatrix) p11=M*p1 p22=M*p2 first Object hitting this line
