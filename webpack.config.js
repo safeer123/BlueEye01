@@ -2,8 +2,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
 const WebpackMerge = require("webpack-merge");
 const Webpack = require("webpack");
 const path = require("path");
@@ -112,10 +110,6 @@ const commonConfig = () => ({
       {
         test: require.resolve("moment"),
         use: "expose-loader?moment"
-      },
-      {
-        test: /\.(c|d|t)sv$/, // load all .csv, .dsv, .tsv files with dsv-loader
-        use: ['dsv-loader'] // or dsv-loader?delimiter=,
       }
       // {
       //   test: require.resolve("zeroclipboard"),
