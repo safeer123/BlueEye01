@@ -114,10 +114,6 @@ const commonConfig = () => ({
         use: "expose-loader?moment"
       },
       {
-        test: require.resolve("pikaday"),
-        use: "expose-loader?Pikaday"
-      },
-      {
         test: /\.(c|d|t)sv$/, // load all .csv, .dsv, .tsv files with dsv-loader
         use: ['dsv-loader'] // or dsv-loader?delimiter=,
       }
