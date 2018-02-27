@@ -83,6 +83,7 @@ class Content extends React.Component {
     );
 
     window.addEventListener("resize", this.resizeHandler);
+    this.resizeHandler();
   }
 
   componentWillReceiveProps(nextProps) {
