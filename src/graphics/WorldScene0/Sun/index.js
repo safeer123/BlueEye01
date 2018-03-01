@@ -16,7 +16,7 @@ export default class Sun extends WorldObject {
 
     this.setPropertyGetter("sun_light_color", () => {
       if (this.getProperty("isDay")) return config.dayColor;
-      else return config.nightColor;
+      return config.nightColor;
     });
 
     this.setPropertyGetter("sun_direction", () => {
@@ -27,7 +27,7 @@ export default class Sun extends WorldObject {
   }
 
   init() {
-    let changeDirection = t => {
+    const changeDirection = t => {
       const newTheta = Utils.interpolate(-Math.PI, Math.PI, t);
       this.setProperty("theta", newTheta);
       if (newTheta > Math.PI / 2 || newTheta < -Math.PI / 2) {
@@ -54,11 +54,11 @@ export default class Sun extends WorldObject {
 
     // Create sky color for background
     this.objRenderer.setUniformGetter(SHADER_VARS.u_color, () => {
-      const ambient = [0.2, 0.2, 0.4];
+      const ambient = [0.1, 0.1, 0.1];
       const diffuse_I = dot([0, 1, 0], this.getProperty("sun_direction"));
       const netColor = addVectors(
         ambient,
-        multVector(diffuse_I, [0.6, 0.6, 0.6])
+        multVector(diffuse_I, [0.1, 0.1, 0.1])
       );
       return [...netColor, 1.0];
     });
@@ -72,12 +72,8 @@ export default class Sun extends WorldObject {
   }
 
   setupScene(objRenderer) {
-    objRenderer.setUniformGetter(SHADER_VARS.u_sunDirection, () => {
-      return this.getProperty("sun_direction");
-    });
+    objRenderer.setUniformGetter(SHADER_VARS.u_sunDirection, () => this.getProperty("sun_direction"));
 
-    objRenderer.setUniformGetter(SHADER_VARS.u_sunLightColor, () => {
-      return this.getProperty("sun_light_color");
-    });
+    objRenderer.setUniformGetter(SHADER_VARS.u_sunLightColor, () => this.getProperty("sun_light_color"));
   }
 }

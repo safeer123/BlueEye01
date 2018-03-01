@@ -16,7 +16,7 @@ const config = {
     {
       name: "isDay",
       type: "bool",
-      value: true
+      value: false
     },
     {
       name: "theta",

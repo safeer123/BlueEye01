@@ -1,4 +1,3 @@
-
 DONE -->  add new shader Pair for 3d
 DONE -->  Get and use/learn the best m4 library
 DONE -->  Create Triangle3D, Derive Quad3D from Triangle 3D
@@ -62,6 +61,16 @@ Light setupScene(ObjRenderer) set light position and color getters
 Shader: WorldViewprojection => ViewProjection * World
 Camera setupScene, set ViewProjection matrix getter
 ===========================================
+
+Make it more React-Redux project
+
+Create two layouts switchable from one another
+
+
+
+
+
+
 
 KeySubscriberConfig.js 
 	[subscriberInfo]

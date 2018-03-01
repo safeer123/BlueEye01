@@ -24,7 +24,7 @@ export default class WorldScene0 extends GraphicsLayer {
     // Back ground color
     this.gl.clearColor(0, 0, 0, 1);
 
-    const sceneUpdater = (displayOutList) => {
+    const sceneUpdater = displayOutList => {
       if (this.stateUpdateHandler) {
         this.stateUpdateHandler(displayOutList, 5);
       }
@@ -68,7 +68,7 @@ export default class WorldScene0 extends GraphicsLayer {
 
     Cameras.forEach(camera => {
       if (camera.type === "default") {
-        let cam = new Camera(
+        const cam = new Camera(
           new ObjectRenderer(
             this.gl,
             this.shaderFac.shaderPrograms,
@@ -82,7 +82,7 @@ export default class WorldScene0 extends GraphicsLayer {
         this.cameras[camera.name] = cam;
         this.worldObjectList.push(cam);
       } else if (camera.type === "ThetaPhi") {
-        let cam = new Cam_ThetaPhi(
+        const cam = new Cam_ThetaPhi(
           new ObjectRenderer(
             this.gl,
             this.shaderFac.shaderPrograms,

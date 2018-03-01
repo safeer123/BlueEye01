@@ -1,7 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import AppController from "../../graphics/AppController";
 import CustomPopover from "../Overlay/CustomPopover";
-import { connect } from "react-redux";
 
 class Content extends React.Component {
   constructor(props) {
@@ -18,30 +18,47 @@ class Content extends React.Component {
     this.resizeHandler = this.resizeHandler.bind(this);
   }
 
-  resizeHandler() {
-    // console.log(this.canvasWrapper.clientWidth, this.canvasWrapper.clientHeight);
-    if (this.appController) {
-      this.appController.onResize();
+  componentDidMount() {
+    console.log("Initialize graphics controller..");
+    const rootDiv = document.getElementById("root");
+    this.appController = new AppController(rootDiv, this.canvasWrapper);
+    this.appController.setStateUpdateHandler(
+      this.stateUpdateHandler.bind(this)
+    );
 
-      if (this.props.scenarioData) {
-        const data = {
-          plan: this.props.scenarioData.data,
-          scenario: this.props.activeScenario
-        };
+    window.addEventListener("resize", this.resizeHandler);
+    this.resizeHandler();
+  }
 
-        // init with data and integrate
-        this.appController.init(data);
-      }
+  componentWillReceiveProps(nextProps) {
+    console.log("Component: componentWillReceiveProps------");
+    // console.log(nextProps);
+    if (nextProps.scenarioData.status === "pending") {
+      this.appController.clearAll();
+    } else if (nextProps.scenarioData.status === "fulfilled") {
+      // Update buffer and rerender
+      // Gather required data for rendering
+      const data = {
+        plan: nextProps.scenarioData.data,
+        scenario: nextProps.activeScenario
+      };
+
+      // init with data and integrate
+      this.appController.init(data);
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resizeHandler);
   }
 
   displayLoaderOnNeed() {
     return this.props.scenarioData &&
       this.props.scenarioData.status === "pending" ? (
       <div className="loader">
-        {" "}
-        <span>Fetching data. Please wait..</span>{" "}
-      </div>
+          {" "}
+          <span>Fetching data. Please wait..</span>{" "}
+        </div>
     ) : null;
   }
 
@@ -74,38 +91,21 @@ class Content extends React.Component {
     }, (duration + 1) * 1000);
   }
 
-  componentDidMount() {
-    console.log("Initialize graphics controller..");
-    let rootDiv = document.getElementById("root");
-    this.appController = new AppController(rootDiv, this.canvasWrapper);
-    this.appController.setStateUpdateHandler(
-      this.stateUpdateHandler.bind(this)
-    );
+  resizeHandler() {
+    // console.log(this.canvasWrapper.clientWidth, this.canvasWrapper.clientHeight);
+    if (this.appController) {
+      this.appController.onResize();
 
-    window.addEventListener("resize", this.resizeHandler);
-    this.resizeHandler();
-  }
+      if (this.props.scenarioData) {
+        const data = {
+          plan: this.props.scenarioData.data,
+          scenario: this.props.activeScenario
+        };
 
-  componentWillReceiveProps(nextProps) {
-    console.log("Component: componentWillReceiveProps------");
-    // console.log(nextProps);
-    if (nextProps.scenarioData.status === "pending") {
-      this.appController.clearAll();
-    } else if (nextProps.scenarioData.status === "fulfilled") {
-      // Update buffer and rerender
-      // Gather required data for rendering
-      const data = {
-        plan: nextProps.scenarioData.data,
-        scenario: nextProps.activeScenario
-      };
-
-      // init with data and integrate
-      this.appController.init(data);
+        // init with data and integrate
+        this.appController.init(data);
+      }
     }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resizeHandler);
   }
 
   render() {
@@ -113,8 +113,10 @@ class Content extends React.Component {
       <div className="main-content">
         <div
           className="canvas-wrapper"
-          ref={elm => (this.canvasWrapper = elm)}
-        />W
+          ref={elm => {
+            this.canvasWrapper = elm;
+          }}
+        />
         {this.displayLoaderOnNeed()}
         <CustomPopover
           visible={this.state.modeOverlayState.visible}

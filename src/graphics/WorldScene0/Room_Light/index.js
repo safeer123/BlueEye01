@@ -5,7 +5,7 @@ import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
 
 export default class RoomObject extends WorldObject {
-  constructor(objRenderer, keyControl, configList=[]) {
+  constructor(objRenderer, keyControl, configList = []) {
     super(objRenderer, keyControl, [config, ...configList]);
   }
 
@@ -89,7 +89,7 @@ export default class RoomObject extends WorldObject {
 
     this.ball1 = new OBJ0.Sphere3D(3, [0.6, 0.8, 0.6], 20, 20);
     this.ball1.modelMatrix = new Matrix4().translate(0, 3, 0);
-    this.ball1.color = [200/256, 80/256, 110/256, 1];
+    this.ball1.color = [200 / 256, 80 / 256, 110 / 256, 1];
 
     this.ball2 = new OBJ0.Sphere3D(1, [0.5, 0.5, 0.5], 20, 20);
     this.ball2.modelMatrix = new Matrix4().translate(-5, 1, 5);
@@ -100,14 +100,14 @@ export default class RoomObject extends WorldObject {
       .xRotate(1)
       .translate(5, 5, 5);
 
-    return  [
-        this.floor,
-        this.sideWall,
-        this.pillar1,
-        this.pillar2,
-        this.ball1,
-        this.ball2,
-        this.box1
-      ];
+    return [
+      // this.floor,
+      // this.sideWall,
+      // this.pillar1,
+      // this.pillar2,
+      this.ball1,
+      this.ball2,
+      this.box1
+    ];
   }
 }
