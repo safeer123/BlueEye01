@@ -1,18 +1,29 @@
+const netWidth = 1;
 const LayoutConfig1 = {
   SceneConfigs: [
     {
       name: "scene1",
-      viewport: { x: 0, y: 0.3, width: 0.7 - 0.005, height: 0.7 - 0.005 },
+      viewport: { x: 0, y: 0.3, width: netWidth - 0.005, height: 0.7 - 0.005 },
       camera: "Cam1"
     },
     {
       name: "scene2",
-      viewport: { x: 0.7, y: 0.7, width: 0.3 - 0.005, height: 0.3 - 0.005 },
+      viewport: {
+        x: netWidth / 2,
+        y: 0,
+        width: netWidth / 2 - 0.005,
+        height: 0.3 - 0.005
+      },
       camera: "Cam2"
     },
     {
       name: "scene3",
-      viewport: { x: 0, y: 0, width: 0.3 - 0.005, height: 0.3 - 0.005 },
+      viewport: {
+        x: 0,
+        y: 0,
+        width: netWidth / 2 - 0.005,
+        height: 0.3 - 0.005
+      },
       camera: "Cam3"
     }
   ],
