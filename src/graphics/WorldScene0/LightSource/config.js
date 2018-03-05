@@ -15,7 +15,7 @@ const config = {
     {
       name: "isON",
       type: "bool",
-      value: false
+      value: true
     }
   ],
 

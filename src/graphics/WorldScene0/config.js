@@ -3,7 +3,7 @@ const LayoutConfig1 = {
   SceneConfigs: [
     {
       name: "scene1",
-      viewport: { x: 0, y: 0.3, width: netWidth - 0.005, height: 0.7 - 0.005 },
+      viewport: { x: 0, y: 0.3, width: netWidth - 0.005, height: 0.66 - 0.005 },
       camera: "Cam1"
     },
     {
@@ -12,7 +12,7 @@ const LayoutConfig1 = {
         x: netWidth / 2,
         y: 0,
         width: netWidth / 2 - 0.005,
-        height: 0.3 - 0.005
+        height: 0.33 - 0.005
       },
       camera: "Cam2"
     },
@@ -22,7 +22,7 @@ const LayoutConfig1 = {
         x: 0,
         y: 0,
         width: netWidth / 2 - 0.005,
-        height: 0.3 - 0.005
+        height: 0.33 - 0.005
       },
       camera: "Cam3"
     }

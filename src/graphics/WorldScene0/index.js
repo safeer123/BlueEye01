@@ -117,9 +117,7 @@ export default class WorldScene0 extends GraphicsLayer {
   }
 
   render(sceneConfig) {
-    this.worldObjectList.forEach(wo => {
-      wo.setSceneConfig(sceneConfig);
-      wo.render();
-    });
+    this.worldObjectList.forEach(wo => wo.setSceneConfig(sceneConfig));
+    this.worldObjectList.forEach(wo => wo.render());
   }
 }

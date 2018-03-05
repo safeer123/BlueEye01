@@ -21,7 +21,7 @@ const config = {
       name: "projection_view_matrix",
       type: "mat4",
       value: m4.identity()
-    },
+    }
   ],
 
   CamConfig: {

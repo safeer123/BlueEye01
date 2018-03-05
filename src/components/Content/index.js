@@ -31,7 +31,7 @@ class Content extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("Component: componentWillReceiveProps------");
+    // console.log("Component: componentWillReceiveProps------");
     // console.log(nextProps);
     if (nextProps.scenarioData.status === "pending") {
       this.appController.clearAll();

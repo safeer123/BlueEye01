@@ -45,11 +45,9 @@ export default class WorldObject {
   }
 
   setProperty(propertyName, value) {
-    let propertyObj = this.propertyBucket[propertyName];
+    const propertyObj = this.propertyBucket[propertyName];
     if (!propertyObj) {
-      console.error(
-        "WorldObject:setProperty(): " + propertyName + " not defined."
-      );
+      console.error(`WorldObject:setProperty(): ${propertyName} not defined.`);
     }
     if (propertyObj.min && value < propertyObj.min) {
       propertyObj.value = propertyObj.min;
@@ -62,19 +60,15 @@ export default class WorldObject {
 
   setPropertyGetter(propertyName, getter) {
     if (!this.propertyBucket[propertyName]) {
-      console.error(
-        "WorldObject:setProperty(): " + propertyName + " not defined."
-      );
+      console.error(`WorldObject:setProperty(): ${propertyName} not defined.`);
     }
     this.propertyBucket[propertyName].getter = getter;
   }
 
   getProperty(propertyName) {
-    let propertyObj = this.propertyBucket[propertyName];
+    const propertyObj = this.propertyBucket[propertyName];
     if (!propertyObj) {
-      console.error(
-        "WorldObject:getProperty(): " + propertyName + " not defined."
-      );
+      console.error(`WorldObject:getProperty(): ${propertyName} not defined.`);
     }
     // if there is a getter use it
     if (propertyObj.getter) {
@@ -86,15 +80,15 @@ export default class WorldObject {
 
   getValue(propertyName) {
     if (!this.propertyBucket[propertyName]) {
-      console.error(
-        "WorldObject:getValue(): " + propertyName + " not defined."
-      );
+      console.error(`WorldObject:getValue(): ${propertyName} not defined.`);
     }
     return this.propertyBucket[propertyName].value;
   }
 
   createObjects(objList) {
-    objList.forEach(obj => (obj.enableNormals = this.enableNormals));
+    objList.forEach(obj => {
+      obj.enableNormals = this.enableNormals;
+    });
 
     const { objRenderer } = this;
     objRenderer.clearObjects();
@@ -102,43 +96,43 @@ export default class WorldObject {
     objRenderer.createBuffers();
 
     objRenderer.setUniformGetter(SHADER_VARS.u_world, () => {
-      let modelMatrix = this.getProperty("model_matrix");
+      const modelMatrix = this.getProperty("model_matrix");
       return modelMatrix;
     });
 
     // TODO: Remove this if not needed anymore
     objRenderer.setUniformGetter(SHADER_VARS.u_worldViewProjection, () => {
-      let projectionViewMatrix = this.getProperty("projection_view_matrix");
-      let modelMatrix = this.getProperty("model_matrix");
-      let matrix = m4.multiply(projectionViewMatrix, modelMatrix);
+      const projectionViewMatrix = this.getProperty("projection_view_matrix");
+      const modelMatrix = this.getProperty("model_matrix");
+      const matrix = m4.multiply(projectionViewMatrix, modelMatrix);
       return matrix;
     });
 
     objRenderer.setUniformGetter(SHADER_VARS.u_worldInverseTranspose, () => {
-      let matrix = this.modelMatrix.getInverseTransposeMatrix();
+      const matrix = this.modelMatrix.getInverseTransposeMatrix();
       return matrix;
     });
 
     objRenderer.setUniformGetter(SHADER_VARS.u_reverseLightDirection, () => {
-      let vec3 = [1, 1, 1];
+      const vec3 = [1, 1, 1];
       return vec3;
     });
 
-    objRenderer.setUniformGetter(SHADER_VARS.u_emissiveColor, () => {
-      return this.getProperty("emissive_color");
-    });
+    objRenderer.setUniformGetter(SHADER_VARS.u_emissiveColor, () =>
+      this.getProperty("emissive_color")
+    );
 
-    objRenderer.setUniformGetter(SHADER_VARS.u_Ka, () => {
-      return this.getValue("k_ambient");
-    });
+    objRenderer.setUniformGetter(SHADER_VARS.u_Ka, () =>
+      this.getValue("k_ambient")
+    );
 
-    objRenderer.setUniformGetter(SHADER_VARS.u_Kd, () => {
-      return this.getValue("k_diffuse");
-    });
+    objRenderer.setUniformGetter(SHADER_VARS.u_Kd, () =>
+      this.getValue("k_diffuse")
+    );
 
-    objRenderer.setUniformGetter(SHADER_VARS.u_Ks, () => {
-      return this.getProperty("k_specular");
-    });
+    objRenderer.setUniformGetter(SHADER_VARS.u_Ks, () =>
+      this.getProperty("k_specular")
+    );
 
     // For 2D
     objRenderer.setUniformGetter(SHADER_VARS.u_resolution, () => {
@@ -146,9 +140,17 @@ export default class WorldObject {
       return [width, height];
     });
 
-    objRenderer.setUniformGetter(SHADER_VARS.u_matrix, () => {
-      return [1,0,0,  0,1,0,  0,0,1];
-    });
+    objRenderer.setUniformGetter(SHADER_VARS.u_matrix, () => [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1
+    ]);
   }
 
   setSceneConfig(sceneConfig) {

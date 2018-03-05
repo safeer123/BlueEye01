@@ -38,9 +38,9 @@ export default class Camera extends WorldObject {
   }
 
   setupScene(objRenderer) {
-    objRenderer.setUniformGetter(SHADER_VARS.u_viewProjection, () => {
-      return this.getProperty("projection_view_matrix");
-    });
+    objRenderer.setUniformGetter(SHADER_VARS.u_viewProjection, () =>
+      this.getProperty("projection_view_matrix")
+    );
   }
 
   // Needed for only camera objects
