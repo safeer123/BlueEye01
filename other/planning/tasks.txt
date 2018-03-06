@@ -66,6 +66,27 @@ Make it more React-Redux project
 
 Create two layouts switchable from one another
 
+WorldObject has parent object default null
+setParent()
+new property "world_matrix"
+property getter => parent_world_matrix * modelMatrix
+woCache, setSceneConfig { woCache= null }, woCache.WorldMatrix
+use this worldMatrix in uniformGetter
+
+./WorldSceneStore/
+	CameraWorldObject
+	CameraThetaPhiWorldObject
+	LightWorldObject
+	DirLightWorldObject
+	Sun
+	CameraSolidObject
+	CameraThetaPhiSolidObject
+	LightSphereObject
+	
+./CustomScene001/
+	index reades a sceneObject
+	
+
 
 
 
