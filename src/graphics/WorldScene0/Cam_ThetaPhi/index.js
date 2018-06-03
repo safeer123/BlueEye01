@@ -12,7 +12,7 @@ export default class Cam_ThetaPhi extends Camera {
     this.setPropertyGetter("camera_position", () => {
       // r, theta, phi to camera position
       const targetPos = this.getProperty("target_position");
-      let sphericalPos = Utils.rThetaPhiToXYZ(
+      const sphericalPos = Utils.rThetaPhiToXYZ(
         this.getProperty("radius"),
         this.getProperty("theta"),
         this.getProperty("phi")
@@ -45,15 +45,15 @@ export default class Cam_ThetaPhi extends Camera {
     const getPhiAt = t => Utils.interpolate(2 * Math.PI, 0, t);
 
     const modeName = "Camera-1";
-    let changePhi = t => {
+    const changePhi = t => {
       this.setProperty("phi", getPhiAt(t));
       const phiInDeg = Utils.radToDegree(this.getProperty("phi"));
-      return [ modeName, `Phi: ${phiInDeg} deg` ];
+      return [modeName, `Phi: ${phiInDeg} deg`];
     };
-    let changeTheta = t => {
+    const changeTheta = t => {
       this.setProperty("theta", getThetaAt(t));
       const thetaInDeg = Utils.radToDegree(this.getProperty("theta"));
-      return [ modeName, `Theta: ${thetaInDeg} deg` ];
+      return [modeName, `Theta: ${thetaInDeg} deg`];
     };
     const keyControlObject = {
       modeName: "Camera-ThetaPhi",
