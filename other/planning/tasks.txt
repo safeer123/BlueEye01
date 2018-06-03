@@ -46,11 +46,16 @@ DONE -->  Sun setupScene(ObjRenderer) set color and direction getters
 DONE -->  Light setupScene(ObjRenderer) set light position and color getters 
 DONE -->  Shader: WorldViewprojection => ViewProjection * World
 DONE -->  Camera setupScene, set ViewProjection matrix getter
+
+
+----------03/06/2017-------------------------------
+DONE ---> git commit and push current status
+DONE ---> double click for fullscreen
+DONE ---> Fix loading not shown while loading issue
+
 ===========================================
 
-git commit and push current status
 
-double click for fullscreen
 
 Remove unnecessary forlders/files created
 
