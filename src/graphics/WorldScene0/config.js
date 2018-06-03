@@ -1,51 +1,47 @@
 const netWidth = 1;
+const gapSize = 0.0001;
 const LayoutConfig1 = {
   SceneConfigs: [
     {
-      name: "scene1",
-      viewport: { x: 0, y: 0.3, width: netWidth - 0.005, height: 0.66 - 0.005 },
-      camera: "Cam1"
-    },
-    {
-      name: "scene2",
-      viewport: {
-        x: netWidth / 2,
-        y: 0,
-        width: netWidth / 2 - 0.005,
-        height: 0.33 - 0.005
-      },
-      camera: "Cam2"
-    },
-    {
-      name: "scene3",
+      name: "leftEyeScene",
       viewport: {
         x: 0,
         y: 0,
-        width: netWidth / 2 - 0.005,
-        height: 0.33 - 0.005
+        width: netWidth * 0.5 - gapSize * 0.5,
+        height: 1
       },
-      camera: "Cam3"
+      camera: "Cam1"
+    },
+    {
+      name: "rightEyeScene",
+      viewport: {
+        x: netWidth * 0.5 + gapSize * 0.5,
+        y: 0,
+        width: netWidth * 0.5 - gapSize * 0.5,
+        height: 1
+      },
+      camera: "Cam2"
     }
   ],
 
   Cameras: [
     {
       name: "Cam1",
-      type: "ThetaPhi",
-      position: [13, 13, 13],
+      type: "default",
+      position: [-1, 10, 23],
       target: [0, 0, 0],
       up: [0, 1, 0]
     },
     {
       name: "Cam2",
       type: "default",
-      position: [0, 30, 0],
+      position: [1, 10, 23],
       target: [0, 0, 0],
-      up: [0, 0, 1]
+      up: [0, 1, 0]
     },
     {
       name: "Cam3",
-      type: "default",
+      type: "ThetaPhi",
       position: [0, 2, -20],
       target: [0, 0, 0],
       up: [0, 1, 0]
