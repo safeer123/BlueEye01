@@ -52,16 +52,9 @@ body, html{
     position: relative;
 
     .canvas-wrapper{
-        height: 95%;
+        height: 100%;
         width: 100%;
         background-color: #ced1d2;
-    }
-
-    .timeline-wrapper{
-        height: 5%;
-        width: 100%;
-        border-top: 1px solid #AAA;
-        background-color: darken($theme_color, 5);
     }
 
     .loader{
@@ -72,6 +65,10 @@ body, html{
         letter-spacing: 2;
         font-weight: bold;
         color: #666;
+    }
+
+    .fullscreen{
+        height: 100% !important;
     }
 }
 
