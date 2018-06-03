@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import Fullscreen from "react-full-screen";
 import AppController from "../../graphics/AppController";
 import CustomPopover from "../Overlay/CustomPopover";
 
@@ -8,6 +9,7 @@ class Content extends React.Component {
     super(props);
 
     this.state = {
+      isFullscreenMode: false,
       modeOverlayState: {
         visible: false,
         expiryTime: new Date(),
@@ -44,7 +46,9 @@ class Content extends React.Component {
       };
 
       // init with data and integrate
-      this.appController.init(data);
+      setTimeout(() => {
+        this.appController.init(data);
+      }, 0);
     }
   }
 
@@ -56,8 +60,7 @@ class Content extends React.Component {
     return this.props.scenarioData &&
       this.props.scenarioData.status === "pending" ? (
       <div className="loader">
-          {" "}
-          <span>Fetching data. Please wait..</span>{" "}
+          <span>Fetching data. Please wait..</span>
         </div>
     ) : null;
   }
@@ -108,15 +111,35 @@ class Content extends React.Component {
     }
   }
 
+  handleFullscreenSwitch() {
+    this.setState({ isFullscreenMode: true });
+  }
+
   render() {
     return (
-      <div className="main-content">
-        <div
-          className="canvas-wrapper"
-          ref={elm => {
-            this.canvasWrapper = elm;
-          }}
-        />
+      <div
+        onClick={e => {
+          this.handleFullscreenSwitch();
+        }}
+        onKeyDown={e => {
+          this.handleFullscreenSwitch();
+        }}
+        className="main-content"
+        role="button"
+        tabIndex="0"
+      >
+        <Fullscreen
+          enabled={this.state.isFullscreenMode}
+          onChange={isFullscreenMode => this.setState({ isFullscreenMode })}
+          style={{ height: "100%" }}
+        >
+          <div
+            className="canvas-wrapper"
+            ref={elm => {
+              this.canvasWrapper = elm;
+            }}
+          />
+        </Fullscreen>
         {this.displayLoaderOnNeed()}
         <CustomPopover
           visible={this.state.modeOverlayState.visible}
