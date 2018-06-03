@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prod": "webpack -p --env.prod=true",
-    "dev": "webpack-dev-server --inline --env.prod=false --port=1227",
+    "start": "webpack-dev-server --host 192.168.0.105 --inline --env.prod=false --port=4088",
     "test": "cross-env NODE_ENV=test jest",
     "lint": "eslint src --fix"
   },
@@ -87,6 +87,7 @@
     "react-dom": "^16.1.1",
     "react-dom-factories": "^1.0.2",
     "react-file-download": "^0.3.5",
+    "react-full-screen": "^0.2.2",
     "react-hot-loader": "^3.1.3",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
