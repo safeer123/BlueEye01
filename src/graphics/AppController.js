@@ -20,21 +20,20 @@ export default class AppController {
 
     this.dataObject = dataObj;
 
-    for (let i in this.layers) {
+    this.layers.forEach(layer => {
       // set params
-      this.layers[i].dataObject = this.dataObject;
-
-      this.layers[i].renderAll = this.renderAll.bind(this);
-      this.layers[i].createScene();
-    }
+      layer.dataObject = this.dataObject;
+      layer.renderAll = this.renderAll.bind(this);
+      layer.createScene();
+    });
 
     this.renderAll();
   }
 
   renderAll() {
-    for (let i in this.layers) {
-      this.layers[i].renderScene();
-    }
+    this.layers.forEach(layer => {
+      layer.renderScene();
+    });
   }
 
   clearAll() {
@@ -43,10 +42,13 @@ export default class AppController {
     });
   }
 
-  onResize() {
+  onResize(done) {
     this.layers.forEach(layer => {
       layer.onResize();
+      layer.createScene();
     });
+    this.renderAll();
+    if (done) done();
   }
 
   setStateUpdateHandler(stateUpdateHandler) {

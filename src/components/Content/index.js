@@ -9,6 +9,7 @@ class Content extends React.Component {
     super(props);
 
     this.state = {
+      loading: true,
       isFullscreenMode: false,
       modeOverlayState: {
         visible: false,
@@ -57,12 +58,12 @@ class Content extends React.Component {
   }
 
   displayLoaderOnNeed() {
-    return this.props.scenarioData &&
-      this.props.scenarioData.status === "pending" ? (
+    const displayMsg = "Wait.. We are building it...";
+    return (
       <div className="loader">
-          <span>Fetching data. Please wait..</span>
-        </div>
-    ) : null;
+        {this.state.loading ? <span> {displayMsg} </span> : null}
+      </div>
+    );
   }
 
   // State update handler
@@ -97,28 +98,26 @@ class Content extends React.Component {
   resizeHandler() {
     // console.log(this.canvasWrapper.clientWidth, this.canvasWrapper.clientHeight);
     if (this.appController) {
-      this.appController.onResize();
-
-      if (this.props.scenarioData) {
-        const data = {
-          plan: this.props.scenarioData.data,
-          scenario: this.props.activeScenario
-        };
-
-        // init with data and integrate
-        this.appController.init(data);
-      }
+      this.setState({ loading: true });
+      setTimeout(
+        () =>
+          this.appController.onResize(() => {
+            this.setState({ loading: false });
+          }),
+        0
+      );
     }
   }
 
   handleFullscreenSwitch() {
-    this.setState({ isFullscreenMode: true });
+    const invertedMode = !this.state.isFullscreenMode;
+    this.setState({ isFullscreenMode: invertedMode });
   }
 
   render() {
     return (
       <div
-        onClick={e => {
+        onDoubleClick={e => {
           this.handleFullscreenSwitch();
         }}
         onKeyDown={e => {
@@ -131,16 +130,17 @@ class Content extends React.Component {
         <Fullscreen
           enabled={this.state.isFullscreenMode}
           onChange={isFullscreenMode => this.setState({ isFullscreenMode })}
-          style={{ height: "100%" }}
+          style={{ visibility: this.state.loading ? "hidden" : "visible" }}
         >
           <div
             className="canvas-wrapper"
             ref={elm => {
               this.canvasWrapper = elm;
             }}
+            // style={{ visibility: this.state.loading ? "hidden" : "visible" }}
           />
+          {this.displayLoaderOnNeed()}
         </Fullscreen>
-        {this.displayLoaderOnNeed()}
         <CustomPopover
           visible={this.state.modeOverlayState.visible}
           displayItemList={this.state.modeOverlayState.displayItemList}
