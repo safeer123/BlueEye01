@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Fullscreen from "react-full-screen";
-import AppController from "../../graphics/AppController";
+import GLController from "../../graphics/GLController";
 import CustomPopover from "../Overlay/CustomPopover";
 
 class Content extends React.Component {
@@ -23,11 +23,8 @@ class Content extends React.Component {
 
   componentDidMount() {
     console.log("Initialize graphics controller..");
-    const rootDiv = document.getElementById("root");
-    this.appController = new AppController(rootDiv, this.canvasWrapper);
-    this.appController.setStateUpdateHandler(
-      this.stateUpdateHandler.bind(this)
-    );
+    this.glController = new GLController(this.canvasWrapper);
+    this.glController.setStateUpdateHandler(this.stateUpdateHandler.bind(this));
 
     window.addEventListener("resize", this.resizeHandler);
     this.resizeHandler();
@@ -36,21 +33,6 @@ class Content extends React.Component {
   componentWillReceiveProps(nextProps) {
     // console.log("Component: componentWillReceiveProps------");
     // console.log(nextProps);
-    if (nextProps.scenarioData.status === "pending") {
-      this.appController.clearAll();
-    } else if (nextProps.scenarioData.status === "fulfilled") {
-      // Update buffer and rerender
-      // Gather required data for rendering
-      const data = {
-        plan: nextProps.scenarioData.data,
-        scenario: nextProps.activeScenario
-      };
-
-      // init with data and integrate
-      setTimeout(() => {
-        this.appController.init(data);
-      }, 0);
-    }
   }
 
   componentWillUnmount() {
@@ -97,11 +79,11 @@ class Content extends React.Component {
 
   resizeHandler() {
     // console.log(this.canvasWrapper.clientWidth, this.canvasWrapper.clientHeight);
-    if (this.appController) {
+    if (this.glController) {
       this.setState({ loading: true });
       setTimeout(
         () =>
-          this.appController.onResize(() => {
+          this.glController.onResize(() => {
             this.setState({ loading: false });
           }),
         0
