@@ -52,15 +52,35 @@ DONE -->  Camera setupScene, set ViewProjection matrix getter
 DONE ---> git commit and push current status
 DONE ---> double click for fullscreen
 DONE ---> Fix loading not shown while loading issue
-
+DONE ---> Add SceneBuilder, Add WorldObjectStore, restructure to render
+DONE ---> render based on renderOnce in the main scene builder
+DONE ---> Loop and render based on the flag renderOnce
 ===========================================
 
 
+Each WO has rebuildProperties flag (default with true)
+If we update any property of this object we set rebuildProperties=true
+Change getProperty workflow based on this.
+Post render make this flag false
+
+
+No shape for camera
+If we want a shape define a WO keep cam as child
+Same holds for lights
+
+RenderOptimizer: distant objects (from cam) are not visible
+visibility off and in a closer distance alpha shoots up from 0 to 1
+
+Bug: 2 cam type ThetaPhi wont work properly
 
 Remove unnecessary forlders/files created
 
 
+Text rendering from an invisible 2D canvas
+At run time add a texture from this image
 
+Coloring of Geometry based on a callback with all inputs
+Color on vertex level
 
 
 
