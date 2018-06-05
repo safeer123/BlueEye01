@@ -27,7 +27,7 @@ const LayoutConfig1 = {
   Cameras: [
     {
       name: "Cam1",
-      type: "default",
+      type: "ThetaPhi",
       position: [-1, 10, 23],
       target: [0, 0, 0],
       up: [0, 1, 0]
@@ -36,13 +36,6 @@ const LayoutConfig1 = {
       name: "Cam2",
       type: "default",
       position: [1, 10, 23],
-      target: [0, 0, 0],
-      up: [0, 1, 0]
-    },
-    {
-      name: "Cam3",
-      type: "ThetaPhi",
-      position: [0, 2, -20],
       target: [0, 0, 0],
       up: [0, 1, 0]
     }
