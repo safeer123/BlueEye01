@@ -1,7 +1,7 @@
 import SceneBuilder from "./SceneBuilder";
 
 export default class GLController {
-  constructor(baseDiv, wrapperDiv) {
+  constructor(wrapperDiv) {
     // List of views we are going to build
     this.viewList = [];
     this.viewList.push(new SceneBuilder(wrapperDiv));
