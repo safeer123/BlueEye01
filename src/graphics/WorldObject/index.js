@@ -10,11 +10,19 @@ export default class WorldObject {
     this.propertyBucket = {};
     this.modelMatrix = new Matrix4();
 
+    // We combine self configuration with inherited configuration
+    // Each one is a configObject having PropertyList/InitList of its own
     this.completeConfigList = [config, ...configList];
     this.completeConfigList.forEach(cnf => {
+      // Apply each config object
       if (cnf.PropertyList) this.defineProperties(cnf.PropertyList);
       if (cnf.InitList) this.initProperties(cnf.InitList);
     });
+
+    // Flag that is responsible for recalculating properties once again
+    // Defaulting this to true
+    // Once we render, we should set this flag false
+    this.rebuildProperties = true;
 
     // default getters
     this.setPropertyGetter("model_matrix", () => this.modelMatrix.matrix());
@@ -56,6 +64,8 @@ export default class WorldObject {
     } else {
       propertyObj.value = value;
     }
+    // This will imply that we should recompute all properties
+    this.rebuildProperties = true;
   }
 
   setPropertyGetter(propertyName, getter) {
@@ -63,16 +73,20 @@ export default class WorldObject {
       console.error(`WorldObject:setProperty(): ${propertyName} not defined.`);
     }
     this.propertyBucket[propertyName].getter = getter;
+    // This will imply that we should recompute all properties
+    this.rebuildProperties = true;
   }
 
   getProperty(propertyName) {
+    const { rebuildProperties } = this;
     const propertyObj = this.propertyBucket[propertyName];
     if (!propertyObj) {
       console.error(`WorldObject:getProperty(): ${propertyName} not defined.`);
     }
-    // if there is a getter use it
-    if (propertyObj.getter) {
-      return propertyObj.getter();
+    // If rebuildProperties=true and there is a getter then we compute it
+    if (rebuildProperties && propertyObj.getter) {
+      const computedValue = propertyObj.getter();
+      this.setProperty(propertyName, computedValue);
     }
     // if no getter, return the value
     return this.getValue(propertyName);
@@ -170,11 +184,14 @@ export default class WorldObject {
     }
     const viewport = this.getProperty("viewport");
     this.objRenderer.render(viewport);
+
+    // By this time we have already rebuilt all properties
+    this.rebuildProperties = false;
   }
 
   // override this method to add geometry
   defineGeometry() {
-    // return list of geometry objects to render
+    // return a list of geometry objects to render
     return [];
   }
 }
