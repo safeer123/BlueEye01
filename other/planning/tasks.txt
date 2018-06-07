@@ -60,20 +60,27 @@ DONE ---> Each WO has rebuildProperties flag (default with true)
 DONE ---> If we update any property of this object we set rebuildProperties=true
 DONE ---> Change getProperty workflow based on this.
 DONE ---> Post render make this flag false
-===========================================
 
-
-WO: Introduce children [], setChildren([])
-setParentProperties( properties ) { 
+DONE ---> WO derives from Node class
+DONE ---> Node: Introduce children [], setChildren([])
+DONE ---> setParentProperties( properties ) { 
 	this.parentProperties = { ...this.parentProperties,  ...properties } //override existing
 	this.rebuildProperties = true;
 }
+DONE ---> Move all property methods into Node
+===========================================
+
+
 
 Introduce world_matrix property (init with Identity matrix)
 world_matrix propertyGetter => compute parentProperties.world_matrix * model_matrix
 world_matrix propertyGetter => pass down to children setParentProperties( { world_matrix });
 Rewrite objRenderer.setUniformGetter(SHADER_VARS.u_world..) to take world_matrix
 Test
+
+Define Scene
+Scene: NodeList for rendering
+Scene: Layout (list of camera vs viewport)
 
 differentiate sceneConfig and scene
 One view can have list of scenes
