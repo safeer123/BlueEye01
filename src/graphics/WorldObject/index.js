@@ -1,13 +1,13 @@
 import { m4, Matrix4 } from "../lib/m4";
 import { SHADER_VARS } from "../ShaderFactory/constants";
+import Node from "./Node";
 import config from "./config";
-import { Utils } from "../AppUtils";
 
-export default class WorldObject {
+export default class WorldObject extends Node {
   constructor(objRenderer, keyboardControl, configList = []) {
+    super();
     this.objRenderer = objRenderer;
     this.keyboardControl = keyboardControl;
-    this.propertyBucket = {};
     this.modelMatrix = new Matrix4();
 
     // We combine self configuration with inherited configuration
@@ -19,84 +19,12 @@ export default class WorldObject {
       if (cnf.InitList) this.initProperties(cnf.InitList);
     });
 
-    // Flag that is responsible for recalculating properties once again
-    // Defaulting this to true
-    // Once we render, we should set this flag false
-    this.rebuildProperties = true;
-
     // default getters
     this.setPropertyGetter("model_matrix", () => this.modelMatrix.matrix());
 
     this.setPropertyGetter("viewport", () => this.getValue("viewport"));
 
     this.createObjects(this.defineGeometry());
-  }
-
-  defineProperty(propertyObj) {
-    this.propertyBucket[propertyObj.name] = Utils.clone(propertyObj);
-  }
-
-  defineProperties(propertyObjList = []) {
-    if (propertyObjList.length > 0) {
-      propertyObjList.forEach(propertyObj => {
-        this.defineProperty(propertyObj);
-      });
-    }
-  }
-
-  initProperties(initList = []) {
-    if (initList.length > 0) {
-      initList.forEach(initObj => {
-        this.setProperty(initObj.name, initObj.value);
-      });
-    }
-  }
-
-  setProperty(propertyName, value) {
-    const propertyObj = this.propertyBucket[propertyName];
-    if (!propertyObj) {
-      console.error(`WorldObject:setProperty(): ${propertyName} not defined.`);
-    }
-    if (propertyObj.min && value < propertyObj.min) {
-      propertyObj.value = propertyObj.min;
-    } else if (propertyObj.max && value > propertyObj.max) {
-      propertyObj.value = propertyObj.max;
-    } else {
-      propertyObj.value = value;
-    }
-    // This will imply that we should recompute all properties
-    this.rebuildProperties = true;
-  }
-
-  setPropertyGetter(propertyName, getter) {
-    if (!this.propertyBucket[propertyName]) {
-      console.error(`WorldObject:setProperty(): ${propertyName} not defined.`);
-    }
-    this.propertyBucket[propertyName].getter = getter;
-    // This will imply that we should recompute all properties
-    this.rebuildProperties = true;
-  }
-
-  getProperty(propertyName) {
-    const { rebuildProperties } = this;
-    const propertyObj = this.propertyBucket[propertyName];
-    if (!propertyObj) {
-      console.error(`WorldObject:getProperty(): ${propertyName} not defined.`);
-    }
-    // If rebuildProperties=true and there is a getter then we compute it
-    if (rebuildProperties && propertyObj.getter) {
-      const computedValue = propertyObj.getter();
-      this.setProperty(propertyName, computedValue);
-    }
-    // if no getter, return the value
-    return this.getValue(propertyName);
-  }
-
-  getValue(propertyName) {
-    if (!this.propertyBucket[propertyName]) {
-      console.error(`WorldObject:getValue(): ${propertyName} not defined.`);
-    }
-    return this.propertyBucket[propertyName].value;
   }
 
   createObjects(objList) {
