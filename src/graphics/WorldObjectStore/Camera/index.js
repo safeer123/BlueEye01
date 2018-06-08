@@ -59,7 +59,7 @@ export default class Camera extends WorldObject {
       zFar
     );
 
-    const cameraMatrix = this.getProperty("model_matrix");
+    const cameraMatrix = this.getProperty("world_matrix");
     const viewMatrix = m4.inverse(cameraMatrix);
 
     // Compute a view projection matrix

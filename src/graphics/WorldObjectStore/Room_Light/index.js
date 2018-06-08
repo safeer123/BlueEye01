@@ -101,13 +101,13 @@ export default class RoomObject extends WorldObject {
       .translate(5, 5, 5);
 
     return [
-      // this.floor,
-      // this.sideWall,
-      // this.pillar1,
-      // this.pillar2,
-      this.ball1,
-      this.ball2,
-      this.box1
+      this.floor,
+      this.sideWall,
+      this.pillar1,
+      this.pillar2
+      // this.ball1,
+      // this.ball2,
+      // this.box1
     ];
   }
 }

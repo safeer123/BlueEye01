@@ -6,6 +6,7 @@ import KeyboardControl from "../WorldObjectStore/KeyboardControl";
 
 // Import World Objects
 import RoomObject_WithLight from "../WorldObjectStore/Room_Light";
+import CompositeShape from "../WorldObjectStore/CompositeShapes0";
 import Camera from "../WorldObjectStore/Camera";
 import Cam_ThetaPhi from "../WorldObjectStore/Cam_ThetaPhi";
 import Sun from "../WorldObjectStore/Sun";
@@ -47,6 +48,16 @@ export default class SceneBuilder extends GraphicsLayer {
       ),
       this.keyboardControl
     );
+
+    const shapes = new CompositeShape(
+      new ObjectRenderer(
+        this.gl,
+        this.shaderFac.shaderPrograms,
+        renderConfigLight
+      ),
+      this.keyboardControl
+    );
+    roomObj.addChildren([shapes]);
 
     this.sunObj = new Sun(
       this.gl,

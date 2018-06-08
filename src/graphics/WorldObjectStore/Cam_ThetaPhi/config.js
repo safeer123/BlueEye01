@@ -19,7 +19,7 @@ const config = {
     {
       name: "radius",
       type: "float",
-      value: 30,
+      value: 45,
       min: 1,
       max: 200
     }

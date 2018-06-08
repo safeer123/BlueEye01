@@ -28,14 +28,14 @@ const LayoutConfig1 = {
     {
       name: "Cam1",
       type: "ThetaPhi",
-      position: [-1, 10, 23],
+      position: [-1, 10, 43],
       target: [0, 0, 0],
       up: [0, 1, 0]
     },
     {
       name: "Cam2",
       type: "default",
-      position: [1, 10, 23],
+      position: [1, 10, 43],
       target: [0, 0, 0],
       up: [0, 1, 0]
     }

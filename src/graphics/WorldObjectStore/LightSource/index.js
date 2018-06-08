@@ -10,19 +10,15 @@ export default class LightSource extends WorldObject {
 
     this.setPropertyGetter("light_color", () => {
       if (this.getProperty("isON")) return config.lightColor;
-      else return [0, 0, 0];
+      return [0, 0, 0];
     });
 
     const lightPos = this.getProperty("light_position");
     this.modelMatrix.translate(lightPos[0], lightPos[1], lightPos[2]);
 
-    this.setPropertyGetter("model_matrix", () => {
-      return this.modelMatrix.matrix();
-    });
-
-    this.setPropertyGetter("emissive_color", () => {
-      return this.getProperty("light_color");
-    });
+    this.setPropertyGetter("emissive_color", () =>
+      this.getProperty("light_color")
+    );
 
     this.lightIndex = 0;
   }
@@ -30,16 +26,12 @@ export default class LightSource extends WorldObject {
   setupScene(objRenderer) {
     objRenderer.setUniformGetter(
       SHADER_VARS.u_LightColor(this.lightIndex),
-      () => {
-        return this.getProperty("light_color");
-      }
+      () => this.getProperty("light_color")
     );
 
     objRenderer.setUniformGetter(
       SHADER_VARS.u_LightPosition(this.lightIndex),
-      () => {
-        return this.getProperty("light_position");
-      }
+      () => this.getProperty("light_position")
     );
   }
 
