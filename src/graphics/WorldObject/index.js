@@ -8,7 +8,9 @@ export default class WorldObject extends Node {
     super();
     this.objRenderer = objRenderer;
     this.keyboardControl = keyboardControl;
-    this.modelMatrix = new Matrix4();
+    this.modelMatrix = new Matrix4(() => {
+      this.rebuildProperties = true;
+    });
 
     // We combine self configuration with inherited configuration
     // Each one is a configObject having PropertyList/InitList of its own
@@ -21,6 +23,22 @@ export default class WorldObject extends Node {
 
     // default getters
     this.setPropertyGetter("model_matrix", () => this.modelMatrix.matrix());
+
+    this.setPropertyGetter("world_matrix", () => {
+      // world_matrix = parent_world_matrix * model_matrix;
+      let worldMatrix = this.getProperty("model_matrix");
+      if (this.parentProperties.world_matrix) {
+        worldMatrix = m4.multiply(
+          this.parentProperties.world_matrix,
+          worldMatrix
+        );
+      }
+      // Pass this matrix down to its children
+      this.children.forEach(childNode =>
+        childNode.setParentProperties({ world_matrix: worldMatrix })
+      );
+      return worldMatrix;
+    });
 
     this.setPropertyGetter("viewport", () => this.getValue("viewport"));
 
@@ -38,20 +56,21 @@ export default class WorldObject extends Node {
     objRenderer.createBuffers();
 
     objRenderer.setUniformGetter(SHADER_VARS.u_world, () => {
-      const modelMatrix = this.getProperty("model_matrix");
-      return modelMatrix;
+      const worldMatrix = this.getProperty("world_matrix");
+      return worldMatrix;
     });
 
     // TODO: Remove this if not needed anymore
     objRenderer.setUniformGetter(SHADER_VARS.u_worldViewProjection, () => {
       const projectionViewMatrix = this.getProperty("projection_view_matrix");
-      const modelMatrix = this.getProperty("model_matrix");
-      const matrix = m4.multiply(projectionViewMatrix, modelMatrix);
+      const worldMatrix = this.getProperty("world_matrix");
+      const matrix = m4.multiply(projectionViewMatrix, worldMatrix);
       return matrix;
     });
 
     objRenderer.setUniformGetter(SHADER_VARS.u_worldInverseTranspose, () => {
-      const matrix = this.modelMatrix.getInverseTransposeMatrix();
+      const worldMatrix = this.getProperty("world_matrix");
+      const matrix = m4.inverseTranspose(worldMatrix);
       return matrix;
     });
 
@@ -97,8 +116,9 @@ export default class WorldObject extends Node {
 
   setSceneConfig(sceneConfig) {
     this.setPropertyGetter("viewport", () => sceneConfig.viewport);
-
     this.sceneManager = sceneConfig;
+    // repeate down the hierarchy
+    this.children.forEach(childNode => childNode.setSceneConfig(sceneConfig));
   }
 
   render() {
@@ -115,6 +135,9 @@ export default class WorldObject extends Node {
 
     // By this time we have already rebuilt all properties
     this.rebuildProperties = false;
+
+    // Render all children
+    this.children.forEach(childNode => childNode.render());
   }
 
   // override this method to add geometry

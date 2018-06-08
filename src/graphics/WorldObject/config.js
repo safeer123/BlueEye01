@@ -8,6 +8,11 @@ const config = {
       value: m4.identity()
     },
     {
+      name: "world_matrix",
+      type: "matrix",
+      value: m4.identity()
+    },
+    {
       name: "viewport",
       type: "object",
       value: { x: 0, y: 0, width: 1, height: 1 }
