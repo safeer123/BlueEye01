@@ -372,47 +372,68 @@ const m4 = {
       for (let j = 0; j < 4; ++j) dst[i] += v[j] * m[j * 4 + i];
     }
     return dst;
+  },
+
+  inverseTranspose(m) {
+    const inverseMatrix = m4.inverse(m);
+    const inverseTransposeMatrix = m4.transpose(inverseMatrix);
+    inverseTransposeMatrix[12] = 0;
+    inverseTransposeMatrix[13] = 0;
+    inverseTransposeMatrix[14] = 0;
+    return inverseTransposeMatrix;
   }
 };
 
 class Matrix4 {
-  constructor() {
+  constructor(onChange) {
     this.__matrix = m4.identity();
+
+    // Take a callback once the matrix is changed
+    this.onChange = () => {
+      if (onChange) onChange();
+    };
     return this;
   }
 
   identity() {
     this.__matrix = m4.identity();
+    this.onChange();
     return this;
   }
 
   translate(x, y, z) {
     this.__matrix = m4.multiply(m4.translation(x, y, z), this.__matrix);
+    this.onChange();
     return this;
   }
 
   xRotate(theta) {
     this.__matrix = m4.multiply(m4.xRotation(theta), this.__matrix);
+    this.onChange();
     return this;
   }
 
   yRotate(theta) {
     this.__matrix = m4.multiply(m4.yRotation(theta), this.__matrix);
+    this.onChange();
     return this;
   }
 
   zRotate(theta) {
     this.__matrix = m4.multiply(m4.zRotation(theta), this.__matrix);
+    this.onChange();
     return this;
   }
 
   scale(sx, sy, sz) {
     this.__matrix = m4.multiply(m4.scaling(sx, sy, sz), this.__matrix);
+    this.onChange();
     return this;
   }
 
   setMatrix(matrix) {
     this.__matrix = matrix;
+    this.onChange();
   }
 
   matrix() {
