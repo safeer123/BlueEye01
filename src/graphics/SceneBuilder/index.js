@@ -73,8 +73,9 @@ export default class SceneBuilder extends GraphicsLayer {
       ),
       this.keyboardControl
     );
+    shapes.addChildren([this.lightObj0]);
 
-    this.worldObjectList.push(this.sunObj, roomObj, this.lightObj0);
+    this.worldObjectList.push(this.sunObj, roomObj);
 
     const { Cameras, SceneConfigs } = LayoutConfig1;
     this.cameras = {};

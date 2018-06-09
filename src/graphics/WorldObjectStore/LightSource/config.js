@@ -5,7 +5,12 @@ const config = {
     {
       name: "light_position",
       type: "vec3",
-      value: [5, 7, 8]
+      value: [0, 0, 0]
+    },
+    {
+      name: "translation",
+      type: "vec3",
+      value: [0, 10, 0]
     },
     {
       name: "light_color",

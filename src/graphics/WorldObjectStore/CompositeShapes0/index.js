@@ -1,12 +1,23 @@
 import { m4, Matrix4 } from "../../lib/m4";
-import { SHADER_VARS } from "../../ShaderFactory/constants";
 import WorldObject from "../../WorldObject";
 import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
+import { Utils } from "../../AppUtils";
 
 export default class CompositeShape extends WorldObject {
   constructor(objRenderer, keyControl, configList = []) {
     super(objRenderer, keyControl, [config, ...configList]);
+
+    this.setPropertyGetter("model_matrix", () => {
+      const phi = this.getProperty("phi");
+      const theta = this.getProperty("theta");
+      this.modelMatrix.identity();
+      this.modelMatrix.yRotate(theta);
+      this.modelMatrix.xRotate(phi);
+      return this.modelMatrix.matrix();
+    });
+
+    if (this.init) this.init();
   }
 
   defineGeometry() {
@@ -109,5 +120,46 @@ export default class CompositeShape extends WorldObject {
       this.ball2,
       this.box1
     ];
+  }
+
+  init() {
+    const getThetaAt = t => Utils.interpolate(0, Math.PI, t);
+    const getPhiAt = t => Utils.interpolate(2 * Math.PI, 0, t);
+
+    const modeNameDisplay = "Composite Objects";
+    const changePhi = t => {
+      this.setProperty("phi", getPhiAt(t));
+      const phiInDeg = Utils.radToDegree(this.getProperty("phi"));
+      return [modeNameDisplay, `Phi: ${phiInDeg} deg`];
+    };
+    const changeTheta = t => {
+      this.setProperty("theta", getThetaAt(t));
+      const thetaInDeg = Utils.radToDegree(this.getProperty("theta"));
+      return [modeNameDisplay, `Theta: ${thetaInDeg} deg`];
+    };
+    const summary = () => {
+      const theta = Utils.radToDegree(this.getProperty("theta"));
+      const phi = Utils.radToDegree(this.getProperty("phi"));
+      return ["Control Mode: CombObjs", `Rotation: (X: ${phi}, y: ${theta})`];
+    };
+    const keyControlObject = {
+      modeName: "CompositeObjs",
+      ControlArrowLeftRight: {
+        t: 0,
+        dt: 0.01,
+        cb: changePhi
+      },
+      ControlArrowUpDown: {
+        t: 0.4,
+        dt: 0.01,
+        cb: changeTheta
+      },
+      summary
+    };
+    this.keyboardControl.createControlMode("c", keyControlObject);
+
+    // initialize the keyboardControl Init values
+    this.setProperty("theta", getThetaAt(0.4));
+    this.setProperty("phi", getThetaAt(0));
   }
 }
