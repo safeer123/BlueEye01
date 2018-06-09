@@ -68,19 +68,48 @@ DONE ---> setParentProperties( properties ) {
 	this.rebuildProperties = true;
 }
 DONE ---> Move all property methods into Node
+DONE ---> Introduce world_matrix property (init with Identity matrix)
+DONE ---> world_matrix propertyGetter => compute parentProperties.world_matrix * model_matrix
+DONE ---> world_matrix propertyGetter => pass down to children setParentProperties( { world_matrix });
+DONE ---> Rewrite objRenderer.setUniformGetter(SHADER_VARS.u_world..) to take world_matrix
+
+DONE ---> Bug: light postion change is not reflected in the scene
+DONE ---> Test newly implemented Scene Graph
 ===========================================
 
+changes m4.vectorMultiply => multVector(m, v)
 
+Ctrl+Shift+A => display all keyboard/user input options
 
-Introduce world_matrix property (init with Identity matrix)
-world_matrix propertyGetter => compute parentProperties.world_matrix * model_matrix
-world_matrix propertyGetter => pass down to children setParentProperties( { world_matrix });
-Rewrite objRenderer.setUniformGetter(SHADER_VARS.u_world..) to take world_matrix
-Test
+Every WO has:
+	- a unique Id
+	- a type
 
-Define Scene
-Scene: NodeList for rendering
-Scene: Layout (list of camera vs viewport)
+Scene Setter class
+	- SceneSetterType: camera, light source etc
+	- isActive property (implies is ON OFF)
+	- must have a setSceneMethod
+	- default position at origin
+
+Define Scene class
+	- NodeList for rendering
+	- Scene setters
+		- Check current workflow
+		- Iterate and produce a list of Scene setters from NodeList
+		- Each scene setter has isActive flag
+		- currentActive camera Id
+		- return active sceneSetters
+	- Viewport (W.R.T Canvas coordinates and NOT normalized)
+	- render method
+	
+Define LayoutGenerator
+	- inputs (type: grid, rows, columns) - for now
+	- detailed input for getting custom layouts - can be done later
+	- returns layout {"i-j": viewport }
+
+Define CanvasView:
+	- AssignmentList of { scene, viewport }
+	- render method
 
 differentiate sceneConfig and scene
 One view can have list of scenes
