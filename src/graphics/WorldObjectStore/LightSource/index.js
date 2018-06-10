@@ -24,7 +24,7 @@ export default class LightSource extends WorldObject {
     this.setPropertyGetter("light_position", () => {
       const origin = [0, 0, 0, 1];
       const worldMatrix = this.getProperty("world_matrix");
-      const lightPosInWorld = m4.vectorMultiply(origin, worldMatrix);
+      const lightPosInWorld = m4.transformVector(origin, worldMatrix);
       return lightPosInWorld.splice(0, 3);
     });
 

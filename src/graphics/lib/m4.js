@@ -365,7 +365,7 @@ const m4 = {
     ];
   },
 
-  vectorMultiply(v, m) {
+  transformVector(v, m) {
     const dst = [];
     for (let i = 0; i < 4; ++i) {
       dst[i] = 0.0;
@@ -441,7 +441,7 @@ class Matrix4 {
   }
 
   apply(vec) {
-    const outVec = m4.vectorMultiply(
+    const outVec = m4.transformVector(
       [vec[0], vec[1], vec[2], 1],
       this.__matrix
     );
@@ -463,7 +463,7 @@ class Matrix4 {
 
   applyInverseTransposeMatrix(vec) {
     const invTransposeMatrix = this.getInverseTransposeMatrix();
-    const outVec = m4.vectorMultiply(
+    const outVec = m4.transformVector(
       [vec[0], vec[1], vec[2], 1],
       invTransposeMatrix
     );
