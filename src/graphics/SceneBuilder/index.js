@@ -2,14 +2,13 @@ import renderConfigNoLight from "../ObjectGroup3D/renderConfig";
 import renderConfigLight from "../ObjectGroup3D/renderConfigLight";
 import GraphicsLayer from "../lib/GraphicsLayer";
 import ObjectRenderer from "../lib/ObjectRenderer";
-import KeyboardControl from "../WorldObjectStore/KeyboardControl";
+import UserControl from "../lib/UserControl";
 import Utils from "../AppUtils";
 
 // Import World Objects
-import RoomObject_WithLight from "../WorldObjectStore/Room_Light";
 import CompositeShape from "../WorldObjectStore/CompositeShapes0";
-import Camera from "../WorldObjectStore/Camera";
-import Cam_ThetaPhi from "../WorldObjectStore/Cam_ThetaPhi";
+import Camera from "../WorldObjectStore/CameraAbstract";
+import CamThetaPhi from "../WorldObjectStore/CamThetaPhi";
 import Sun from "../WorldObjectStore/Sun";
 import LightSource from "../WorldObjectStore/LightSource";
 import { LayoutConfig1 } from "./config";
@@ -36,20 +35,11 @@ export default class SceneBuilder extends GraphicsLayer {
       this.renderOnce = true;
     };
 
-    this.keyboardControl = new KeyboardControl(sceneUpdater);
+    this.userControl = new UserControl(sceneUpdater);
   }
 
   createScene() {
     this.worldObjectList.length = 0;
-
-    const roomObj = new RoomObject_WithLight(
-      new ObjectRenderer(
-        this.gl,
-        this.shaderFac.shaderPrograms,
-        renderConfigLight
-      ),
-      this.keyboardControl
-    );
 
     const shapes = new CompositeShape(
       new ObjectRenderer(
@@ -57,14 +47,13 @@ export default class SceneBuilder extends GraphicsLayer {
         this.shaderFac.shaderPrograms,
         renderConfigLight
       ),
-      this.keyboardControl
+      this.userControl
     );
-    roomObj.addChildren([shapes]);
 
     this.sunObj = new Sun(
       this.gl,
       this.shaderFac.shaderPrograms,
-      this.keyboardControl
+      this.userControl
     );
 
     this.lightObj0 = new LightSource(
@@ -73,11 +62,11 @@ export default class SceneBuilder extends GraphicsLayer {
         this.shaderFac.shaderPrograms,
         renderConfigLight
       ),
-      this.keyboardControl
+      this.userControl
     );
     shapes.addChildren([this.lightObj0]);
 
-    this.worldObjectList.push(this.sunObj, roomObj);
+    this.worldObjectList.push(this.sunObj, shapes);
 
     const { Cameras, SceneConfigs } = LayoutConfig1;
     this.cameras = {};
@@ -90,7 +79,7 @@ export default class SceneBuilder extends GraphicsLayer {
             this.shaderFac.shaderPrograms,
             renderConfigNoLight
           ),
-          this.keyboardControl
+          this.userControl
         );
         cam.setProperty("camera_position", camera.position);
         cam.setProperty("target_position", camera.target);
@@ -98,13 +87,13 @@ export default class SceneBuilder extends GraphicsLayer {
         this.cameras[camera.name] = cam;
         this.worldObjectList.push(cam);
       } else if (camera.type === "ThetaPhi") {
-        const cam = new Cam_ThetaPhi(
+        const cam = new CamThetaPhi(
           new ObjectRenderer(
             this.gl,
             this.shaderFac.shaderPrograms,
             renderConfigNoLight
           ),
-          this.keyboardControl
+          this.userControl
         );
         this.cameras[camera.name] = cam;
         this.worldObjectList.push(cam);
