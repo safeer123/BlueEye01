@@ -75,6 +75,13 @@ DONE ---> Rewrite objRenderer.setUniformGetter(SHADER_VARS.u_world..) to take wo
 
 DONE ---> Bug: light postion change is not reflected in the scene
 DONE ---> Test newly implemented Scene Graph
+
+DONE ---> Fix: canvas resolution on mobile browser (chrome) is very less
+DONE ---> considered window.devicePixelRatio to find high def width
+DONE ---> Fix: why rotation demo is running slow + jerky
+DONE ---> Made use of requestAnimationFrame
+DONE ---> Optymized the render calls based on timestamp updates
+DONE ---> lock the device orientation while fullscreen
 ===========================================
 
 changes m4.vectorMultiply => multVector(m, v)
@@ -108,7 +115,7 @@ Define LayoutGenerator
 	- returns layout {"i-j": viewport }
 
 Define CanvasView:
-	- AssignmentList of { scene, viewport }
+	- AssignmentList { scene, viewport }
 	- render method
 
 differentiate sceneConfig and scene
