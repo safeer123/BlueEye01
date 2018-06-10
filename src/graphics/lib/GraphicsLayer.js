@@ -1,4 +1,5 @@
 import { Canvas2D, Canvas } from "../ShaderFactory/Canvas";
+import { Utils } from "../AppUtils";
 
 // GraphicsLayer Layer
 export default class GraphicsLayer {
@@ -31,12 +32,9 @@ export default class GraphicsLayer {
 
   onResize() {
     this.clear();
-    this.canvas.width = this.wrapperElem.clientWidth;
-    this.canvas.height = this.wrapperElem.clientHeight;
-    this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+    Utils.canvasResize(this.canvas, this.wrapperElem);
     if (this.canvas2D) {
-      this.canvas2D.canvas.width = this.wrapperElem.clientWidth;
-      this.canvas2D.canvas.height = this.wrapperElem.clientHeight;
+      Utils.canvasResize(this.canvas2D.canvas, this.wrapperElem);
     }
   }
 
