@@ -1,10 +1,10 @@
 import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
 import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
-import Camera from "../Camera";
+import Camera from "../CameraAbstract";
 import Utils from "../../AppUtils";
 
-export default class Cam_ThetaPhi extends Camera {
+export default class CamThetaPhi extends Camera {
   constructor(objRenderer, keyControl, configList = []) {
     super(objRenderer, keyControl, [config, ...configList]);
 
