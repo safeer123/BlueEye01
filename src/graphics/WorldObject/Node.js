@@ -1,4 +1,5 @@
 import Utils from "../AppUtils";
+import NodeTypes from "./constants";
 
 // This class defines a node in Scene Graph
 export default class Node {
@@ -18,6 +19,13 @@ export default class Node {
     // Defaulting this to true
     // Once we render, we should set this flag false
     this.rebuildProperties = true;
+
+    this.setType(NodeTypes.ABSTRACT_NODE);
+  }
+
+  // Set the type of Node
+  setType(type) {
+    this.type = type;
   }
 
   // Expects a list of nodes as children

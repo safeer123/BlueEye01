@@ -2,10 +2,12 @@ import { m4, Matrix4 } from "../lib/m4";
 import { SHADER_VARS } from "../ShaderFactory/constants";
 import Node from "./Node";
 import config from "./config";
+import NodeTypes from "./constants";
 
 export default class WorldObject extends Node {
   constructor(objRenderer, keyboardControl, configList = []) {
     super();
+    this.setType(NodeTypes.ABSTRACT_WORLD_OBJECT);
     this.objRenderer = objRenderer;
     this.keyboardControl = keyboardControl;
     this.modelMatrix = new Matrix4(() => {
