@@ -1,5 +1,6 @@
 const netWidth = 1;
 const gapSize = 0.0001;
+const pupillaryDistance = 0.5;
 const LayoutConfig1 = {
   SceneConfigs: [
     {
@@ -27,15 +28,15 @@ const LayoutConfig1 = {
   Cameras: [
     {
       name: "Cam1",
-      type: "ThetaPhi",
-      position: [-1, 10, 43],
+      type: "default",
+      position: [pupillaryDistance * 0.5, 20, -40],
       target: [0, 0, 0],
       up: [0, 1, 0]
     },
     {
       name: "Cam2",
       type: "default",
-      position: [1, 10, 43],
+      position: [-pupillaryDistance * 0.5, 20, -40],
       target: [0, 0, 0],
       up: [0, 1, 0]
     }

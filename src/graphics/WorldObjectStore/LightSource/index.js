@@ -102,6 +102,6 @@ export default class LightSource extends WorldObject {
     this.keyboardControl.createControlMode("l", keyControlObject);
 
     // initialize the keyboardControl Init values
-    this.setProperty("translation", [getXAt(0), 10, getZAt(0)]);
+    this.setProperty("translation", [getXAt(0.5), 10, getZAt(0)]);
   }
 }

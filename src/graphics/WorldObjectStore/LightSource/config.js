@@ -10,7 +10,7 @@ const config = {
     {
       name: "translation",
       type: "vec3",
-      value: [0, 10, 0]
+      value: [3, 10, 10]
     },
     {
       name: "light_color",
