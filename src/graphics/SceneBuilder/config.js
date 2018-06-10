@@ -1,6 +1,6 @@
 const netWidth = 1;
 const gapSize = 0.0001;
-const pupillaryDistance = 0.5;
+const pupillaryDistance = 2;
 const LayoutConfig1 = {
   SceneConfigs: [
     {
