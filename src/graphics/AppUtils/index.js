@@ -14,6 +14,11 @@ const Utils = {};
     window.cancelAnimationFrame ||
     window.mozCancelAnimationFrame ||
     (requestID => clearTimeout(requestID)); // fall back
+
+  window.screen.lockOrientationUniversal =
+    window.screen.lockOrientation ||
+    window.screen.mozLockOrientation ||
+    window.screen.msLockOrientation;
 })();
 
 Utils.clone = obj => {
@@ -124,6 +129,24 @@ Utils.startRenderingLoop = loop => {
     requestAnimationFrame(recursiveLoop);
   };
   requestAnimationFrame(recursiveLoop);
+};
+
+Utils.lockScreenOrientationAsLandscape = () => {
+  if (window.screen && window.screen.orientation) {
+    window.screen.orientation.lock("landscape");
+  }
+
+  if (
+    window.screen.lockOrientationUniversal &&
+    window.screen.lockOrientationUniversal([
+      "landscape-primary",
+      "landscape-secondary"
+    ])
+  ) {
+    // orientation was locked
+  } else {
+    // orientation lock failed
+  }
 };
 
 export default Utils;

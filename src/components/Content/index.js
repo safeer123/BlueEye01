@@ -4,6 +4,7 @@ import Fullscreen from "react-full-screen";
 import NoSleep from "nosleep.js";
 import GLController from "../../graphics/GLController";
 import CustomPopover from "../Overlay/CustomPopover";
+import Utils from "../../graphics/AppUtils";
 
 class Content extends React.Component {
   constructor(props) {
@@ -121,7 +122,10 @@ class Content extends React.Component {
       >
         <Fullscreen
           enabled={this.state.isFullscreenMode}
-          onChange={isFullscreenMode => this.setState({ isFullscreenMode })}
+          onChange={isFullscreenMode => {
+            this.setState({ isFullscreenMode });
+            if (isFullscreenMode) Utils.lockScreenOrientationAsLandscape();
+          }}
           style={{ visibility: this.state.loading ? "hidden" : "visible" }}
         >
           <div
