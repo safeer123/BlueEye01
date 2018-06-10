@@ -1,5 +1,5 @@
 import { m4, addVectors, subtractVectors, multVector, cross } from "../lib/m4";
-import { Utils } from "../AppUtils";
+import Utils from "../AppUtils";
 
 // Defines a Trangle based mesh structure
 let TrMeshObject = class {

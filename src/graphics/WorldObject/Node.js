@@ -1,4 +1,4 @@
-import { Utils } from "../AppUtils";
+import Utils from "../AppUtils";
 
 // This class defines a node in Scene Graph
 export default class Node {

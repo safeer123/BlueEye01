@@ -2,7 +2,7 @@ import { m4, Matrix4 } from "../../lib/m4";
 import WorldObject from "../../WorldObject";
 import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
-import { Utils } from "../../AppUtils";
+import Utils from "../../AppUtils";
 
 export default class CompositeShape extends WorldObject {
   constructor(objRenderer, keyControl, configList = []) {

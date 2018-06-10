@@ -2,7 +2,7 @@ import { m4, Matrix4, dot, addVectors, multVector } from "../../lib/m4";
 import { SHADER_VARS } from "../../ShaderFactory/constants";
 import WorldObject from "../../WorldObject";
 import config from "./config";
-import { Utils } from "../../AppUtils";
+import Utils from "../../AppUtils";
 import OBJ2D from "../../ObjectGroup2D/objects";
 import renderConfig2D from "../../ObjectGroup2D/renderConfig";
 import ObjectRenderer from "../../lib/ObjectRenderer";

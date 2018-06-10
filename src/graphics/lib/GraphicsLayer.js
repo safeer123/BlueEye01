@@ -1,5 +1,5 @@
 import { Canvas2D, Canvas } from "../ShaderFactory/Canvas";
-import { Utils } from "../AppUtils";
+import Utils from "../AppUtils";
 
 // GraphicsLayer Layer
 export default class GraphicsLayer {

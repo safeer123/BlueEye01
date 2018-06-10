@@ -2,7 +2,7 @@ import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
 import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
 import Camera from "../Camera";
-import { Utils } from "../../AppUtils";
+import Utils from "../../AppUtils";
 
 export default class Cam_ThetaPhi extends Camera {
   constructor(objRenderer, keyControl, configList = []) {

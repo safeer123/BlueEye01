@@ -3,7 +3,7 @@ import { SHADER_VARS } from "../../ShaderFactory/constants";
 import WorldObject from "../../WorldObject";
 import config from "./config";
 import OBJ0 from "../../ObjectGroup3D/objects";
-import { Utils } from "../../AppUtils";
+import Utils from "../../AppUtils";
 
 export default class LightSource extends WorldObject {
   constructor(objRenderer, keyControl, configList = []) {
