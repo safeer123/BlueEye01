@@ -3,6 +3,7 @@ import renderConfigLight from "../ObjectGroup3D/renderConfigLight";
 import GraphicsLayer from "../lib/GraphicsLayer";
 import ObjectRenderer from "../lib/ObjectRenderer";
 import KeyboardControl from "../WorldObjectStore/KeyboardControl";
+import Utils from "../AppUtils";
 
 // Import World Objects
 import RoomObject_WithLight from "../WorldObjectStore/Room_Light";
@@ -22,7 +23,8 @@ export default class SceneBuilder extends GraphicsLayer {
     this.worldObjectList = [];
 
     this.renderOnce = true;
-    this.refreshTimeOut = 25;
+
+    this.prevTimeStamp = -1;
 
     // Back ground color
     this.gl.clearColor(0, 0, 0, 1);
@@ -122,10 +124,9 @@ export default class SceneBuilder extends GraphicsLayer {
       });
     });
 
-    const renderLoopHandler = setInterval(
-      this.renderLoop.bind(this),
-      this.refreshTimeOut
-    );
+    this.theta = 0;
+    this.shapes = shapes;
+    Utils.startRenderingLoop(this.renderLoop.bind(this));
   }
 
   renderScene() {
@@ -140,11 +141,27 @@ export default class SceneBuilder extends GraphicsLayer {
     this.worldObjectList.forEach(wo => wo.render());
   }
 
-  renderLoop() {
+  renderLoop(timeStamp) {
+    // console.log(timeStamp);
+
+    // Optimize the rendering call based on checking
+    // significant update in the time stamp value
+    if (Math.abs(this.prevTimeStamp - timeStamp) < 20) {
+      return;
+    }
+    this.prevTimeStamp = timeStamp;
+
     if (this.renderOnce) {
       this.renderScene();
       this.renderOnce = false;
       // console.log("Rendered Once...");
+
+      if (this.theta > Math.PI * 2) {
+        this.theta = 0.0;
+      }
+      this.theta += 0.005;
+      this.shapes.setProperty("theta", this.theta);
+      this.renderOnce = true;
     }
   }
 }

@@ -1,5 +1,21 @@
 const Utils = {};
 
+// Initialize definitions we would need later
+(() => {
+  window.requestAnimationFrame =
+    window.requestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    (f => setTimeout(f, 1000 / 60));
+  // simulate calling code 60
+
+  window.cancelAnimationFrame =
+    window.cancelAnimationFrame ||
+    window.mozCancelAnimationFrame ||
+    (requestID => clearTimeout(requestID)); // fall back
+})();
+
 Utils.clone = obj => {
   let copy;
 
@@ -102,4 +118,12 @@ Utils.canvasResize = (canvas, wrapperDiv) => {
   }
 };
 
-export { Utils };
+Utils.startRenderingLoop = loop => {
+  const recursiveLoop = timeStamp => {
+    loop(timeStamp);
+    requestAnimationFrame(recursiveLoop);
+  };
+  requestAnimationFrame(recursiveLoop);
+};
+
+export default Utils;
