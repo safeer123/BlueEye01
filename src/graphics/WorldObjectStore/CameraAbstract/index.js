@@ -1,12 +1,14 @@
 import { m4, Matrix4 } from "../../lib/m4";
 import { SHADER_VARS } from "../../ShaderFactory/constants";
-import WorldObject from "../../WorldObject";
+import SceneSetter from "../SceneSetter";
 import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
+import SceneSetterTypes from "../constants/SceneSetterTypes";
 
-export default class Camera extends WorldObject {
+export default class Camera extends SceneSetter {
   constructor(objRenderer, keyControl, configList = []) {
     super(objRenderer, keyControl, [config, ...configList]);
+    this.setSceneSetterType(SceneSetterTypes.CAMERA_SCENE_SETTER);
 
     if (config.CamConfig) {
       this.camConfig = config.CamConfig;

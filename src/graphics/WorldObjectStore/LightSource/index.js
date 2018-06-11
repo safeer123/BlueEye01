@@ -1,13 +1,15 @@
-import { m4, Matrix4 } from "../../lib/m4";
+import { m4 } from "../../lib/m4";
 import { SHADER_VARS } from "../../ShaderFactory/constants";
-import WorldObject from "../../WorldObject";
+import SceneSetter from "../SceneSetter";
 import config from "./config";
 import OBJ0 from "../../ObjectGroup3D/objects";
 import Utils from "../../AppUtils";
+import SceneSetterTypes from "../constants/SceneSetterTypes";
 
-export default class LightSource extends WorldObject {
+export default class LightSource extends SceneSetter {
   constructor(objRenderer, keyControl, configList = []) {
     super(objRenderer, keyControl, [config, ...configList]);
+    this.setSceneSetterType(SceneSetterTypes.LIGHT_SCENE_SETTER);
 
     this.setPropertyGetter("light_color", () => {
       if (this.getProperty("isON")) return config.lightColor;

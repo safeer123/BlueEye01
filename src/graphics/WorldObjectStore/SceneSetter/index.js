@@ -15,8 +15,12 @@ export default class SceneSetter extends WorldObject {
 
   // Mandatory method
   // This gets invoked at runtime while rendering each object
-  setupScene = objRenderer => {
+  setupScene(objRenderer) {
     // To be overridden by the derived class
-    throw Error("Scene setter does not have mandatory setupScene method.");
-  };
+    throw Error(
+      `${
+        this.sceneSetterType
+      }: Scene setter does not have mandatory setupScene method.`
+    );
+  }
 }

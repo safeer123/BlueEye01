@@ -1,18 +1,20 @@
 import { m4, Matrix4, dot, addVectors, multVector } from "../../lib/m4";
 import { SHADER_VARS } from "../../ShaderFactory/constants";
-import WorldObject from "../../WorldObject";
+import SceneSetter from "../SceneSetter";
 import config from "./config";
 import Utils from "../../AppUtils";
 import OBJ2D from "../../ObjectGroup2D/objects";
 import renderConfig2D from "../../ObjectGroup2D/renderConfig";
 import ObjectRenderer from "../../lib/ObjectRenderer";
+import SceneSetterTypes from "../constants/SceneSetterTypes";
 
-export default class Sun extends WorldObject {
+export default class Sun extends SceneSetter {
   constructor(gl, programs, keyControl, configList = []) {
     super(new ObjectRenderer(gl, programs, renderConfig2D), keyControl, [
       config,
       ...configList
     ]);
+    this.setSceneSetterType(SceneSetterTypes.SUN_SCENE_SETTER);
 
     this.setPropertyGetter("sun_light_color", () => {
       if (this.getProperty("isDay")) return config.dayColor;
@@ -72,8 +74,12 @@ export default class Sun extends WorldObject {
   }
 
   setupScene(objRenderer) {
-    objRenderer.setUniformGetter(SHADER_VARS.u_sunDirection, () => this.getProperty("sun_direction"));
+    objRenderer.setUniformGetter(SHADER_VARS.u_sunDirection, () =>
+      this.getProperty("sun_direction")
+    );
 
-    objRenderer.setUniformGetter(SHADER_VARS.u_sunLightColor, () => this.getProperty("sun_light_color"));
+    objRenderer.setUniformGetter(SHADER_VARS.u_sunLightColor, () =>
+      this.getProperty("sun_light_color")
+    );
   }
 }
