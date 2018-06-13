@@ -82,21 +82,20 @@ DONE ---> Fix: why rotation demo is running slow + jerky
 DONE ---> Made use of requestAnimationFrame
 DONE ---> Optymized the render calls based on timestamp updates
 DONE ---> lock the device orientation while fullscreen
+DONE ---> changes m4.vectorMultiply => transformVector(v, m)
+
+DONE ---> All scene setters should derive from the class : SceneSetter
+DONE ---> SceneSetter class
+	- SceneSetterType: camera, light source etc from NodeType List
+	- isActive property (implies is ON OFF)
+	- must have a setSceneMethod invoke based on isActive value
 ===========================================
-
-changes m4.vectorMultiply => multVector(m, v)
-
-Ctrl+Shift+A => display all keyboard/user input options
 
 Every WO has:
 	- a unique Id
 	- a type
 
-Scene Setter class
-	- SceneSetterType: camera, light source etc
-	- isActive property (implies is ON OFF)
-	- must have a setSceneMethod
-	- default position at origin
+Remove/Reuse lib/SceneConfig.js	
 
 Define Scene class
 	- NodeList for rendering
@@ -118,6 +117,15 @@ Define CanvasView:
 	- AssignmentList { scene, viewport }
 	- render method
 
+Node.generateId() this.Id = [IdProvidedByUser]_[timestamp]
+Node.createObjects() { this.generateId() }
+
+Ctrl+Shift+A => display all keyboard/user input options
+
+Do we really need initList ? can we reuse the values in propertyList ?
+
+Factory creation of Geometry Objects based on NodeType
+
 differentiate sceneConfig and scene
 One view can have list of scenes
 scene is created out of a scene config
@@ -131,7 +139,11 @@ Geometry Objects: Two types
 	Composite Objects: Composition of different Basic Objects with higher input params
 WO->addGeometryObject, can add multiple Geometry Objects
 
-Factory creation of Geometry Objects based on type
+Geometry Object editing
+setEditFlush(editFlush) {
+	this.editFlush = editFlush;
+}
+editFlush is a method from ObjectRenderer which will edit the buffer for this Object
 
 Define scene data, with all configurations and new Composite Objects
 One scene data should ideally render a complete scene
