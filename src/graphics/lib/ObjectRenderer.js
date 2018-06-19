@@ -48,23 +48,23 @@ export default class ObjectRenderer {
   }
 
   createBuffers() {
-    let gl = this.gl;
+    const gl = this.gl;
     if (this.objects.length > 0) {
-      let trglBuffer = this.buffers.trgl;
-      let trglData = [];
-      let lineBuffer = this.buffers.line;
-      let lineData = [];
+      const trglBuffer = this.buffers.trgl;
+      const trglData = [];
+      const lineBuffer = this.buffers.line;
+      const lineData = [];
 
       // Create array of data from all objects
       this.objects.forEach(object => {
-        var arrayObj = object.toArrayBuffer();
+        const arrayObj = object.toArrayBuffer();
 
         // Gather all traingle data
-        trglData.push.apply(trglData, arrayObj.trglData);
+        trglData.push(...arrayObj.trglData);
         trglBuffer.numItems += arrayObj.trglItems;
 
         // Gather all line data
-        lineData.push.apply(lineData, arrayObj.lineData);
+        lineData.push(...arrayObj.lineData);
         lineBuffer.numItems += arrayObj.lineItems;
       });
 
@@ -92,22 +92,26 @@ export default class ObjectRenderer {
   }
 
   render(viewport) {
-    let gl = this.gl;
+    const gl = this.gl;
+    const { drawingBufferWidth, drawingBufferHeight } = gl;
 
     if (viewport) {
       gl.viewport(
-        viewport.x * gl.canvas.width,
-        viewport.y * gl.canvas.height,
-        viewport.width * gl.canvas.width,
-        viewport.height * gl.canvas.height
+        viewport.x * drawingBufferWidth,
+        viewport.y * drawingBufferHeight,
+        viewport.width * drawingBufferWidth,
+        viewport.height * drawingBufferHeight
       );
     } else {
-      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+      gl.viewport(0, 0, drawingBufferWidth, drawingBufferHeight);
     }
 
-    var trglBuffer = this.buffers.trgl;
-    var lineBuffer = this.buffers.line;
-    let { triangleBfrPtrConfig, lineBfrPtrConfig } = this.config.bufferDetails;
+    const trglBuffer = this.buffers.trgl;
+    const lineBuffer = this.buffers.line;
+    const {
+      triangleBfrPtrConfig,
+      lineBfrPtrConfig
+    } = this.config.bufferDetails;
 
     if (trglBuffer.numItems > 0) {
       this.drawItems(gl.TRIANGLES, trglBuffer, triangleBfrPtrConfig);
@@ -118,8 +122,8 @@ export default class ObjectRenderer {
   }
 
   drawItems(primitiveType, bufferObj, bufferPtrConfig) {
-    let gl = this.gl;
-    let { enableDepthTest, enableCulling } = this.config;
+    const gl = this.gl;
+    const { enableDepthTest, enableCulling } = this.config;
 
     gl.useProgram(this.program);
 
@@ -127,7 +131,8 @@ export default class ObjectRenderer {
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferObj.buffer);
 
     bufferPtrConfig.forEach(bufferPtr => {
-      let attribLocation = this.program.attribs[bufferPtr.attribName].location;
+      const attribLocation = this.program.attribs[bufferPtr.attribName]
+        .location;
 
       gl.enableVertexAttribArray(attribLocation);
 
@@ -166,6 +171,8 @@ export default class ObjectRenderer {
         case "float":
           gl.uniform1f(location, value);
           break;
+        default:
+          throw Error(`Shader uniform type: '${type}' is not understood!!`);
       }
     });
 
@@ -180,7 +187,7 @@ export default class ObjectRenderer {
     } else {
       gl.disable(gl.CULL_FACE);
     }
-    
+
     // Draw the primitives.
     gl.drawArrays(primitiveType, 0, bufferObj.numItems);
   }
@@ -190,7 +197,8 @@ export default class ObjectRenderer {
   }
 
   getCanvasAspect() {
-    let { width, height } = this.gl.canvas;
-    return width / height;
+    const { clientWidth, clientHeight } = this.gl.canvas;
+    // console.log(clientWidth, clientHeight);
+    return clientWidth / clientHeight;
   }
 }
