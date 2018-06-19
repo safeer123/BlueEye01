@@ -26,7 +26,7 @@ class Content extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Initialize graphics controller..");
+    console.log("Initializing graphics controller..");
     this.glController = new GLController(this.canvasWrapper);
     this.glController.setStateUpdateHandler(this.stateUpdateHandler.bind(this));
 
