@@ -19,7 +19,11 @@ export default class TestView001 extends GraphicsLayer {
   }
 
   sceneUpdater = displayOutList => {
-    if (this.stateUpdateHandler) {
+    if (
+      displayOutList &&
+      displayOutList.length > 0 &&
+      this.stateUpdateHandler
+    ) {
       this.stateUpdateHandler(displayOutList, 5);
     }
     if (this.viewUpdater) this.viewUpdater();
