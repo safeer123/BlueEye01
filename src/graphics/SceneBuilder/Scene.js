@@ -3,19 +3,18 @@ import SceneSetterTypes from "../WorldObjectStore/constants/SceneSetterTypes";
 
 /** *****************************
 Define Scene class
-- NodeList for rendering
+- nodeList for rendering
 - Scene setters
-- Viewport (W.R.T Canvas coordinates and NOT normalized)
 - render method
 ********************************** */
 export default class Scene {
-  constructor(name) {
+  constructor(name, sceneUpdater) {
     this.name = name;
     this.nodeList = [];
     this.sceneSetters = [];
     this.relevantSceneSetters = null;
-    this.viewport = null;
     this.activeCameraId = null;
+    this.sceneUpdater = sceneUpdater;
   }
 
   setNodeList(nodeList) {
@@ -32,19 +31,27 @@ export default class Scene {
     this.relevantSceneSetters = null;
   }
 
-  createSceneSettersFromNodeList() {
+  processNodeList() {
+    // We should find all scene setters
     this.sceneSetters = [];
-    const pullSceneSetters = node => {
+    const processNode = node => {
+      // Check if it is a scene setter
       if (node instanceof SceneSetter && node.sceneSetterType) {
         this.sceneSetters.push(node);
       }
+      // set SceneUpdater Callback
+      node.setSceneUpdater(() => {
+        if (this.sceneUpdater) this.sceneUpdater();
+      });
+
+      // process nodes down the tree
       const { children } = node;
       if (children.length > 0) {
-        children.forEach(childNode => pullSceneSetters(childNode));
+        children.forEach(childNode => processNode(childNode));
       }
     };
 
-    this.nodeList.forEach(node => pullSceneSetters(node));
+    this.nodeList.forEach(node => processNode(node));
   }
 
   getRelevantSceneSetters() {
@@ -63,18 +70,13 @@ export default class Scene {
     return relevantSceneSetters;
   }
 
-  setViewport(viewport) {
-    this.viewport = viewport;
-  }
-
   clone(cloneName) {
     // returns a duplicate scene
     // with same nodeList and sceneSetters
-    // viewport and activeCamera should ideally differ
+    // activeCamera should ideally differ
     const cloneScene = new Scene(cloneName);
     cloneScene.setNodeList(this.nodeList);
     cloneScene.setSceneSetters(this.sceneSetters);
-    cloneScene.setViewport(this.viewport);
     cloneScene.setActiveCameraId(this.activeCameraId);
     return cloneScene;
   }
@@ -86,22 +88,22 @@ export default class Scene {
     this.relevantSceneSetters = null;
   }
 
-  render() {
-    const {
-      nodeList,
-      sceneSetters,
-      relevantSceneSetters,
-      getRelevantSceneSetters
-    } = this;
+  render(viewport) {
+    // Process nodes if needed
+    if (this.sceneSetters.length === 0) {
+      this.processNodeList();
+    }
+
+    const { nodeList, sceneSetters, relevantSceneSetters } = this;
     if (nodeList.length > 0 && sceneSetters.length > 0) {
       // We need relevantSceneSetters for producing the scene
       if (!relevantSceneSetters) {
-        this.relevantSceneSetters = getRelevantSceneSetters();
+        this.relevantSceneSetters = this.getRelevantSceneSetters();
       }
 
       if (this.relevantSceneSetters.length > 0) {
         // Create Scene config
-        const { name, viewport } = this;
+        const { name } = this;
         const sceneConfig = {
           name,
           viewport,
