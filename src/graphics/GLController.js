@@ -1,10 +1,11 @@
 import SceneBuilder from "./SceneBuilder";
+import TestView001 from "./CustomViews/TestView001";
 
 export default class GLController {
   constructor(wrapperDiv) {
     // List of views we are going to build
     this.viewList = [];
-    this.viewList.push(new SceneBuilder(wrapperDiv));
+    this.viewList.push(new TestView001(wrapperDiv));
   }
 
   init(dataObj) {
@@ -17,17 +18,11 @@ export default class GLController {
     this.viewList.forEach(view => {
       // set params
       view.dataObject = this.dataObject;
-      view.renderAll = this.renderAll.bind(this);
+      // view.renderAll = this.renderAll.bind(this);
       view.createScene();
     });
 
     this.renderAll();
-  }
-
-  renderAll() {
-    this.viewList.forEach(view => {
-      view.renderScene();
-    });
   }
 
   clearAll() {
@@ -41,7 +36,6 @@ export default class GLController {
       view.onResize();
       view.createScene();
     });
-    this.renderAll();
     if (done) done();
   }
 
