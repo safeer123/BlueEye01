@@ -20,8 +20,8 @@ const SHADER_VARS = {
   u_Lights_1_lightPositionInWorld: "u_Lights[1].lightPositionInWorld",
   u_Lights_2_lightColor: "u_Lights[2].lightColor",
   u_Lights_2_lightPositionInWorld: "u_Lights[2].lightPositionInWorld",
-  u_LightColor: (index) => `u_Lights[${index}].lightColor`,
-  u_LightPosition: (index) => `u_Lights[${index}].lightPositionInWorld`,
+  u_LightColor: index => `u_Lights[${index}].lightColor`,
+  u_LightPosition: index => `u_Lights[${index}].lightPositionInWorld`,
 
   // sun related properties
   u_sunDirection: "u_sunDirection",
