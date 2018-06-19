@@ -4,7 +4,7 @@ import Utils from "./../AppUtils";
 // This class holds multiple scene objects
 // Renders all scenes into their respective viewports inside the canvas
 export default class CanvasView {
-  constructor() {
+  constructor(preRender) {
     this.scenes = [];
     // Flag that will ensure a render in the next iteration of renderLoop
     this.renderOnce = true;
@@ -14,6 +14,8 @@ export default class CanvasView {
 
     // render loop initialization flag
     this.loopStarted = false;
+
+    this.preRender = preRender;
   }
 
   addScene(scene, viewport) {
@@ -38,8 +40,11 @@ export default class CanvasView {
   render() {
     const { renderOnce, scenes } = this;
     if (renderOnce) {
+      if (this.preRender) {
+        this.preRender();
+      }
       scenes.forEach(obj => obj.scene.render(obj.viewport));
-      // this.renderOnce = false;
+      this.renderOnce = false;
     }
   }
 

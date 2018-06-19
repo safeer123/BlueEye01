@@ -2,8 +2,8 @@ import CanvasView from "./CanvasView";
 import LayoutGenerator from "./LayoutGenerator";
 
 export default class SplitScreenCanvasView extends CanvasView {
-  constructor(canvas) {
-    super();
+  constructor(canvas, preRender) {
+    super(preRender);
     this.updateViewports(canvas);
   }
 
@@ -21,11 +21,10 @@ export default class SplitScreenCanvasView extends CanvasView {
     this.viewportRight = splitLayout.viewports["0-1"];
   }
 
-  setLeftScene(scene) {
-    super.addScene(scene, this.viewportLeft);
-  }
-
-  setRightScene(scene) {
-    super.addScene(scene, this.viewportRight);
+  setLeftRightScenes(leftScene, rightScene, canvas) {
+    this.updateViewports(canvas);
+    super.clearScenes();
+    super.addScene(leftScene, this.viewportLeft);
+    super.addScene(rightScene, this.viewportRight);
   }
 }
