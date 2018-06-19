@@ -25,7 +25,7 @@ const config = {
     triangleBfrPtrConfig: attribPtrDetails,
     lineBfrPtrConfig: attribPtrDetails
   },
-  enableDepthTest: false,
+  enableDepthTest: true,
   enableCulling: false
 };
 
