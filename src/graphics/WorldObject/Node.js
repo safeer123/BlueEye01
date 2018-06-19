@@ -20,12 +20,29 @@ export default class Node {
     // Once we render, we should set this flag false
     this.rebuildProperties = true;
 
+    // We should set the type for derived world objects,
+    // and that will override this value
     this.setType(NodeTypes.ABSTRACT_NODE);
+
+    // This is invoked whenever we expect to update the scene
+    this.sceneUpdater = null;
   }
 
   // Set the type of Node
   setType(type) {
     this.type = type;
+  }
+
+  getType() {
+    return this.type;
+  }
+
+  setId(id) {
+    this.Id = id;
+  }
+
+  getId() {
+    return this.Id;
   }
 
   // Expects a list of nodes as children
@@ -71,6 +88,8 @@ export default class Node {
     }
     // This will imply that we should recompute all properties
     this.rebuildProperties = true;
+
+    if (this.sceneUpdater) this.sceneUpdater();
   }
 
   setPropertyGetter(propertyName, getter) {
@@ -80,6 +99,8 @@ export default class Node {
     this.propertyBucket[propertyName].getter = getter;
     // This will imply that we should recompute all properties
     this.rebuildProperties = true;
+
+    if (this.sceneUpdater) this.sceneUpdater();
   }
 
   getProperty(propertyName) {
@@ -107,5 +128,9 @@ export default class Node {
   setParentProperties(properties) {
     this.parentProperties = { ...this.parentProperties, ...properties }; // override existing
     this.rebuildProperties = true; // We should recalculate properties
+  }
+
+  setSceneUpdater(sceneUpdater) {
+    this.sceneUpdater = sceneUpdater;
   }
 }
