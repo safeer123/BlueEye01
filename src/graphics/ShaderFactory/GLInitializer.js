@@ -42,7 +42,7 @@ export default class GLInitializer {
     gl.compileShader(shader);
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      alert(gl.getShaderInfoLog(shader));
+      console.error(gl.getShaderInfoLog(shader));
       return null;
     }
 
@@ -75,8 +75,8 @@ export default class GLInitializer {
       this.shaderPrograms = [];
     }
 
-    const fragmentShader = this.getShader(gl, fshaderId);
-    const vertexShader = this.getShader(gl, vshaderId);
+    const fragmentShader = this.getShader(fshaderId);
+    const vertexShader = this.getShader(vshaderId);
 
     const shaderProgm = gl.createProgram();
     gl.attachShader(shaderProgm, vertexShader);
@@ -115,7 +115,11 @@ export default class GLInitializer {
   }
 }
 
-WebGLProgram.prototype.registerAttrib = (gl, attribName, type) => {
+WebGLProgram.prototype.registerAttrib = function registerAttrib(
+  gl,
+  attribName,
+  type
+) {
   if (typeof this.attribs === "undefined") {
     this.attribs = {};
   }
@@ -129,7 +133,11 @@ WebGLProgram.prototype.registerAttrib = (gl, attribName, type) => {
   };
 };
 
-WebGLProgram.prototype.registerUniform = (gl, uniformName, type) => {
+WebGLProgram.prototype.registerUniform = function registerUniform(
+  gl,
+  uniformName,
+  type
+) {
   if (typeof this.uniforms === "undefined") {
     this.uniforms = {};
   }
