@@ -89,40 +89,58 @@ DONE ---> SceneSetter class
 	- SceneSetterType: camera, light source etc from NodeType List
 	- isActive property (implies is ON OFF)
 	- must have a setSceneMethod invoke based on isActive value
-===========================================
-
-Every WO has:
-	- a unique Id
+	
+DONE ---> Every WO has:
+	- a unique Id // can be skipped for now. will do later if necessary.
 	- a type
-
-Remove/Reuse lib/SceneConfig.js	
-
-Define Scene class
+DONE ---> Define Scene class
 	- NodeList for rendering
 	- Scene setters
 		- Check current workflow
 		- Iterate and produce a list of Scene setters from NodeList
 		- Each scene setter has isActive flag
 		- currentActive camera Id
-		- return active sceneSetters
-	- Viewport (W.R.T Canvas coordinates and NOT normalized)
-	- render method
-	
-Define LayoutGenerator
+		- find relevant sceneSetters
+	- render method with an argument - viewport
+DONE ---> Define LayoutGenerator
 	- inputs (type: grid, rows, columns) - for now
 	- detailed input for getting custom layouts - can be done later
 	- returns layout {"i-j": viewport }
 
-Define CanvasView:
+DONE ---> Define CanvasView:
 	- AssignmentList { scene, viewport }
 	- render method
+DONE ---> Remove/Reuse lib/SceneConfig.js	
+===========================================
+
+rotation of Scene001 objects
+
+Decouple the Sun Object from Background Object
+To create background we define new class: Background
+
+Camera can have optional Background child
+
+Fix displayOut list null issue
+
+use drawingBufferWidth when we are dealing with canvas dimesions for drawingBufferWidth
+
+make sure we dont use any antipatterns in our code
+refer : https://webglfundamentals.org/webgl/lessons/webgl-anti-patterns.html
+
 
 Node.generateId() this.Id = [IdProvidedByUser]_[timestamp]
 Node.createObjects() { this.generateId() }
 
+SceneBuilder/CanvasLayer to define CanvasLayer class
+	- all scenes derives from it
+	- this.view 
+	- this.sceneUpdater
+
 Ctrl+Shift+A => display all keyboard/user input options
 
 Do we really need initList ? can we reuse the values in propertyList ?
+
+Can we use gl.drawArrays(Triangle_strips/fan) for optymizing number of vertices passed
 
 Factory creation of Geometry Objects based on NodeType
 
@@ -310,3 +328,20 @@ line j-j1 / i-i1  =   m
 iterate from i1 to i2 find j as ceil and floor both
 
 M = inverse(projectionViewMatrix) p11=M*p1 p22=M*p2 first Object hitting this line
+
+
+//==============================================================//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
