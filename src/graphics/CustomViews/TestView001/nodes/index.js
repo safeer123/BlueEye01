@@ -54,10 +54,28 @@ export default function getNodes(inObj) {
   camRight.setProperty("target_position", targetPos);
   camRight.setProperty("up_vector", upVec);
 
+  // Animation
+  let theta = 0;
+  const deltaTheta = 0.005;
+  let animationRef = null;
+  const initAnimation = () => {
+    if (animationRef) {
+      clearInterval(animationRef);
+    }
+    animationRef = setInterval(() => {
+      if (theta > Math.PI * 2) {
+        theta %= Math.PI * 2;
+      }
+      theta += deltaTheta;
+      shapes.setProperty("theta", theta);
+    }, 50);
+  };
+
   // return all root nodes
   return {
     nodes: [sunObj, shapes, camLeft, camRight],
     camLeft,
-    camRight
+    camRight,
+    initAnimation
   };
 }

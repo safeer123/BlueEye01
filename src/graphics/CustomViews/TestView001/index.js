@@ -15,7 +15,7 @@ export default class TestView001 extends GraphicsLayer {
     super(wrapperElem);
     const { canvas } = this;
     this.userControl = new UserControl(this.sceneUpdater);
-    this.view = new SplitScreenCanvasView(canvas);
+    this.view = new SplitScreenCanvasView(canvas, () => this.clear());
   }
 
   sceneUpdater = displayOutList => {
@@ -39,11 +39,12 @@ export default class TestView001 extends GraphicsLayer {
       renderConfigNoLight,
       userControl
     };
-    const { nodes, camLeft, camRight } = getNodes(inObj);
+    const { nodes, camLeft, camRight, initAnimation } = getNodes(inObj);
 
     this.nodes = nodes;
     this.camLeft = camLeft;
     this.camRight = camRight;
+    this.initAnimation = initAnimation;
   }
 
   createScene() {
@@ -63,11 +64,11 @@ export default class TestView001 extends GraphicsLayer {
 
     // Set scenes in CanvasView
     const { view, canvas } = this;
-    view.updateViewports(canvas);
-    view.setLeftScene(leftScene);
-    view.setRightScene(rightScene);
+    view.setLeftRightScenes(leftScene, rightScene, canvas);
 
     // init render loop
     view.initLoop();
+
+    this.initAnimation();
   }
 }

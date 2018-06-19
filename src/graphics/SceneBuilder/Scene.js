@@ -33,6 +33,7 @@ export default class Scene {
 
   processNodeList() {
     // We should find all scene setters
+    const { sceneUpdater } = this;
     this.sceneSetters = [];
     const processNode = node => {
       // Check if it is a scene setter
@@ -40,9 +41,7 @@ export default class Scene {
         this.sceneSetters.push(node);
       }
       // set SceneUpdater Callback
-      node.setSceneUpdater(() => {
-        if (this.sceneUpdater) this.sceneUpdater();
-      });
+      node.setSceneUpdater(sceneUpdater);
 
       // process nodes down the tree
       const { children } = node;
@@ -71,6 +70,7 @@ export default class Scene {
   }
 
   clone(cloneName) {
+    this.processNodeList();
     // returns a duplicate scene
     // with same nodeList and sceneSetters
     // activeCamera should ideally differ
