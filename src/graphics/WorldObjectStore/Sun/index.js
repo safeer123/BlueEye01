@@ -57,18 +57,23 @@ export default class Sun extends SceneSetter {
     // Create sky color for background
     this.objRenderer.setUniformGetter(SHADER_VARS.u_color, () => {
       const ambient = [0.1, 0.1, 0.1];
-      const diffuse_I = dot([0, 1, 0], this.getProperty("sun_direction"));
+      const diffuseI = dot([0, 1, 0], this.getProperty("sun_direction"));
       const netColor = addVectors(
         ambient,
-        multVector(diffuse_I, [0.1, 0.1, 0.1])
+        multVector(diffuseI, [0.1, 0.1, 0.1])
       );
       return [...netColor, 1.0];
     });
   }
 
   defineGeometry() {
-    const { width, height } = this.objRenderer.gl.canvas;
-    const bgRect = new OBJ2D.Rectangle2D(0, 0, width, height);
+    const { drawingBufferWidth, drawingBufferHeight } = this.objRenderer.gl;
+    const bgRect = new OBJ2D.Rectangle2D(
+      0,
+      0,
+      drawingBufferWidth,
+      drawingBufferHeight
+    );
     bgRect.color = [0.0, 0.0, 0.0, 0.0];
     return [bgRect];
   }
