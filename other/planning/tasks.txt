@@ -110,17 +110,16 @@ DONE ---> Define LayoutGenerator
 DONE ---> Define CanvasView:
 	- AssignmentList { scene, viewport }
 	- render method
-DONE ---> Remove/Reuse lib/SceneConfig.js	
+DONE ---> Remove/Reuse lib/SceneConfig.js
+DONE ---> Fix displayOut list null issue
+DONE ---> rotation of Scene001 objects
 ===========================================
 
-rotation of Scene001 objects
 
 Decouple the Sun Object from Background Object
 To create background we define new class: Background
 
 Camera can have optional Background child
-
-Fix displayOut list null issue
 
 use drawingBufferWidth when we are dealing with canvas dimesions for drawingBufferWidth
 
