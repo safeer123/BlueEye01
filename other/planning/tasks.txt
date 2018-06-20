@@ -115,6 +115,20 @@ DONE ---> Fix displayOut list null issue
 DONE ---> rotation of Scene001 objects
 ===========================================
 
+New class deriving from a canvas view and defines a view
+	- this view can have thetaPhi cam to rotate around a node object
+	- this cam should be the child of that node
+	- such multiple views and user can navigate using ctrl+v
+	
+Define a Factory class
+	- objCounter=0 in constructor
+	- registerNode(type, Class)
+	- unregisterNode(type)
+	- instance(type, arguments)
+	- instance should generate unique Id (objCounter + "_" + type)
+	- Use it as singletone
+Replace all node creation with factory
+
 
 Decouple the Sun Object from Background Object
 To create background we define new class: Background
@@ -141,7 +155,7 @@ Do we really need initList ? can we reuse the values in propertyList ?
 
 Can we use gl.drawArrays(Triangle_strips/fan) for optymizing number of vertices passed
 
-Factory creation of Geometry Objects based on NodeType
+
 
 differentiate sceneConfig and scene
 One view can have list of scenes
