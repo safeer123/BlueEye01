@@ -37,22 +37,22 @@ export default class Sun extends SceneSetter {
       } else {
         this.setProperty("isDay", true);
       }
-      const sunAngle = Utils.radToDegree(this.getProperty("theta"));
-      return ["Sun", `Sun Orientation: ${sunAngle} deg`];
+      const sunAngle = Utils.radToDeg(this.getProperty("theta"));
+      return [`θ: ${sunAngle}°`];
     };
     const summary = () => {
-      const sunAngle = Utils.radToDegree(this.getProperty("theta"));
-      return ["Control Mode: Sun", `Sun Orientation: ${sunAngle} deg`];
+      const sunAngle = Utils.radToDeg(this.getProperty("theta"));
+      return [`Sun Orientation: (θ: ${sunAngle}°)`];
     };
     const keyControlObject = {
-      ControlArrowLeftRight: {
+      ArrowLeftRight: {
         t: 0,
         dt: 0.02,
         cb: changeDirection
       },
       summary
     };
-    this.keyboardControl.createControlMode("s", keyControlObject);
+    this.keyboardControl.registerControlMode("s", keyControlObject);
 
     // Create sky color for background
     this.objRenderer.setUniformGetter(SHADER_VARS.u_color, () => {

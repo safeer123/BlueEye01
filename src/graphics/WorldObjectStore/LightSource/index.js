@@ -70,38 +70,37 @@ export default class LightSource extends SceneSetter {
     const modeNameDisplay = "Light";
     const changeX = t => {
       const translation = this.getProperty("translation");
-      translation[0] = getXAt(t);
+      translation[0] = getXAt(t).toFixed(2);
       this.setProperty("translation", translation);
-      return [modeNameDisplay, `X: ${translation[0]}`];
+      return [`X: ${translation[0]}`];
     };
     const changeZ = t => {
       const translation = this.getProperty("translation");
-      translation[2] = getZAt(t);
+      translation[2] = getZAt(t).toFixed(2);
       this.setProperty("translation", translation);
-      return [modeNameDisplay, `Z: ${translation[0]}`];
+      return [`Z: ${translation[2]}`];
     };
     const summary = () => {
       const translation = this.getProperty("translation");
       return [
-        "Control Mode: Light Position",
-        `Translation: (X: ${translation[0]}, y: ${translation[2]})`
+        `${modeNameDisplay}: (X: ${translation[0]}, Z: ${translation[2]})`
       ];
     };
     const keyControlObject = {
       modeName: "LightPos",
-      ControlArrowLeftRight: {
+      ArrowLeftRight: {
         t: 0,
         dt: 0.01,
         cb: changeX
       },
-      ControlArrowUpDown: {
+      ArrowUpDown: {
         t: 0,
         dt: 0.01,
         cb: changeZ
       },
       summary
     };
-    this.keyboardControl.createControlMode("l", keyControlObject);
+    this.keyboardControl.registerControlMode("l", keyControlObject);
 
     // initialize the keyboardControl Init values
     this.setProperty("translation", [getXAt(0.5), 10, getZAt(0)]);

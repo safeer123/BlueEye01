@@ -126,37 +126,37 @@ export default class CompositeShape extends WorldObject {
     const getThetaAt = t => Utils.interpolate(0, Math.PI, t);
     const getPhiAt = t => Utils.interpolate(2 * Math.PI, 0, t);
 
-    const modeNameDisplay = "Composite Objects";
+    const modeNameDisplay = "Composite Shapes";
     const changePhi = t => {
       this.setProperty("phi", getPhiAt(t));
-      const phiInDeg = Utils.radToDegree(this.getProperty("phi"));
-      return [modeNameDisplay, `Phi: ${phiInDeg} deg`];
+      const phiInDeg = Utils.radToDeg(this.getProperty("phi"));
+      return [`φ: ${phiInDeg}°`];
     };
     const changeTheta = t => {
       this.setProperty("theta", getThetaAt(t));
-      const thetaInDeg = Utils.radToDegree(this.getProperty("theta"));
-      return [modeNameDisplay, `Theta: ${thetaInDeg} deg`];
+      const thetaInDeg = Utils.radToDeg(this.getProperty("theta"));
+      return [`θ: ${thetaInDeg}°`];
     };
     const summary = () => {
-      const theta = Utils.radToDegree(this.getProperty("theta"));
-      const phi = Utils.radToDegree(this.getProperty("phi"));
-      return ["Control Mode: CombObjs", `Rotation: (X: ${phi}, y: ${theta})`];
+      const theta = Utils.radToDeg(this.getProperty("theta"));
+      const phi = Utils.radToDeg(this.getProperty("phi"));
+      return [`${modeNameDisplay} (φ: ${phi}°, θ: ${theta})°`];
     };
     const keyControlObject = {
       modeName: "CompositeObjs",
-      ControlArrowLeftRight: {
+      ArrowLeftRight: {
         t: 0,
         dt: 0.01,
         cb: changePhi
       },
-      ControlArrowUpDown: {
+      ArrowUpDown: {
         t: 0.4,
         dt: 0.01,
         cb: changeTheta
       },
       summary
     };
-    this.keyboardControl.createControlMode("c", keyControlObject);
+    this.keyboardControl.registerControlMode("c", keyControlObject);
 
     // initialize the keyboardControl Init values
     this.setProperty("theta", getThetaAt(0.4));

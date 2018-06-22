@@ -1,5 +1,4 @@
 import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
-import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
 import Camera from "../CameraAbstract";
 import Utils from "../../AppUtils";
@@ -44,16 +43,19 @@ export default class CamThetaPhi extends Camera {
     const getThetaAt = t => Utils.interpolate(0, Math.PI, t);
     const getPhiAt = t => Utils.interpolate(2 * Math.PI, 0, t);
 
-    const modeName = "Camera-1";
+    const modeName = "Camera-θφ";
+    const displayAngles = () => {
+      const phiInDeg = Utils.radToDeg(this.getProperty("phi"));
+      const thetaInDeg = Utils.radToDeg(this.getProperty("theta"));
+      return [modeName, `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`];
+    };
     const changePhi = t => {
       this.setProperty("phi", getPhiAt(t));
-      const phiInDeg = Utils.radToDegree(this.getProperty("phi"));
-      return [modeName, `Phi: ${phiInDeg} deg`];
+      return displayAngles();
     };
     const changeTheta = t => {
       this.setProperty("theta", getThetaAt(t));
-      const thetaInDeg = Utils.radToDegree(this.getProperty("theta"));
-      return [modeName, `Theta: ${thetaInDeg} deg`];
+      return displayAngles();
     };
     const keyControlObject = {
       modeName: "Camera-ThetaPhi",
@@ -68,7 +70,7 @@ export default class CamThetaPhi extends Camera {
         cb: changeTheta
       }
     };
-    this.keyboardControl.createControlMode("default", keyControlObject);
+    this.keyboardControl.registerControlMode("default", keyControlObject);
 
     // initialize the keyboardControl Init values
     this.setProperty("theta", getThetaAt(0.4));
