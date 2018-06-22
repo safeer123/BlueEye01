@@ -113,12 +113,10 @@ class Content extends React.Component {
         onDoubleClick={e => {
           this.handleFullscreenSwitch();
         }}
-        onKeyDown={e => {
-          this.handleFullscreenSwitch();
-        }}
+        // onKeyDown={e => {}}
         className="main-content"
-        role="button"
-        tabIndex="0"
+        // role="button"
+        // tabIndex="0"
       >
         <Fullscreen
           enabled={this.state.isFullscreenMode}
