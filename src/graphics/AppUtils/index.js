@@ -111,7 +111,7 @@ Utils.interpolate = (a, b, t) => {
   }
 };
 
-Utils.radToDegree = rad => (180 * rad / Math.PI).toFixed(2);
+Utils.radToDeg = rad => (180 * rad / Math.PI).toFixed(2);
 
 Utils.canvasResize = (canvas, wrapperDiv) => {
   if (canvas && wrapperDiv) {
@@ -131,9 +131,18 @@ Utils.startRenderingLoop = loop => {
   requestAnimationFrame(recursiveLoop);
 };
 
+// To lock screen orientation in landscape mode
+// This will work only in fullscreen mode
 Utils.lockScreenOrientationAsLandscape = () => {
-  if (window.screen && window.screen.orientation) {
-    window.screen.orientation.lock("landscape");
+  if (
+    window.screen &&
+    window.screen.orientation &&
+    window.screen.orientation.lock
+  ) {
+    window.screen.orientation.lock("landscape").catch(error => {
+      // We may get error in desktops. We just ignore them.
+      // console.log(error);
+    });
   }
 
   if (
