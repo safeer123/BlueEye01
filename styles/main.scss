@@ -79,6 +79,8 @@ canvas {
 
 .custom-popover{
     font-family: $main_font_family;
+    font-size: 15px;
+    line-height: 0.4;
     position: absolute;
     background-color: #EEE;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
