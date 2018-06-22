@@ -3,6 +3,7 @@ import ObjectRenderer from "../../../lib/ObjectRenderer";
 // Import World Objects
 import CompositeShape from "../../../WorldObjectStore/CompositeShapes0";
 import Camera from "../../../WorldObjectStore/CameraAbstract";
+import CamThetaPhi from "../../../WorldObjectStore/CamThetaPhi";
 import Sun from "../../../WorldObjectStore/Sun";
 import LightSource from "../../../WorldObjectStore/LightSource";
 
@@ -54,6 +55,15 @@ export default function getNodes(inObj) {
   camRight.setProperty("target_position", targetPos);
   camRight.setProperty("up_vector", upVec);
 
+  const camThetaPhi = new CamThetaPhi(
+    new ObjectRenderer(gl, shaderPrograms, renderConfigNoLight),
+    userControl
+  );
+  camThetaPhi.setId("THETA_PHI_CAM");
+  camThetaPhi.setProperty("target_position", [0, 0, 0]);
+  camThetaPhi.setProperty("radius", 40);
+  shapes.addChildren([camThetaPhi]);
+
   // Animation
   let theta = 0;
   const deltaTheta = 0.005;
@@ -76,6 +86,7 @@ export default function getNodes(inObj) {
     nodes: [sunObj, shapes, camLeft, camRight],
     camLeft,
     camRight,
+    camThetaPhi,
     initAnimation
   };
 }
