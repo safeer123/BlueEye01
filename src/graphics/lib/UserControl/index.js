@@ -1,9 +1,9 @@
+import ControlModeManager from "./ControlModeManager";
+
 export default class KeyboardControl {
   constructor(sceneUpdater) {
     this.sceneUpdater = sceneUpdater;
-    this.controlModes = {};
-    this.currentMode = null;
-    this.defaultMode = {};
+    this.controlModeMngr = new ControlModeManager();
 
     this.listenToKeys();
 
@@ -11,99 +11,62 @@ export default class KeyboardControl {
   }
 
   gameControllerSetup = () => {
-    window.addEventListener("gamepadconnected", function(e) {
-      console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
-        e.gamepad.index, e.gamepad.id,
-        e.gamepad.buttons.length, e.gamepad.axes.length);
+    window.addEventListener("gamepadconnected", e => {
+      console.log(
+        "Gamepad connected at index %d: %s. %d buttons, %d axes.",
+        e.gamepad.index,
+        e.gamepad.id,
+        e.gamepad.buttons.length,
+        e.gamepad.axes.length
+      );
     });
 
-    window.addEventListener("gamepaddisconnected", function(e) {
-      console.log("Gamepad disconnected from index %d: %s",
-        e.gamepad.index, e.gamepad.id);
+    window.addEventListener("gamepaddisconnected", e => {
+      console.log(
+        "Gamepad disconnected from index %d: %s",
+        e.gamepad.index,
+        e.gamepad.id
+      );
     });
   };
 
-  createControlMode(key, controlModeObj) {
-    this.controlModes[key] = controlModeObj;
-    if (key === "default") {
-      this.defaultMode = controlModeObj;
-    }
-  }
-
-  stepChange(controlObj, dir) {
-    if (!controlObj) return;
-    if (dir > 0) controlObj.t = Math.min(1, controlObj.t + controlObj.dt);
-    else controlObj.t = Math.max(0, controlObj.t - controlObj.dt);
-    return controlObj.cb(controlObj.t);
+  registerControlMode(key, controlModeObj) {
+    const { controlModeMngr } = this;
+    controlModeMngr.createControlMode(key, controlModeObj)
   }
 
   listenToKeys() {
+    const { controlModeMngr } = this;
     document.addEventListener("keydown", event => {
       event.preventDefault();
       event.stopPropagation();
 
-      let { controlModes } = this;
-      let keyName = event.key;
-      // console.log(keyName, event.ctrlKey, event.shiftKey);
+      const keyName = this.getKeyName(event);
+      // console.log(`KeyDown: ${keyName}`);
 
-      if (keyName in controlModes) {
-        this.currentMode = controlModes[keyName];
-        if (this.currentMode.summary) {
-          this.sceneUpdater(this.currentMode.summary());
-        }
-        return;
-      }
-
-      const { stepChange } = this;
-
-      if (event.ctrlKey) keyName = `Control${keyName}`;
-      if (event.shiftKey) keyName = `Shift${keyName}`;
-
-      let displayOutList = [];
-
-      switch (keyName) {
-        case "ArrowLeft": {
-          displayOutList = stepChange(this.defaultMode.ArrowLeftRight, -1);
-          break;
-        }
-        case "ArrowRight": {
-          displayOutList = stepChange(this.defaultMode.ArrowLeftRight, 1);
-          break;
-        }
-        case "ArrowUp": {
-          displayOutList = stepChange(this.defaultMode.ArrowUpDown, -1);
-          break;
-        }
-        case "ArrowDown": {
-          displayOutList = stepChange(this.defaultMode.ArrowUpDown, 1);
-          break;
-        }
-        case "ControlArrowLeft": {
-          displayOutList = stepChange(
-            this.currentMode.ControlArrowLeftRight,
-            -1
-          );
-          break;
-        }
-        case "ControlArrowRight": {
-          displayOutList = stepChange(
-            this.currentMode.ControlArrowLeftRight,
-            1
-          );
-          break;
-        }
-        case "ControlArrowUp": {
-          displayOutList = stepChange(this.currentMode.ControlArrowUpDown, -1);
-          break;
-        }
-        case "ControlArrowDown": {
-          displayOutList = stepChange(this.currentMode.ControlArrowUpDown, 1);
-          break;
-        }
-        default:
-          return;
-      }
+      // handleControlModes
+      const displayOutList = controlModeMngr.onKeyDown(keyName);
       this.sceneUpdater(displayOutList);
     });
+
+    document.addEventListener("keyup", event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const keyName = this.getKeyName(event);
+      // console.log(`KeyUp: ${keyName}`);
+
+      controlModeMngr.onKeyUp(keyName);
+    });
   }
+
+  getKeyName = event => {
+    let keyName = event.key;
+
+    if (event.altKey) keyName = `Alt${keyName}`;
+    if (event.ctrlKey) keyName = `Control${keyName}`;
+    if (event.shiftKey) keyName = `Shift${keyName}`;
+
+    return keyName;
+  };
 }
