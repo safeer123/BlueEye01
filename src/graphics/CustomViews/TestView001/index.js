@@ -11,21 +11,9 @@ export default class TestView001 extends GraphicsLayer {
   // Construct canvas and webgl context
   constructor(wrapperElem) {
     super(wrapperElem);
-    const { canvas } = this;
     this.userControl = new UserControl(this.displayOutHandler);
 
-    const { gl, shaderFac: { shaderPrograms }, userControl } = this;
-    const inObj = {
-      gl,
-      shaderPrograms,
-      renderConfigLight,
-      renderConfigNoLight,
-      userControl
-    };
-    const preRender = () => this.clear(); // Find a good logic for clearing screen
-    this.splitScreenView = new SplitScreenView(canvas, preRender, inObj);
-    this.singleNodeView = new SingleNodeView(canvas, preRender, inObj);
-    this.viewList = [this.splitScreenView, this.singleNodeView];
+    this.viewList = [SplitScreenView, SingleNodeView];
     this.currentViewIndex = 0;
     this.setCurrentView(0);
 
@@ -33,9 +21,9 @@ export default class TestView001 extends GraphicsLayer {
   }
 
   registerViewSwitchControl() {
-    const { userControl, viewList, currentViewIndex } = this;
+    const { userControl, viewList } = this;
     const main = () => {
-      const nextIndex = (currentViewIndex + 1) % viewList.length;
+      const nextIndex = (this.currentViewIndex + 1) % viewList.length;
       this.setCurrentView(nextIndex);
     };
     const keyControlObject = {
@@ -56,14 +44,30 @@ export default class TestView001 extends GraphicsLayer {
   };
 
   setCurrentView(index) {
-    this.currentView = this.viewList[index];
+    if (this.currentView) {
+      this.currentView.stop();
+    }
+    const { gl, shaderFac: { shaderPrograms }, userControl, canvas } = this;
+    const inObj = {
+      gl,
+      shaderPrograms,
+      renderConfigLight,
+      renderConfigNoLight,
+      userControl
+    };
+    const preRender = () => this.clear(); // Find a good logic for clearing screen
+    const CustomCanvasView = this.viewList[index];
+    this.currentView = new CustomCanvasView(canvas, preRender, inObj);
     this.currentViewIndex = index;
+    this.createScene();
+    this.displayOutHandler([this.currentView.name]);
   }
 
   createScene() {
     // Reconstruct nodes every time this methode is called
     if (this.currentView) {
       this.currentView.createScene();
+      this.currentView.start();
     }
   }
 }

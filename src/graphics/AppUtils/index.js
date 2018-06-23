@@ -1,5 +1,8 @@
 const Utils = {};
 
+// requestAnimationFrame: reference to last request call
+let requestRef = null;
+
 // Initialize definitions we would need later
 (() => {
   window.requestAnimationFrame =
@@ -126,9 +129,15 @@ Utils.canvasResize = (canvas, wrapperDiv) => {
 Utils.startRenderingLoop = loop => {
   const recursiveLoop = timeStamp => {
     loop(timeStamp);
-    requestAnimationFrame(recursiveLoop);
+    requestRef = requestAnimationFrame(recursiveLoop);
   };
-  requestAnimationFrame(recursiveLoop);
+  requestRef = requestAnimationFrame(recursiveLoop);
+};
+
+Utils.stopRenderingLoop = () => {
+  if (requestRef) {
+    cancelAnimationFrame(requestRef);
+  }
 };
 
 // To lock screen orientation in landscape mode
