@@ -1,5 +1,5 @@
 import getNodes from "./nodes";
-import SingleCanvasView from "../../SceneBuilder/SingleCanvasView";
+import SingleCanvasView from "../../SceneBuilder/CustomCanvasViews/SingleCanvasView";
 import Scene from "./../../SceneBuilder/Scene";
 
 export default class SingleNodeView extends SingleCanvasView {
@@ -42,9 +42,6 @@ export default class SingleNodeView extends SingleCanvasView {
     // Set scenes in CanvasView
     const { canvas } = this;
     this.setSingleScene(scene, canvas);
-
-    // init render loop
-    this.initLoop();
 
     this.initAnimation();
   }

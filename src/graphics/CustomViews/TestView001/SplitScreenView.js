@@ -1,6 +1,6 @@
 import getNodes from "./nodes";
 import Scene from "./../../SceneBuilder/Scene";
-import SplitScreenCanvasView from "./../../SceneBuilder/SplitScreenCanvasView";
+import SplitScreenCanvasView from "../../SceneBuilder/CustomCanvasViews/SplitScreenCanvasView";
 
 // WorldScene0 Layer
 export default class TestView001 extends SplitScreenCanvasView {
@@ -42,9 +42,6 @@ export default class TestView001 extends SplitScreenCanvasView {
     // Set scenes in CanvasView
     const { canvas } = this;
     this.setLeftRightScenes(leftScene, rightScene, canvas);
-
-    // init render loop
-    this.initLoop();
 
     this.initAnimation();
   }

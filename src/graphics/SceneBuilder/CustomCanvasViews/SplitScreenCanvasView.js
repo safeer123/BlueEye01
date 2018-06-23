@@ -1,10 +1,11 @@
-import CanvasView from "./CanvasView";
-import LayoutGenerator from "./LayoutGenerator";
+import CanvasView from "../CanvasView";
+import LayoutGenerator from "../LayoutGenerator";
 
 export default class SplitScreenCanvasView extends CanvasView {
   constructor(canvas, preRender) {
     super(preRender);
     this.updateViewports(canvas);
+    this.setName("SplitScreenView");
   }
 
   updateViewports(canvas) {
