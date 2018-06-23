@@ -113,13 +113,27 @@ DONE ---> Define CanvasView:
 DONE ---> Remove/Reuse lib/SceneConfig.js
 DONE ---> Fix displayOut list null issue
 DONE ---> rotation of Scene001 objects
-===========================================
 
-New class deriving from a canvas view and defines a view
+DONE ---> New class deriving from a canvas view and defines a view
 	- this view can have thetaPhi cam to rotate around a node object
 	- this cam should be the child of that node
-	- such multiple views and user can navigate using ctrl+v
-	
+DONE ---> Refactor UserControl class
+	- Define and move ControlMode logic into different class
+	- Press a alphabet key + Arrows should be controlling modes
+DONE ---> Register handler for - navigate multiple views using ctrl+v
+DONE ---> We dont have to call scene updater explicitly (we can still have a force render or something)
+DONE ---> Right now there are duplicate calls for scene updater
+DONE ---> we handle userCOntrol's displayOutHandler only in TestView001/index
+DONE ---> fix: Switching views not working
+	- probably we should stop rendering loop for inactive view
+DONE ---> - create views from scratch everytime
+DONE ---> CanvasView start stop - controls renderingLoop appropriately
+DONE ---> Use this when we switch canvasView
+
+DONE ---> Move SplitScreenCanvasViews etc to CustomCanvasViews Folder
+
+===========================================
+
 Define a Factory class
 	- objCounter=0 in constructor
 	- registerNode(type, Class)
@@ -129,8 +143,31 @@ Define a Factory class
 	- Use it as singletone
 Replace all node creation with factory
 
+Introduce RoboHead: only two invisible cameras and can return a splitScreenView for VR Headsets
+Define properties like position, lookAtDirection, upVector etc
 
-Decouple the Sun Object from Background Object
+
+We can pass a state from CanvasLayer to Content
+	- Use this logic to - show loading while switching
+	- setTimeout( createScene() )
+	- discard the done() callback
+
+Define CanvasLayer and abstract out Test001 layer
+
+Try generating key-index https://menubar.io/react-keys-index
+
+Consider re-using one scene for all views
+Create one/few super scenes and clone from them
+
+Discard stepChange method in UserControl. No normalized t.
+
+Fix: Theta stoping at 2pi and cant rotate further
+
+Fix: orientation not working error displayed in desktop
+
+Rename/Refactor stateUpdateHandler in Content
+
+Decouple the Sun Object from Background Objec
 To create background we define new class: Background
 
 Camera can have optional Background child
@@ -140,9 +177,6 @@ use drawingBufferWidth when we are dealing with canvas dimesions for drawingBuff
 make sure we dont use any antipatterns in our code
 refer : https://webglfundamentals.org/webgl/lessons/webgl-anti-patterns.html
 
-
-Node.generateId() this.Id = [IdProvidedByUser]_[timestamp]
-Node.createObjects() { this.generateId() }
 
 SceneBuilder/CanvasLayer to define CanvasLayer class
 	- all scenes derives from it
@@ -160,9 +194,6 @@ Can we use gl.drawArrays(Triangle_strips/fan) for optymizing number of vertices 
 differentiate sceneConfig and scene
 One view can have list of scenes
 scene is created out of a scene config
-
-Introduce RobotView: only two invisible cameras and can return a splitScreenView for VR Headsets
-Define properties like position, lookAtDirection, upVector etc
 
 Differentiate Geometry Objects from WO
 Geometry Objects: Two types
