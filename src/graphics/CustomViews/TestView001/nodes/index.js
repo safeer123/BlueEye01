@@ -1,11 +1,8 @@
 import ObjectRenderer from "../../../lib/ObjectRenderer";
 
-// Import World Objects
-import CompositeShape from "../../../WorldObjectStore/CompositeShapes0";
-import Camera from "../../../WorldObjectStore/CameraAbstract";
-import CamThetaPhi from "../../../WorldObjectStore/CamThetaPhi";
-import Sun from "../../../WorldObjectStore/Sun";
-import LightSource from "../../../WorldObjectStore/LightSource";
+// Using factory we will create WOs
+import WOFACTORY from "../../../WorldObjectStore/Factory";
+import NodeTypes from "../../../WorldObjectStore/constants/NodeTypes";
 
 const pupillaryDistance = 2;
 
@@ -19,17 +16,24 @@ export default function getNodes(inObj) {
     userControl
   } = inObj;
 
-  const shapes = new CompositeShape(
-    new ObjectRenderer(gl, shaderPrograms, renderConfigLight),
-    userControl
-  );
+  const newRenderer = (config = renderConfigLight) =>
+    new ObjectRenderer(gl, shaderPrograms, config);
 
-  const sunObj = new Sun(gl, shaderPrograms, userControl);
-
-  const lightObj0 = new LightSource(
-    new ObjectRenderer(gl, shaderPrograms, renderConfigLight),
+  const shapes = WOFACTORY.create(NodeTypes.COMPOSITE_CUSTOM_SHAPES, [
+    newRenderer(),
     userControl
-  );
+  ]);
+
+  const sunObj = WOFACTORY.create(NodeTypes.SUN_OBJECT, [
+    gl,
+    shaderPrograms,
+    userControl
+  ]);
+
+  const lightObj0 = WOFACTORY.create(NodeTypes.ABSTRACT_LIGHT, [
+    newRenderer(),
+    userControl
+  ]);
   shapes.addChildren([lightObj0]);
 
   const leftCamPos = [pupillaryDistance * 0.5, 20, -40];
@@ -37,29 +41,26 @@ export default function getNodes(inObj) {
   const targetPos = [0, 0, 0];
   const upVec = [0, 1, 0];
 
-  const camLeft = new Camera(
-    new ObjectRenderer(gl, shaderPrograms, renderConfigNoLight),
+  const camLeft = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
+    newRenderer(renderConfigNoLight),
     userControl
-  );
-  camLeft.setId("LEFT_CAM");
+  ]);
   camLeft.setProperty("camera_position", leftCamPos);
   camLeft.setProperty("target_position", targetPos);
   camLeft.setProperty("up_vector", upVec);
 
-  const camRight = new Camera(
-    new ObjectRenderer(gl, shaderPrograms, renderConfigNoLight),
+  const camRight = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
+    newRenderer(renderConfigNoLight),
     userControl
-  );
-  camRight.setId("RIGHT_CAM");
+  ]);
   camRight.setProperty("camera_position", rightCamPos);
   camRight.setProperty("target_position", targetPos);
   camRight.setProperty("up_vector", upVec);
 
-  const camThetaPhi = new CamThetaPhi(
-    new ObjectRenderer(gl, shaderPrograms, renderConfigNoLight),
+  const camThetaPhi = WOFACTORY.create(NodeTypes.CAMERA_SPHERICAL_PATH, [
+    newRenderer(renderConfigNoLight),
     userControl
-  );
-  camThetaPhi.setId("THETA_PHI_CAM");
+  ]);
   camThetaPhi.setProperty("target_position", [0, 0, 0]);
   camThetaPhi.setProperty("radius", 40);
   shapes.addChildren([camThetaPhi]);
