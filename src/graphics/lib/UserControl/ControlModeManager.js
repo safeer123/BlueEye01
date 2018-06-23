@@ -26,7 +26,7 @@ export default class ControlModeManager {
       this.currentMode = controlModes[keyName];
       // Execute a main function if exists
       if (this.currentMode.main) {
-        this.currentMode.main();
+        return this.currentMode.main();
       }
       return null;
     }
