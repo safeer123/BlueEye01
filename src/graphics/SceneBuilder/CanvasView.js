@@ -6,6 +6,7 @@ import Utils from "./../AppUtils";
 export default class CanvasView {
   constructor(preRender) {
     this.scenes = [];
+    this.name = "unnamed";
     // Flag that will ensure a render in the next iteration of renderLoop
     this.renderOnce = true;
 
@@ -16,6 +17,10 @@ export default class CanvasView {
     this.loopStarted = false;
 
     this.preRender = preRender;
+  }
+
+  setName(name) {
+    this.name = name;
   }
 
   addScene(scene, viewport) {
@@ -43,6 +48,7 @@ export default class CanvasView {
       if (this.preRender) {
         this.preRender();
       }
+      // console.log(`rendering ${this.name}..`);
       scenes.forEach(obj => obj.scene.render(obj.viewport));
       this.renderOnce = false;
     }
@@ -60,10 +66,16 @@ export default class CanvasView {
     this.render();
   }
 
-  initLoop() {
+  start() {
     if (!this.loopStarted) {
       Utils.startRenderingLoop(this.renderLoop.bind(this));
       this.loopStarted = true;
     }
+  }
+
+  stop() {
+    Utils.stopRenderingLoop();
+    this.loopStarted = false;
+    this.renderOnce = true;
   }
 }
