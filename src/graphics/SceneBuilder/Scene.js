@@ -112,7 +112,9 @@ export default class Scene {
 
         // Rendering the scene
         nodeList.forEach(node => node.setSceneConfig(sceneConfig));
-        nodeList.forEach(node => node.render());
+        nodeList.forEach(node => {
+          node.render();
+        });
       }
     }
   }
