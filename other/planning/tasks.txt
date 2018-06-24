@@ -131,33 +131,46 @@ DONE ---> CanvasView start stop - controls renderingLoop appropriately
 DONE ---> Use this when we switch canvasView
 
 DONE ---> Move SplitScreenCanvasViews etc to CustomCanvasViews Folder
-
-===========================================
-
-Define a Factory class
+DONE ---> Define a Factory class
 	- objCounter=0 in constructor
-	- registerNode(type, Class)
-	- unregisterNode(type)
-	- instance(type, arguments)
+	- registerNodeType(type, Class)
+	- create(type, arguments)
 	- instance should generate unique Id (objCounter + "_" + type)
 	- Use it as singletone
-Replace all node creation with factory
+DONE ---> Replace all node creation with factory
 
-Introduce RoboHead: only two invisible cameras and can return a splitScreenView for VR Headsets
+DONE ---> Define a class to: Handle Device orientation feed
+DONE ---> Introduce OneEye: can listen to device orientation changes and update its camera orientation
+DONE ---> displayOut method in userControl. We can use this for debugging.
+DONE ---> Try disabling all extensions and see performance of vscode
+===========================================
+
+Introduce TwoEyes: only two invisible cameras and can return a splitScreenView for VR Headsets
 Define properties like position, lookAtDirection, upVector etc
 
+Define RoboHead: TwoEyes and Geometry for robot head shape
+
+Look for a mouse/ gesture lib for phones
+implement view switching
+
+Find work around: The deviceorientation event is deprecated on insecure origins
+
+set where cache=true needed for Utils.rThetaPhiToXYZ
+
+Fix if: Check if we keep on adding listeners to Device Orientation Feed and not removing
+We can clear listeners just before we create objects
 
 We can pass a state from CanvasLayer to Content
 	- Use this logic to - show loading while switching
 	- setTimeout( createScene() )
 	- discard the done() callback
 
-Define CanvasLayer and abstract out Test001 layer
-
-Try generating key-index https://menubar.io/react-keys-index
+Define SmartGraphicsLayer(?) and abstract out Test001 layer
 
 Consider re-using one scene for all views
 Create one/few super scenes and clone from them
+
+Try generating key-index https://menubar.io/react-keys-index
 
 Discard stepChange method in UserControl. No normalized t.
 
@@ -177,6 +190,7 @@ use drawingBufferWidth when we are dealing with canvas dimesions for drawingBuff
 make sure we dont use any antipatterns in our code
 refer : https://webglfundamentals.org/webgl/lessons/webgl-anti-patterns.html
 
+? CustomViews folder to CustomLayers
 
 SceneBuilder/CanvasLayer to define CanvasLayer class
 	- all scenes derives from it
