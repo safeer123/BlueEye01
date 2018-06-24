@@ -6,6 +6,7 @@ import UserControl from "../../lib/UserControl";
 import SplitScreenView from "./SplitScreenView";
 import SingleNodeView from "./SingleNodeView";
 import OneEyeView from "./OneEyeView";
+import TwoEyesView from "./TwoEyesView";
 
 // Smart Graphics Layer
 export default class TestView001 extends GraphicsLayer {
@@ -14,7 +15,7 @@ export default class TestView001 extends GraphicsLayer {
     super(wrapperElem);
     this.userControl = new UserControl(this.displayOutHandler);
 
-    this.viewList = [OneEyeView, SplitScreenView, SingleNodeView];
+    this.viewList = [TwoEyesView, OneEyeView, SplitScreenView, SingleNodeView];
     this.currentViewIndex = 0;
     this.setCurrentView(0);
 

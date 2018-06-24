@@ -2,13 +2,14 @@ import getNodes from "./nodes";
 import Scene from "./../../SceneBuilder/Scene";
 import SplitScreenCanvasView from "../../SceneBuilder/CustomCanvasViews/SplitScreenCanvasView";
 
-// SplitScreenView Layer
-export default class SplitScreenView extends SplitScreenCanvasView {
+// TwoEyesView Layer
+export default class TwoEyesView extends SplitScreenCanvasView {
   constructor(canvas, preRender, inObj) {
     super(canvas, preRender);
     this.inObj = inObj;
     this.canvas = canvas;
     this.viewUpdater = this.getSceneUpdater();
+    this.setName("TwoEyesView");
   }
 
   updater = () => {
@@ -16,11 +17,10 @@ export default class SplitScreenView extends SplitScreenCanvasView {
   };
 
   rebuildNodes() {
-    const { nodes, camLeft, camRight, initAnimation } = getNodes(this.inObj);
+    const { nodes, twoEyes, initAnimation } = getNodes(this.inObj);
 
     this.nodes = nodes;
-    this.camLeft = camLeft;
-    this.camRight = camRight;
+    this.twoEyes = twoEyes;
     this.initAnimation = initAnimation;
   }
 
@@ -29,13 +29,13 @@ export default class SplitScreenView extends SplitScreenCanvasView {
     this.rebuildNodes();
 
     // Define left scene and right scene
-    const leftScene = new Scene("LEFT_SCENE", this.updater);
+    const leftScene = new Scene("LEFT_EYE_SCENE", this.updater);
     leftScene.setNodeList(this.nodes);
-    const rightScene = leftScene.clone("RIGHT_SCENE");
+    const rightScene = leftScene.clone("RIGHT_EYE_SCENE");
 
     // Set active camera Ids
-    const leftCamId = this.camLeft.getId();
-    const rightCamId = this.camRight.getId();
+    const leftCamId = this.twoEyes.getLeftCamId();
+    const rightCamId = this.twoEyes.getRightCamId();
     leftScene.setActiveCameraId(leftCamId);
     rightScene.setActiveCameraId(rightCamId);
 
