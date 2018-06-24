@@ -4,16 +4,11 @@ import SceneSetter from "../SceneSetter";
 import config from "./config";
 import Utils from "../../AppUtils";
 import OBJ2D from "../../ObjectGroup2D/objects";
-import renderConfig2D from "../../ObjectGroup2D/renderConfig";
-import ObjectRenderer from "../../lib/ObjectRenderer";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
 
 export default class Sun extends SceneSetter {
-  constructor(gl, programs, keyControl, configList = []) {
-    super(new ObjectRenderer(gl, programs, renderConfig2D), keyControl, [
-      config,
-      ...configList
-    ]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
     this.setSceneSetterType(SceneSetterTypes.SUN_SCENE_SETTER);
 
     this.setPropertyGetter("sun_light_color", () => {
@@ -52,7 +47,7 @@ export default class Sun extends SceneSetter {
       },
       summary
     };
-    this.keyboardControl.registerControlMode("s", keyControlObject);
+    this.userControl.registerControlMode("s", keyControlObject);
 
     // Create sky color for background
     this.objRenderer.setUniformGetter(SHADER_VARS.u_color, () => {

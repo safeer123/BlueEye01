@@ -5,8 +5,8 @@ import config from "./config";
 import Utils from "../../AppUtils";
 
 export default class CompositeShape extends WorldObject {
-  constructor(objRenderer, keyControl, configList = []) {
-    super(objRenderer, keyControl, [config, ...configList]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
 
     this.setPropertyGetter("model_matrix", () => {
       const phi = this.getProperty("phi");
@@ -156,9 +156,9 @@ export default class CompositeShape extends WorldObject {
       },
       summary
     };
-    this.keyboardControl.registerControlMode("c", keyControlObject);
+    this.userControl.registerControlMode("c", keyControlObject);
 
-    // initialize the keyboardControl Init values
+    // initialize the userControl Init values
     this.setProperty("theta", getThetaAt(0.4));
     this.setProperty("phi", getThetaAt(0));
   }

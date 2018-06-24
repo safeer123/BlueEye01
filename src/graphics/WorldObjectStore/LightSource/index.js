@@ -7,8 +7,8 @@ import Utils from "../../AppUtils";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
 
 export default class LightSource extends SceneSetter {
-  constructor(objRenderer, keyControl, configList = []) {
-    super(objRenderer, keyControl, [config, ...configList]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
     this.setSceneSetterType(SceneSetterTypes.LIGHT_SCENE_SETTER);
 
     this.setPropertyGetter("light_color", () => {
@@ -100,9 +100,9 @@ export default class LightSource extends SceneSetter {
       },
       summary
     };
-    this.keyboardControl.registerControlMode("l", keyControlObject);
+    this.userControl.registerControlMode("l", keyControlObject);
 
-    // initialize the keyboardControl Init values
+    // initialize the userControl Init values
     this.setProperty("translation", [getXAt(0.5), 10, getZAt(0)]);
   }
 }

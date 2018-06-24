@@ -4,8 +4,8 @@ import Camera from "../CameraAbstract";
 import Utils from "../../AppUtils";
 
 export default class CamThetaPhi extends Camera {
-  constructor(objRenderer, keyControl, configList = []) {
-    super(objRenderer, keyControl, [config, ...configList]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
 
     // Here the model matrix is exactly the lookAt matrix
     this.setPropertyGetter("camera_position", () => {
@@ -70,9 +70,9 @@ export default class CamThetaPhi extends Camera {
         cb: changeTheta
       }
     };
-    this.keyboardControl.registerControlMode("default", keyControlObject);
+    this.userControl.registerControlMode("default", keyControlObject);
 
-    // initialize the keyboardControl Init values
+    // initialize the userControl Init values
     this.setProperty("theta", getThetaAt(0.4));
     this.setProperty("phi", getThetaAt(0));
   }

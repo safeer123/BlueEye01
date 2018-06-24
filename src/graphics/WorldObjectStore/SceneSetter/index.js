@@ -4,8 +4,8 @@ import config from "./config";
 // Defines a scene setter
 // This contributes to form the entire scene
 export default class SceneSetter extends WorldObject {
-  constructor(objRenderer, keyControl, configList = []) {
-    super(objRenderer, keyControl, [config, ...configList]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
     this.sceneSetterType = null; // to be defined by derived class
   }
 

@@ -6,8 +6,8 @@ import Utils from "../../AppUtils";
 // Define OrientationListener
 // Here we listen to device orientation changes and updates look at direction
 export default class OrientationListener extends WorldObject {
-  constructor(objRenderer, keyControl, configList = []) {
-    super(objRenderer, keyControl, [config, ...configList]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
 
     // Here the model matrix is exactly the lookAt matrix
     this.setPropertyGetter("model_matrix", () => {
@@ -30,13 +30,9 @@ export default class OrientationListener extends WorldObject {
       );
       return addVectors(position, sphericalPos);
     });
-
-    if (this.init) {
-      this.init();
-    }
   }
 
-  init() {
+  listentToOrientationChange() {
     const initialPhi = this.getProperty("initial_phi");
     let phiRef;
 
@@ -67,12 +63,12 @@ export default class OrientationListener extends WorldObject {
         `phi: ${parseFloat(phi).toFixed(2)}`,
         `theta: ${parseFloat(theta).toFixed(2)}`
       ];
-      this.keyboardControl.displayOut(displayOutList);
+      this.userControl.displayOut(displayOutList);
     };
     const listenerObj = {
       name: "TwoEyesListener",
       cb: handleChange
     };
-    this.keyboardControl.listenToDeviceOrientation(listenerObj);
+    this.userControl.listenToDeviceOrientation(listenerObj);
   }
 }

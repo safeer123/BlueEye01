@@ -6,8 +6,8 @@ import config from "./config";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
 
 export default class Camera extends SceneSetter {
-  constructor(objRenderer, keyControl, configList = []) {
-    super(objRenderer, keyControl, [config, ...configList]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
     this.setSceneSetterType(SceneSetterTypes.CAMERA_SCENE_SETTER);
 
     if (config.CamConfig) {
@@ -28,15 +28,6 @@ export default class Camera extends SceneSetter {
       "projection_view_matrix",
       this.getProjectionViewMatrix.bind(this)
     );
-  }
-
-  defineGeometry() {
-    this.enableNormals = false;
-    // Build an object to represent the camera in the world
-    // TODO: Create some way to add camera objects
-    this.camShape = new OBJ0.Sphere3D(0.5, [0.2, 0.3, 0.3], 10, 4);
-    this.camShape.modelMatrix = new Matrix4().scale(0.7, 0.7, 1);
-    return [this.camShape];
   }
 
   setupScene(objRenderer) {

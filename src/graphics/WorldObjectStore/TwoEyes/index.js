@@ -6,17 +6,11 @@ import NodeTypes from "../constants/NodeTypes";
 // Define Two Eyes
 // Two cameras attached to OrientationListener
 export default class TwoEyes extends OrientationListener {
-  constructor(objRenderer, keyControl, configList = []) {
-    super(objRenderer, keyControl, [config, ...configList]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
 
-    this.leftCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
-      objRenderer,
-      keyControl
-    ]);
-    this.rightCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
-      objRenderer,
-      keyControl
-    ]);
+    this.leftCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj]);
+    this.rightCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj]);
 
     this.leftCamera.setPropertyGetter("camera_position", () => {
       const pupillaryDist = this.getProperty("pupillary_distance");
@@ -33,6 +27,8 @@ export default class TwoEyes extends OrientationListener {
     this.rightCamera.setProperty("up_vector", [0, 1, 0]);
 
     this.addChildren([this.leftCamera, this.rightCamera]);
+
+    super.listentToOrientationChange();
   }
 
   getLeftCamId() {

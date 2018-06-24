@@ -6,8 +6,8 @@ import Utils from "../../AppUtils";
 // Single camera acting like a single eye vision.
 // Here we listen to device orientation changes and updates look at direction
 export default class OneEye extends Camera {
-  constructor(objRenderer, keyControl, configList = []) {
-    super(objRenderer, keyControl, [config, ...configList]);
+  constructor(inObj, configList = []) {
+    super(inObj, [config, ...configList]);
 
     // we should be setting target_postion based on orientation
     this.setPropertyGetter("target_position", () => {
@@ -57,12 +57,12 @@ export default class OneEye extends Camera {
         `phi: ${parseFloat(phi).toFixed(2)}`,
         `theta: ${parseFloat(theta).toFixed(2)}`
       ];
-      this.keyboardControl.displayOut(displayOutList);
+      this.userControl.displayOut(displayOutList);
     };
     const listenerObj = {
       name: "OneEyeListener",
       cb: handleChange
     };
-    this.keyboardControl.listenToDeviceOrientation(listenerObj);
+    this.userControl.listenToDeviceOrientation(listenerObj);
   }
 }
