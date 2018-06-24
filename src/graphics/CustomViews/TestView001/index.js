@@ -5,15 +5,16 @@ import UserControl from "../../lib/UserControl";
 
 import SplitScreenView from "./SplitScreenView";
 import SingleNodeView from "./SingleNodeView";
+import OneEyeView from "./OneEyeView";
 
-// WorldScene0 Layer
+// Smart Graphics Layer
 export default class TestView001 extends GraphicsLayer {
   // Construct canvas and webgl context
   constructor(wrapperElem) {
     super(wrapperElem);
     this.userControl = new UserControl(this.displayOutHandler);
 
-    this.viewList = [SplitScreenView, SingleNodeView];
+    this.viewList = [OneEyeView, SplitScreenView, SingleNodeView];
     this.currentViewIndex = 0;
     this.setCurrentView(0);
 

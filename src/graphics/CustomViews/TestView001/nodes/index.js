@@ -65,6 +65,13 @@ export default function getNodes(inObj) {
   camThetaPhi.setProperty("radius", 40);
   shapes.addChildren([camThetaPhi]);
 
+  const oneEyeCam = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [
+    newRenderer(renderConfigNoLight),
+    userControl
+  ]);
+  oneEyeCam.setProperty("camera_position", [0, 0, -40]);
+  oneEyeCam.setProperty("radius", 40);
+
   // Animation
   let theta = 0;
   const deltaTheta = 0.005;
@@ -84,10 +91,11 @@ export default function getNodes(inObj) {
 
   // return all root nodes
   return {
-    nodes: [sunObj, shapes, camLeft, camRight],
+    nodes: [sunObj, shapes, camLeft, camRight, oneEyeCam],
     camLeft,
     camRight,
     camThetaPhi,
+    oneEyeCam,
     initAnimation
   };
 }
