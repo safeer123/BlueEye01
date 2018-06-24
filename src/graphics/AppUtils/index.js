@@ -98,11 +98,19 @@ Utils.FCache = new class {
   }
 }();
 
-Utils.rThetaPhiToXYZ = (r, theta, phi) => [
-  r * Utils.FCache.sin(theta) * Utils.FCache.cos(phi),
-  r * Utils.FCache.cos(theta),
-  r * Utils.FCache.sin(theta) * Utils.FCache.sin(phi)
-];
+Utils.rThetaPhiToXYZ = (r, theta, phi, cache = false) => {
+  let sinFunc = Math.sin;
+  let cosFunc = Math.cos;
+  if (cache) {
+    sinFunc = Utils.FCache.sin;
+    cosFunc = Utils.FCache.cos;
+  }
+  return [
+    r * sinFunc(theta) * cosFunc(phi),
+    r * cosFunc(theta),
+    r * sinFunc(theta) * sinFunc(phi)
+  ];
+};
 
 Utils.interpolate = (a, b, t) => {
   if (Number.isFinite(a) && Number.isFinite(b)) {
@@ -115,6 +123,11 @@ Utils.interpolate = (a, b, t) => {
 };
 
 Utils.radToDeg = rad => (180 * rad / Math.PI).toFixed(2);
+Utils.degToRad = deg => (Math.PI * deg / 180).toFixed(4);
+Utils.clampTo0And2PI = rad => {
+  if (rad < 0) rad += 2 * Math.PI;
+  return rad % (2 * Math.PI);
+};
 
 Utils.canvasResize = (canvas, wrapperDiv) => {
   if (canvas && wrapperDiv) {
