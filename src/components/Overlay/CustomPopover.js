@@ -4,7 +4,7 @@ export default class CustomPopover extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      position: { y: 500 }
+      position: { y: 50 }
     };
   }
 
