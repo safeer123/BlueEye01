@@ -1,4 +1,5 @@
 import ControlModeManager from "./ControlModeManager";
+import DeviceOrientationFeed from "./DeviceOrientation";
 
 export default class KeyboardControl {
   constructor(sceneUpdater) {
@@ -7,7 +8,14 @@ export default class KeyboardControl {
 
     this.listenToKeys();
 
+    this.orientationFeed = new DeviceOrientationFeed();
+    // this.displayDeviceOrientation();
+
     this.gameControllerSetup();
+  }
+
+  listenToDeviceOrientation(listenerObj) {
+    this.orientationFeed.addListener(listenerObj);
   }
 
   gameControllerSetup = () => {
@@ -32,7 +40,7 @@ export default class KeyboardControl {
 
   registerControlMode(key, controlModeObj) {
     const { controlModeMngr } = this;
-    controlModeMngr.createControlMode(key, controlModeObj)
+    controlModeMngr.createControlMode(key, controlModeObj);
   }
 
   listenToKeys() {
@@ -69,4 +77,22 @@ export default class KeyboardControl {
 
     return keyName;
   };
+
+  displayDeviceOrientation() {
+    this.orientationFeed.addListener({
+      name: "MyName",
+      cb: obj => {
+        if (obj) {
+          const displayOutList = Object.entries(obj).map(
+            a => `${a[0]}: ${a[1].toFixed(0)}`
+          );
+          this.sceneUpdater(displayOutList);
+        }
+      }
+    });
+  }
+
+  displayOut(displayOutList) {
+    this.sceneUpdater(displayOutList);
+  }
 }
