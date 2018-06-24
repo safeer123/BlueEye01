@@ -144,9 +144,21 @@ DONE ---> Introduce OneEye: can listen to device orientation changes and update 
 DONE ---> displayOut method in userControl. We can use this for debugging.
 DONE ---> Try disabling all extensions and see performance of vscode
 ===========================================
+(?) What is camera_position property is it a World Coordinate
 
-Introduce TwoEyes: only two invisible cameras and can return a splitScreenView for VR Headsets
-Define properties like position, lookAtDirection, upVector etc
+Introduce TwoEyes: two invisible cameras as children.
+	- define pupillary distance
+	- define position => derive left cam pos, and right cam pos
+	- define upVector
+	- setPropertGetter for target_position, setParentProperties(target_position)
+		Define properties like position, looAtDirection, upVector etc
+		
+up_vector calculation needs to be reconsidered in OneEye and TwoEyes
+
+passing null object renderer should be supported, especially for cameras
+Do Changes where ever we create camera
+
+OneEye should inherit from OrientationListener
 
 Define RoboHead: TwoEyes and Geometry for robot head shape
 
@@ -166,6 +178,8 @@ We can pass a state from CanvasLayer to Content
 	- discard the done() callback
 
 Define SmartGraphicsLayer(?) and abstract out Test001 layer
+
+Keyboard activities and configuration are tightly bound to WOs. Should be decoupled.
 
 Consider re-using one scene for all views
 Create one/few super scenes and clone from them
