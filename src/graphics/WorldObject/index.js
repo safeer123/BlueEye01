@@ -3,13 +3,19 @@ import { SHADER_VARS } from "../ShaderFactory/constants";
 import Node from "./Node";
 import config from "./config";
 import NodeTypes from "./constants";
+import ObjectRenderer from "./../lib/ObjectRenderer";
 
 export default class WorldObject extends Node {
-  constructor(objRenderer, keyboardControl, configList = []) {
+  constructor(inObj, configList = []) {
     super();
     this.setType(NodeTypes.ABSTRACT_WORLD_OBJECT);
-    this.objRenderer = objRenderer;
-    this.keyboardControl = keyboardControl;
+
+    const { gl, programs, renderConfig, userControl } = inObj;
+    if (renderConfig) {
+      this.objRenderer = new ObjectRenderer(gl, programs, renderConfig);
+    }
+
+    this.userControl = userControl;
     this.modelMatrix = new Matrix4(() => {
       this.rebuildProperties = true;
     });
@@ -134,6 +140,10 @@ export default class WorldObject extends Node {
     }
     const viewport = this.getProperty("viewport");
     this.objRenderer.render(viewport);
+
+    // In order to pass world_matrix to its children we call this method
+    // We should investigate to make this better
+    this.getProperty("world_matrix");
 
     // By this time we have already rebuilt all properties
     this.rebuildProperties = false;
