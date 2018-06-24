@@ -1,5 +1,6 @@
 import renderConfigNoLight from "../../ObjectGroup3D/renderConfig";
 import renderConfigLight from "../../ObjectGroup3D/renderConfigLight";
+import renderConfig2D from "../../ObjectGroup2D/renderConfig";
 import GraphicsLayer from "../../lib/GraphicsLayer";
 import UserControl from "../../lib/UserControl";
 
@@ -52,9 +53,10 @@ export default class TestView001 extends GraphicsLayer {
     const { gl, shaderFac: { shaderPrograms }, userControl, canvas } = this;
     const inObj = {
       gl,
-      shaderPrograms,
+      programs: shaderPrograms,
       renderConfigLight,
       renderConfigNoLight,
+      renderConfig2D,
       userControl
     };
     const preRender = () => this.clear(); // Find a good logic for clearing screen
