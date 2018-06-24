@@ -5,12 +5,12 @@ const config = {
     {
       name: "camera_position",
       type: "vec3",
-      value: [13, 13, 13]
+      value: [0, 0, 0]
     },
     {
       name: "target_position",
       type: "vec3",
-      value: [0, 0, 0]
+      value: [0, 0, 1]
     },
     {
       name: "up_vector",

@@ -8,6 +8,7 @@ import OneEye from "../OneEye";
 import CompositeShapes0 from "../CompositeShapes0";
 import LightSource from "../LightSource";
 import Sun from "../Sun";
+import TwoEyes from "../TwoEyes";
 
 const TypeNodeMapping = [
   { type: NodeTypes.ABSTRACT_NODE, Class: Node },
@@ -17,7 +18,8 @@ const TypeNodeMapping = [
   { type: NodeTypes.ONE_EYE_CAMERA, Class: OneEye },
   { type: NodeTypes.COMPOSITE_CUSTOM_SHAPES, Class: CompositeShapes0 },
   { type: NodeTypes.ABSTRACT_LIGHT, Class: LightSource },
-  { type: NodeTypes.SUN_OBJECT, Class: Sun }
+  { type: NodeTypes.SUN_OBJECT, Class: Sun },
+  { type: NodeTypes.TWO_EYES, Class: TwoEyes }
 ];
 
 export { TypeNodeMapping };
