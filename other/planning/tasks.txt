@@ -143,22 +143,38 @@ DONE ---> Define a class to: Handle Device orientation feed
 DONE ---> Introduce OneEye: can listen to device orientation changes and update its camera orientation
 DONE ---> displayOut method in userControl. We can use this for debugging.
 DONE ---> Try disabling all extensions and see performance of vscode
-===========================================
-(?) What is camera_position property is it a World Coordinate
-
-Introduce TwoEyes: two invisible cameras as children.
+DONE ---> Introduce TwoEyes: two invisible cameras as children.
 	- define pupillary distance
 	- define position => derive left cam pos, and right cam pos
 	- define upVector
-	- setPropertGetter for target_position, setParentProperties(target_position)
+	- setPropertGetter for target_position
 		Define properties like position, looAtDirection, upVector etc
 		
+DONE ---> (?) What is camera_position property is it a World Coordinate
+	- camera_position is in object coordinate system
+	- this will contribute building its model matrix
+DONE ---> Fix: initial phi not working as expected in TwoEye WO
+DONE ---> Change OneEye class such that it will inherit OrientationListener
+
+DONE ---> pass initial phi from getNodes
+DONE ---> Turn on Eslint and formatt code
+DONE ---> Refactor code for OneEye/TwoEyes/OriList
+===========================================
+
+
+
+investigate on lookAt matrix
+how it will transform for different orientatoin at origin
+make geometry for camera in x,y,z direction and can be tested
+	
+Fix: We implemented a dirty way to pass world_matrix by calling setProp(world_matrix) in render() call
+
 up_vector calculation needs to be reconsidered in OneEye and TwoEyes
 
 passing null object renderer should be supported, especially for cameras
 Do Changes where ever we create camera
 
-OneEye should inherit from OrientationListener
+Optymize: Scene setters getProp(world_matrix) called several times in one cycle
 
 Define RoboHead: TwoEyes and Geometry for robot head shape
 
