@@ -159,9 +159,18 @@ DONE ---> Change OneEye class such that it will inherit OrientationListener
 DONE ---> pass initial phi from getNodes
 DONE ---> Turn on Eslint and formatt code
 DONE ---> Refactor code for OneEye/TwoEyes/OriList
+DONE ---> passing null object renderer should be supported, especially for cameras
+DONE ---> Do Changes where ever we create camera
 ===========================================
 
+Look for a mouse/ gesture lib for phones
+implement view switching
 
+Light Source should not have geometry, remove geometry
+instead define GlowingSphere which is WO having a child abstract light source
+
+In WO, if objectRenderer is null, all material properties should be removed
+They won't be applicable anywhere - investigate and fix
 
 investigate on lookAt matrix
 how it will transform for different orientatoin at origin
@@ -171,15 +180,12 @@ Fix: We implemented a dirty way to pass world_matrix by calling setProp(world_ma
 
 up_vector calculation needs to be reconsidered in OneEye and TwoEyes
 
-passing null object renderer should be supported, especially for cameras
-Do Changes where ever we create camera
+
 
 Optymize: Scene setters getProp(world_matrix) called several times in one cycle
 
 Define RoboHead: TwoEyes and Geometry for robot head shape
 
-Look for a mouse/ gesture lib for phones
-implement view switching
 
 Find work around: The deviceorientation event is deprecated on insecure origins
 
