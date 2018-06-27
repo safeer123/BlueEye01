@@ -1,7 +1,6 @@
 import { m4, Matrix4 } from "../../lib/m4";
 import { SHADER_VARS } from "../../ShaderFactory/constants";
 import SceneSetter from "../SceneSetter";
-import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
 
@@ -31,6 +30,7 @@ export default class Camera extends SceneSetter {
   }
 
   setupScene(objRenderer) {
+    if (!this.canvasAspect) this.canvasAspect = objRenderer.getCanvasAspect();
     objRenderer.setUniformGetter(SHADER_VARS.u_viewProjection, () =>
       this.getProperty("projection_view_matrix")
     );
@@ -40,10 +40,7 @@ export default class Camera extends SceneSetter {
   getProjectionViewMatrix() {
     const { fieldOfViewRadians, zNear, zFar } = this.camConfig;
     const viewportObj = this.getProperty("viewport");
-    const aspect =
-      this.objRenderer.getCanvasAspect() *
-      viewportObj.width /
-      viewportObj.height;
+    const aspect = this.canvasAspect * viewportObj.width / viewportObj.height;
 
     const projectionMatrix = m4.perspective(
       fieldOfViewRadians,

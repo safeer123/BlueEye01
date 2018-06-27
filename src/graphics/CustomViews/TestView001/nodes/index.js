@@ -35,12 +35,12 @@ export default function getNodes(inpObj) {
   const targetPos = [0, 0, 0];
   const upVec = [0, 1, 0];
 
-  const camLeft = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj()]);
+  const camLeft = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj(null)]);
   camLeft.setProperty("camera_position", leftCamPos);
   camLeft.setProperty("target_position", targetPos);
   camLeft.setProperty("up_vector", upVec);
 
-  const camRight = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj()]);
+  const camRight = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj(null)]);
   camRight.setProperty("camera_position", rightCamPos);
   camRight.setProperty("target_position", targetPos);
   camRight.setProperty("up_vector", upVec);

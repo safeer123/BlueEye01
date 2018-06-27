@@ -16,8 +16,13 @@ export default class TwoEyes extends OrientationListener {
       return subtractVectors(relativeTargetPos, camPos);
     };
 
-    this.leftCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj]);
-    this.rightCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj]);
+    const inObjForCam = { ...inObj, renderConfig: null };
+    this.leftCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
+      inObjForCam
+    ]);
+    this.rightCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
+      inObjForCam
+    ]);
 
     this.leftCamera.setPropertyGetter("camera_position", () => {
       const pupillaryDist = this.getProperty("pupillary_distance");

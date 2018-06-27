@@ -16,7 +16,8 @@ export default class OneEye extends OrientationListener {
       return subtractVectors(relativeTargetPos, camPos);
     };
 
-    this.camera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj]);
+    const inObjForCam = { ...inObj, renderConfig: null };
+    this.camera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObjForCam]);
 
     this.camera.setPropertyGetter("camera_position", () => [0, 0, 0]);
     this.camera.setPropertyGetter("target_position", () =>
