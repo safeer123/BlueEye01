@@ -3,12 +3,17 @@ const config = {
     {
       name: "position",
       type: "vec3",
-      value: [0, 0, -40]
+      value: [0, 0, 40]
     },
     {
       name: "target_position",
       type: "vec3",
       value: [0, 0, 0]
+    },
+    {
+      name: "relative_target_position",
+      type: "vec3",
+      value: [0, 0, 1]
     },
     {
       name: "up_vector",
@@ -18,7 +23,7 @@ const config = {
     {
       name: "theta",
       type: "float",
-      value: Math.PI / 3,
+      value: Math.PI / 2,
       min: 0,
       max: Math.PI
     },
@@ -39,7 +44,7 @@ const config = {
     {
       name: "initial_phi",
       type: "float",
-      value: 0.5 * Math.PI
+      value: 1.5 * Math.PI
     }
   ]
 };

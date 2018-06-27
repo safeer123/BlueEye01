@@ -3,7 +3,7 @@ const config = {
     {
       name: "pupillary_distance",
       type: "float",
-      value: 2
+      value: 0.5
     }
   ]
 };

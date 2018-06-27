@@ -19,21 +19,29 @@ export default class OrientationListener extends WorldObject {
       return this.modelMatrix.matrix();
     });
 
-    // we should be setting target_postion based on orientation
-    this.setPropertyGetter("target_position", () => {
-      // r, theta, phi to target position
-      const position = this.getProperty("position");
+    // we should be setting relative_target_position based on orientation
+    this.setPropertyGetter("relative_target_position", () => {
+      // r, theta, phi to relative target position
       const sphericalPos = Utils.rThetaPhiToXYZ(
         this.getProperty("radius"),
         this.getProperty("theta"),
         this.getProperty("phi")
       );
-      return addVectors(position, sphericalPos);
+      return sphericalPos;
+    });
+
+    // we should be setting target_postion based on relative_target_position
+    this.setPropertyGetter("target_position", () => {
+      // relativeTargetPos to target position
+      const position = this.getProperty("position");
+      const relativeTargetPos = this.getProperty("relative_target_position");
+      return addVectors(position, relativeTargetPos);
     });
   }
 
   listentToOrientationChange() {
     const initialPhi = this.getProperty("initial_phi");
+    this.setProperty("phi", initialPhi);
     let phiRef;
 
     const toPhiInDeg = (gamma, alpha) =>
@@ -41,6 +49,8 @@ export default class OrientationListener extends WorldObject {
 
     const handleChange = obj => {
       const { alpha, beta, gamma } = obj;
+      if (!alpha || !beta || !gamma) return;
+
       // calculate phi from alpha value
       // We consider relative phi around initial phi that we set as property
       const phiInDeg = toPhiInDeg(gamma, alpha);
