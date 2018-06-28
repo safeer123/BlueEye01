@@ -73,7 +73,7 @@ export default class OrientationListener extends WorldObject {
         `phi: ${parseFloat(phi).toFixed(2)}`,
         `theta: ${parseFloat(theta).toFixed(2)}`
       ];
-      this.userControl.displayOut(displayOutList);
+      // this.userControl.displayOut(displayOutList);
     };
     const listenerObj = {
       name: "TwoEyesListener",

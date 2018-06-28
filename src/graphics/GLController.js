@@ -44,4 +44,10 @@ export default class GLController {
       view.stateUpdateHandler = stateUpdateHandler;
     });
   }
+
+  handleGesture(gestureType, event) {
+    this.viewList.forEach(view => {
+      view.handleGesture(gestureType, event);
+    });
+  }
 }
