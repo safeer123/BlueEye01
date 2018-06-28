@@ -5,6 +5,9 @@ import NoSleep from "nosleep.js";
 import GLController from "../../graphics/GLController";
 import CustomPopover from "../Overlay/CustomPopover";
 import Utils from "../../graphics/AppUtils";
+import { GestureTypeList } from "../../constants/Gesture";
+
+const Hammer = require("hammerjs");
 
 class Content extends React.Component {
   constructor(props) {
@@ -32,6 +35,8 @@ class Content extends React.Component {
 
     window.addEventListener("resize", this.resizeHandler);
     this.resizeHandler();
+
+    this.setupGestureHandlers();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,6 +47,19 @@ class Content extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeHandler);
   }
+
+  setupGestureHandlers = () => {
+    const hammer = new Hammer(this.canvasWrapper);
+    // Subscribe to a quick start event: press, tap, or doubletap.
+    // These are quick start events.
+    GestureTypeList.forEach(gesture => {
+      hammer.on(gesture, e => {
+        if (this.glController) {
+          this.glController.handleGesture(gesture, e);
+        }
+      });
+    });
+  };
 
   displayLoaderOnNeed() {
     const displayMsg = "Wait.. We are building it...";
