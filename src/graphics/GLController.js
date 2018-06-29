@@ -1,4 +1,3 @@
-import SceneBuilder from "./SceneBuilder";
 import TestView001 from "./CustomViews/TestView001";
 
 export default class GLController {
@@ -47,7 +46,9 @@ export default class GLController {
 
   handleGesture(gestureType, event) {
     this.viewList.forEach(view => {
-      view.handleGesture(gestureType, event);
+      if (view.handleGesture) {
+        view.handleGesture(gestureType, event);
+      }
     });
   }
 }
