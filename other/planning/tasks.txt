@@ -164,12 +164,16 @@ DONE ---> Do Changes where ever we create camera
 
 DONE ---> Look for a mouse/ gesture lib for phones
 DONE ---> implement view switching
+DONE ---> check if we are invoking handleGesture multiple times once we go fullscreen and come back
+DONE ---> Does it work while we are fullscreen (working)
+DONE ---> remove "import SceneBuilder from "./SceneBuilder";" in GLController
+DONE ---> We dont need index file and config file
+DONE ---> Define ViewHolder and take common things with it
+	- list of CanvasViews
+	- view switch option
 ===========================================
 
-check if we are invoking handleGesture multiple times once we go fullscreen and come back
-Does it work while we are fullscreen
 
-remove "import SceneBuilder from "./SceneBuilder";" in GLController
 
 Move stateUpdateHandler in Coontent/index to Overlay components
 
