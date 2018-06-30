@@ -2,6 +2,8 @@ import GraphicsLayer from "../lib/GraphicsLayer";
 import UserControl from "../lib/UserControl";
 import { GestureType } from "../../constants/Gesture";
 
+const Hammer = require("hammerjs");
+
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
 // Switch View option based on swipe gesture or Control+v
@@ -23,8 +25,9 @@ export default class ViewHolder extends GraphicsLayer {
     }
   }
 
-  switchView = () => {
-    const nextIndex = (this.currentViewIndex + 1) % this.viewList.length;
+  switchView = (dir = 1) => {
+    let nextIndex = (this.currentViewIndex + dir) % this.viewList.length;
+    if (nextIndex < 0) nextIndex += this.viewList.length;
     this.setCurrentView(nextIndex);
   };
 
@@ -49,12 +52,13 @@ export default class ViewHolder extends GraphicsLayer {
   };
 
   handleGesture(gestureType, event) {
+    const dir = event.direction === Hammer.DIRECTION_LEFT ? 1 : -1;
+    console.log(gestureType, event);
     switch (gestureType) {
       case GestureType.Swipe:
-        this.switchView();
+        this.switchView(dir);
         break;
       default:
-        console.log(gestureType, event);
         this.displayOutHandler([gestureType]);
         break;
     }
