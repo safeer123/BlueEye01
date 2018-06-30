@@ -148,8 +148,9 @@ class Content extends React.Component {
             ref={elm => {
               this.canvasWrapper = elm;
             }}
-          />
-          {this.displayLoaderOnNeed()}
+          >
+            {this.displayLoaderOnNeed()}
+          </div>
         </Fullscreen>
         <CustomPopover
           visible={this.state.modeOverlayState.visible}
