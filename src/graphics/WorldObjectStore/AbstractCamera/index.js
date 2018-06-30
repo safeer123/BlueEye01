@@ -4,7 +4,7 @@ import SceneSetter from "../SceneSetter";
 import config from "./config";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
 
-export default class Camera extends SceneSetter {
+export default class AbstractCamera extends SceneSetter {
   constructor(inObj, configList = []) {
     super(inObj, [config, ...configList]);
     this.setSceneSetterType(SceneSetterTypes.CAMERA_SCENE_SETTER);
