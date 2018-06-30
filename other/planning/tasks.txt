@@ -171,16 +171,35 @@ DONE ---> We dont need index file and config file
 DONE ---> Define ViewHolder and take common things with it
 	- list of CanvasViews
 	- view switch option
+DONE ---> Light Source should not have geometry, remove geometry
+DONE ---> instead define GlowingSphere which is WO having a child abstract light source
+DONE ---> Fix: Fullscreen feature is broken
+DONE ---> all init for userControl setup should be renamed to setupControls()
+DONE ---> Fix: loader not coming on top when fullscreen
+DONE ---> swipe left and right distinction
 ===========================================
 
+settle issues related to normals
 
+Geometry Objects: primary arguments, and inObj, setParams
+
+Define Cylinder surface 2D
+
+Define Disc Surface 2D
+
+Define pipeSurface
+
+Closed Cylinder
+
+How to segregate files for Different Geometry
+
+Can we show loader only when there is a delay in processing objects ?
+
+check whether noSleep implementation is working in Content/index
 
 Move stateUpdateHandler in Coontent/index to Overlay components
 
 up_vector calculation needs to be reconsidered in OneEye and TwoEyes
-
-Light Source should not have geometry, remove geometry
-instead define GlowingSphere which is WO having a child abstract light source
 
 Fix: We implemented a dirty way to pass world_matrix by calling setProp(world_matrix) in render() call
 
@@ -190,6 +209,7 @@ They won't be applicable anywhere - investigate and fix
 investigate on lookAt matrix
 how it will transform for different orientatoin at origin
 make geometry for camera in x,y,z direction and can be tested
+write concluded results at right place
 
 
 Optymize: Scene setters getProp(world_matrix) called several times in one cycle
