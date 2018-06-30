@@ -1,20 +1,22 @@
-import { m4 } from "../../lib/m4";
-import { SHADER_VARS } from "../../ShaderFactory/constants";
-import SceneSetter from "../SceneSetter";
 import config from "./config";
 import OBJ0 from "../../ObjectGroup3D/objects";
 import Utils from "../../AppUtils";
-import SceneSetterTypes from "../constants/SceneSetterTypes";
+import WOFACTORY from "../Factory";
+import NodeTypes from "../constants/NodeTypes";
+import WorldObject from "../../WorldObject";
 
-export default class LightSource extends SceneSetter {
+export default class GlowingSphere extends WorldObject {
   constructor(inObj, configList = []) {
     super(inObj, [config, ...configList]);
-    this.setSceneSetterType(SceneSetterTypes.LIGHT_SCENE_SETTER);
 
-    this.setPropertyGetter("light_color", () => {
-      if (this.getProperty("isON")) return config.lightColor;
-      return [0, 0, 0];
-    });
+    const inObjForLight = { ...inObj, renderConfig: null };
+    const lightSource = WOFACTORY.create(NodeTypes.ABSTRACT_LIGHT, [
+      inObjForLight
+    ]);
+    this.addChildren([lightSource]);
+
+    lightSource.setPropertyGetter("light_color", () => config.LightColor);
+    lightSource.setPropertyGetter("isActive", () => this.getProperty("isON"));
 
     this.setPropertyGetter("model_matrix", () => {
       const translation = this.getProperty("translation");
@@ -23,43 +25,20 @@ export default class LightSource extends SceneSetter {
       return this.modelMatrix.matrix();
     });
 
-    this.setPropertyGetter("light_position", () => {
-      const origin = [0, 0, 0, 1];
-      const worldMatrix = this.getProperty("world_matrix");
-      const lightPosInWorld = m4.transformVector(origin, worldMatrix);
-      return lightPosInWorld.splice(0, 3);
+    this.setPropertyGetter("emissive_color", () => {
+      if (lightSource.getProperty("isActive")) {
+        return lightSource.getProperty("light_color");
+      }
+      return [0, 0, 0];
     });
-
-    this.setPropertyGetter("emissive_color", () =>
-      this.getProperty("light_color")
-    );
-
-    this.lightIndex = 0;
 
     if (this.init) this.init();
   }
 
-  setupScene(objRenderer) {
-    objRenderer.setUniformGetter(
-      SHADER_VARS.u_LightColor(this.lightIndex),
-      () => this.getProperty("light_color")
-    );
-
-    objRenderer.setUniformGetter(
-      SHADER_VARS.u_LightPosition(this.lightIndex),
-      () => {
-        const lightPosInWorld = this.getProperty("light_position");
-        // console.log(lightPosInWorld);
-        return lightPosInWorld;
-      }
-    );
-  }
-
   defineGeometry() {
     this.enableNormals = true;
-
-    const shape = new OBJ0.Sphere3D(0.5, [0.9, 0.9, 0.9], 20, 20);
-
+    const radius = this.getProperty("radius");
+    const shape = new OBJ0.Sphere3D(radius, [0.9, 0.9, 0.9], 20, 20);
     return [shape];
   }
 
@@ -67,7 +46,7 @@ export default class LightSource extends SceneSetter {
     const getXAt = t => Utils.interpolate(0, 20, t);
     const getZAt = t => Utils.interpolate(0, 20, t);
 
-    const modeNameDisplay = "Light";
+    const modeNameDisplay = "GlowingSphere";
     const changeX = t => {
       const translation = this.getProperty("translation");
       translation[0] = getXAt(t).toFixed(2);
@@ -87,7 +66,7 @@ export default class LightSource extends SceneSetter {
       ];
     };
     const keyControlObject = {
-      modeName: "LightPos",
+      modeName: "GlowingSpherePosition",
       ArrowLeftRight: {
         t: 0,
         dt: 0.01,

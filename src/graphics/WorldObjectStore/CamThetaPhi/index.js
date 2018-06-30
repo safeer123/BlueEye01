@@ -1,6 +1,6 @@
 import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
 import config from "./config";
-import Camera from "../CameraAbstract";
+import Camera from "../AbstractCamera";
 import Utils from "../../AppUtils";
 
 export default class CamThetaPhi extends Camera {

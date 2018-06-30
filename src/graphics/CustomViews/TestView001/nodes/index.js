@@ -27,7 +27,8 @@ export default function getNodes(inpObj) {
     inObj(renderConfig2D)
   ]);
 
-  const lightObj0 = WOFACTORY.create(NodeTypes.ABSTRACT_LIGHT, [inObj()]);
+  const lightObj0 = WOFACTORY.create(NodeTypes.GLOWING_SPHERE, [inObj()]);
+  lightObj0.setProperty("isON", true);
   shapes.addChildren([lightObj0]);
 
   const leftCamPos = [pupillaryDistance * 0.5, 20, -40];
