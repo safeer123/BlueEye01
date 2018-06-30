@@ -7,23 +7,6 @@ export default class GLController {
     this.viewList.push(new TestView001(wrapperDiv));
   }
 
-  init(dataObj) {
-    if (!dataObj) return;
-
-    // window.onwheel = function(){ return false; }
-
-    this.dataObject = dataObj;
-
-    this.viewList.forEach(view => {
-      // set params
-      view.dataObject = this.dataObject;
-      // view.renderAll = this.renderAll.bind(this);
-      view.createScene();
-    });
-
-    this.renderAll();
-  }
-
   clearAll() {
     this.viewList.forEach(view => {
       view.clear();
