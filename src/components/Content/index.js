@@ -5,7 +5,7 @@ import NoSleep from "nosleep.js";
 import GLController from "../../graphics/GLController";
 import CustomPopover from "../Overlay/CustomPopover";
 import Utils from "../../graphics/AppUtils";
-import { GestureTypeList } from "../../constants/Gesture";
+import { GestureTypeList, GestureType } from "../../constants/Gesture";
 
 const Hammer = require("hammerjs");
 
@@ -56,6 +56,9 @@ class Content extends React.Component {
       hammer.on(gesture, e => {
         if (this.glController) {
           this.glController.handleGesture(gesture, e);
+        }
+        if (gesture === GestureType.DoubleTap) {
+          this.handleFullscreenSwitch();
         }
       });
     });
@@ -128,28 +131,23 @@ class Content extends React.Component {
 
     return (
       <div
-        onDoubleClick={e => {
-          this.handleFullscreenSwitch();
-        }}
-        // onKeyDown={e => {}}
         className="main-content"
-        // role="button"
-        // tabIndex="0"
+        style={{ opacity: this.state.loading ? "0.5" : "1" }}
       >
         <Fullscreen
           enabled={this.state.isFullscreenMode}
           onChange={isFullscreenMode => {
-            this.setState({ isFullscreenMode });
             if (isFullscreenMode) Utils.lockScreenOrientationAsLandscape();
           }}
-          style={{ visibility: this.state.loading ? "hidden" : "visible" }}
+          ref={elm => {
+            this.canvasContainer = elm;
+          }}
         >
           <div
             className="canvas-wrapper"
             ref={elm => {
               this.canvasWrapper = elm;
             }}
-            // style={{ visibility: this.state.loading ? "hidden" : "visible" }}
           />
           {this.displayLoaderOnNeed()}
         </Fullscreen>

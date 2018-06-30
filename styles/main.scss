@@ -1,6 +1,5 @@
 @import './fonts/font-family.scss';
 
-$header_height: 0%;
 $theme_color:#064a62;
 $main_font_family: "Open Sans";
 
@@ -19,29 +18,11 @@ canvas {
     width: 100%;
     height: 100%;
 }
-.main-header, .main-footer{
+.main-footer{
     background-color: $theme_color;
     width: 100%;
-    height: $header_height;
+    height: 0px;
     color: #DDD;
-}
-
-.main-header {
-    border-bottom: 1px solid #777;
-}
-
-.main-footer {
-    height: $header_height / 2;
-}
-
-.header-items {
-    margin-left: 50px;
-    padding: 10px;
-    float: left;
-}
-
-.header-right-content {
-    float: right;
 }
 
 .wrapper {
@@ -53,7 +34,7 @@ canvas {
 .main-content{
     background-color: #ced1d2;
     width: 100%;
-    height: calc(100% - #{$header_height});
+    height: 100%;
     position: relative;
 
     .canvas-wrapper{
@@ -70,7 +51,8 @@ canvas {
         letter-spacing: 2;
         font-weight: bold;
         color: #666;
-        z-index: 1;
+        z-index: 2;
+        opacity: 1;
     }
 
     .fullscreen{
