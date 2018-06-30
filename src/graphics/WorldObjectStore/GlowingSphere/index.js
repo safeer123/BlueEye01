@@ -32,7 +32,7 @@ export default class GlowingSphere extends WorldObject {
       return [0, 0, 0];
     });
 
-    if (this.init) this.init();
+    this.setupControls();
   }
 
   defineGeometry() {
@@ -42,7 +42,7 @@ export default class GlowingSphere extends WorldObject {
     return [shape];
   }
 
-  init() {
+  setupControls() {
     const getXAt = t => Utils.interpolate(0, 20, t);
     const getZAt = t => Utils.interpolate(0, 20, t);
 

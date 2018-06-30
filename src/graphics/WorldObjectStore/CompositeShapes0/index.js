@@ -17,7 +17,7 @@ export default class CompositeShape extends WorldObject {
       return this.modelMatrix.matrix();
     });
 
-    if (this.init) this.init();
+    this.setupControls();
   }
 
   defineGeometry() {
@@ -122,7 +122,7 @@ export default class CompositeShape extends WorldObject {
     ];
   }
 
-  init() {
+  setupControls() {
     const getThetaAt = t => Utils.interpolate(0, Math.PI, t);
     const getPhiAt = t => Utils.interpolate(2 * Math.PI, 0, t);
 

@@ -34,12 +34,10 @@ export default class CamThetaPhi extends Camera {
       return normalize(subtractVectors(sphericalPosUp, sphericalPosDown));
     });
 
-    if (this.init) {
-      this.init();
-    }
+    this.setupControls();
   }
 
-  init() {
+  setupControls() {
     const getThetaAt = t => Utils.interpolate(0, Math.PI, t);
     const getPhiAt = t => Utils.interpolate(2 * Math.PI, 0, t);
 

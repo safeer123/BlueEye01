@@ -20,10 +20,10 @@ export default class Sun extends SceneSetter {
       const theta = this.getProperty("theta");
       return Utils.rThetaPhiToXYZ(1, theta, Math.PI / 2);
     });
-    this.init();
+    this.setupControls();
   }
 
-  init() {
+  setupControls() {
     const changeDirection = t => {
       const newTheta = Utils.interpolate(-Math.PI, Math.PI, t);
       this.setProperty("theta", newTheta);
