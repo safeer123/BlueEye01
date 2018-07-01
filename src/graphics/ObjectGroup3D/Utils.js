@@ -1,9 +1,10 @@
-import { subtractVectors, cross } from "../lib/m4";
+import { subtractVectors, cross, normalize } from "../lib/m4";
 
-const surfaceNormal = (p1, p2, p3) => {
-  const a = subtractVectors(p1, p2);
-  const b = subtractVectors(p3, p2);
-  return cross(a, b);
+// p: list of 3 vec3
+const surfaceNormal = p => {
+  const a = subtractVectors(p[0], p[1]);
+  const b = subtractVectors(p[2], p[1]);
+  return normalize(cross(a, b));
 };
 
 export { surfaceNormal };

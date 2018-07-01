@@ -16,12 +16,21 @@ class VertexData {
   }
 }
 
+// Building Base for many 3D shapes
 // Defines a Trangle based mesh structure
 class TrMeshObject {
-  constructor() {
+  constructor(opts = null) {
     this.enableNormals = false; // default
     this.enableTexture = false; // default
     this.childList = [];
+    this.options = {};
+    this.setOptions(opts);
+  }
+
+  setOptions(opts = null) {
+    if (opts) {
+      this.options = { ...this.options, ...opts };
+    }
   }
 
   toArrayBuffer() {
@@ -43,8 +52,8 @@ class TrMeshObject {
           if (this.normal) {
             child.normal = this.normal;
           }
-          if (this.normalSameAsVertex) {
-            child.normalSameAsVertex = this.normalSameAsVertex;
+          if (this.getNormal) {
+            child.getNormal = this.getNormal;
           }
         }
 
