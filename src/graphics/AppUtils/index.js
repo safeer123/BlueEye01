@@ -98,6 +98,8 @@ Utils.FCache = new class {
   }
 }();
 
+// Spherical coordinates to cartesian coordinates
+// But here y is up, x is right, z head-looking direction for you
 Utils.rThetaPhiToXYZ = (r, theta, phi, cache = false) => {
   let sinFunc = Math.sin;
   let cosFunc = Math.cos;
@@ -110,6 +112,17 @@ Utils.rThetaPhiToXYZ = (r, theta, phi, cache = false) => {
     r * cosFunc(theta),
     r * sinFunc(theta) * sinFunc(phi)
   ];
+};
+
+// Cylidrical Coordinates, (y is up)
+Utils.rPhiYtoXYZ = (r, phi, y, cache = false) => {
+  let sinFunc = Math.sin;
+  let cosFunc = Math.cos;
+  if (cache) {
+    sinFunc = Utils.FCache.sin;
+    cosFunc = Utils.FCache.cos;
+  }
+  return [r * cosFunc(phi), y, r * sinFunc(phi)];
 };
 
 Utils.interpolate = (a, b, t) => {
