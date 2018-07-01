@@ -69,15 +69,17 @@ export default class ViewHolder extends GraphicsLayer {
       this.currentView.stop();
     }
     const CustomCanvasView = this.viewList[index];
-    this.currentView = this.createCanvasView(CustomCanvasView);
-    this.currentViewIndex = index;
-    // Concrete class must define createScene method
-    if (this.createScene) {
-      this.createScene();
-    }
-    // If there is a name for the view, show it
-    if (this.currentView.name) {
-      this.displayOutHandler([`Switched to ${this.currentView.name}`]);
+    if (this.createCanvasView) {
+      this.currentView = this.createCanvasView(CustomCanvasView);
+      this.currentViewIndex = index;
+      // Concrete class must define createScene method
+      if (this.createScene) {
+        this.createScene();
+      }
+      // If there is a name for the view, show it
+      if (this.currentView.name) {
+        this.displayOutHandler([`Switched to ${this.currentView.name}`]);
+      }
     }
   }
 
