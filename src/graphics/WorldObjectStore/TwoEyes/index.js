@@ -1,4 +1,3 @@
-import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
 import config from "./config";
 import OrientationListener from "../OrientationListener";
 import WOFACTORY from "../Factory";
@@ -9,12 +8,6 @@ import NodeTypes from "../constants/NodeTypes";
 export default class TwoEyes extends OrientationListener {
   constructor(inObj, configList = []) {
     super(inObj, [config, ...configList]);
-
-    const getTargetPos = cam => {
-      const relativeTargetPos = this.getProperty("relative_target_position");
-      const camPos = cam.getProperty("camera_position");
-      return subtractVectors(relativeTargetPos, camPos);
-    };
 
     const inObjForCam = { ...inObj, renderConfig: null };
     this.leftCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
@@ -29,7 +22,7 @@ export default class TwoEyes extends OrientationListener {
       return [-pupillaryDist * 0.5, 0, 0];
     });
     this.leftCamera.setPropertyGetter("target_position", () =>
-      getTargetPos(this.leftCamera)
+      this.getProperty("relative_target_position")
     );
     this.leftCamera.setProperty("up_vector", [0, 1, 0]);
 
@@ -38,7 +31,7 @@ export default class TwoEyes extends OrientationListener {
       return [pupillaryDist * 0.5, 0, 0];
     });
     this.rightCamera.setPropertyGetter("target_position", () =>
-      getTargetPos(this.rightCamera)
+      this.getProperty("relative_target_position")
     );
     this.rightCamera.setProperty("up_vector", [0, 1, 0]);
 
