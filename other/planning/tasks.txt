@@ -177,19 +177,72 @@ DONE ---> Fix: Fullscreen feature is broken
 DONE ---> all init for userControl setup should be renamed to setupControls()
 DONE ---> Fix: loader not coming on top when fullscreen
 DONE ---> swipe left and right distinction
+DONE ---> Refactor ObjectGroup3D files
+
+DONE ---> TrMeshObject
+	- we keep all parameters as options for the geometry
+	- setOptions method
+DONE ---> Fix: There is no scene on desktop at start up of TestView002
+
+DONE ---> Check if setInterval happens on a different thread ? Nope - JS is always single threaded
+
+DONE ---> Why we did not receive gamepaddisconnected event - we received
+DONE ---> decide where to loop the gamepad logic
+DONE ---> create a GamepadController
+	- getId
+	- we can register events, button id, event
+	- axis events
+DONE ---> a config file for this gamepad
+	- id
+	- buttons mapping
+	- axis mapping
+
 ===========================================
+	
 
-settle issues related to normals
+current phi, theta => relativePhi, relativeTheta
+define basePhi, baseTheta
+phi => basePhi + relativePhi, theta => baseTheta + relativeTheta
+basePhi and baseTheta are controlled by user input keys
+Add this logic on deviceOrienListener
+	
+What is unique id for a gamepad. Are we using it correclty for configuring.
 
-Geometry Objects: primary arguments, and inObj, setParams
+Cylindrical.js
+CylinderSurface3D
+ClosedCylinder3D
 
-Define Cylinder surface 2D
+New Scene
+	- a horizontal plane from x = -100 to x=100
+	- place objects on it
+	- bring cylinder on it
+	- bring sphere, box on it in one end
+	- move cylinder to the next position
 
-Define Disc Surface 2D
+Spherical.js
+HemisphereSurface3D
+ClosedHemisphere3D
 
+Planar.js
+DiscSurface3D
+Sector3D
+
+Other.js
 Define pipeSurface
 
-Closed Cylinder
+objects.js to ObjectGroup3D/index
+
+Remove enableNormals from ObjectRenderer, these flags should be bound to geometry and renderConfig
+
+define getColor for more flexibility on choosing the color
+
+controlModeObj: main_key and any secondary keys should work
+
+settle issues related to normals
+renderConfig supporting normals can have a setupGeometry(geometry => geometry.setOptions(...))
+enableNormals and enableTexture should be under options
+
+Geometry Objects: primary arguments, and inObj, setParams
 
 How to segregate files for Different Geometry
 
