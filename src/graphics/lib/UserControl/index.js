@@ -1,5 +1,8 @@
 import ControlModeManager from "./ControlModeManager";
 import DeviceOrientationFeed from "./DeviceOrientation";
+import GamepadControl from "./GamepadController";
+
+import configGP from "./CustomGamepadConfig/VRSHINECON";
 
 export default class KeyboardControl {
   constructor(sceneUpdater) {
@@ -11,32 +14,33 @@ export default class KeyboardControl {
     this.orientationFeed = new DeviceOrientationFeed();
     // this.displayDeviceOrientation();
 
-    this.gameControllerSetup();
+    GamepadControl.onConnected(e => this.displayOut(["Connected", e.name]));
+    GamepadControl.onDisconnected(e =>
+      this.displayOut(["Disconnected", e.name])
+    );
+    GamepadControl.registerGamepadConfig(configGP);
+    this.gamepadeKeySetup();
+  }
+
+  gamepadeKeySetup() {
+    const { controlModeMngr } = this;
+    GamepadControl.onButtonDown(configGP.Buttons.Y, () => {
+      controlModeMngr.onKeyDown("ArrowUp");
+    });
+    GamepadControl.onButtonDown(configGP.Buttons.A, () => {
+      controlModeMngr.onKeyDown("ArrowDown");
+    });
+    GamepadControl.onButtonDown(configGP.Buttons.X, () => {
+      controlModeMngr.onKeyDown("ArrowLeft");
+    });
+    GamepadControl.onButtonDown(configGP.Buttons.B, () => {
+      controlModeMngr.onKeyDown("ArrowRight");
+    });
   }
 
   listenToDeviceOrientation(listenerObj) {
     this.orientationFeed.addListener(listenerObj);
   }
-
-  gameControllerSetup = () => {
-    window.addEventListener("gamepadconnected", e => {
-      console.log(
-        "Gamepad connected at index %d: %s. %d buttons, %d axes.",
-        e.gamepad.index,
-        e.gamepad.id,
-        e.gamepad.buttons.length,
-        e.gamepad.axes.length
-      );
-    });
-
-    window.addEventListener("gamepaddisconnected", e => {
-      console.log(
-        "Gamepad disconnected from index %d: %s",
-        e.gamepad.index,
-        e.gamepad.id
-      );
-    });
-  };
 
   registerControlMode(key, controlModeObj) {
     const { controlModeMngr } = this;
@@ -94,5 +98,10 @@ export default class KeyboardControl {
 
   displayOut(displayOutList) {
     this.sceneUpdater(displayOutList);
+  }
+
+  // Main loop for user control
+  loop(timestamp) {
+    GamepadControl.loop();
   }
 }

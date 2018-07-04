@@ -25,8 +25,13 @@ export default class ViewHolder extends GraphicsLayer {
     }
   }
 
-  switchView = (dir = 1) => {
-    let nextIndex = (this.currentViewIndex + dir) % this.viewList.length;
+  // This is the main animation loop which gets invoked at screen refresh time
+  animationLoop(timestamp) {
+    if (this.userControl) this.userControl.loop(timestamp);
+  }
+
+  switchView = (step = 1) => {
+    let nextIndex = (this.currentViewIndex + step) % this.viewList.length;
     if (nextIndex < 0) nextIndex += this.viewList.length;
     this.setCurrentView(nextIndex);
   };
@@ -52,11 +57,11 @@ export default class ViewHolder extends GraphicsLayer {
   };
 
   handleGesture(gestureType, event) {
-    const dir = event.direction === Hammer.DIRECTION_LEFT ? 1 : -1;
+    const step = event.direction === Hammer.DIRECTION_LEFT ? 1 : -1;
     console.log(gestureType, event);
     switch (gestureType) {
       case GestureType.Swipe:
-        this.switchView(dir);
+        this.switchView(step);
         break;
       default:
         this.displayOutHandler([gestureType]);
@@ -71,19 +76,26 @@ export default class ViewHolder extends GraphicsLayer {
     const CustomCanvasView = this.viewList[index];
     if (this.createCanvasView) {
       this.currentView = this.createCanvasView(CustomCanvasView);
-      this.currentViewIndex = index;
-      // Concrete class must define createScene method
-      if (this.createScene) {
-        this.createScene();
-      }
-      // If there is a name for the view, show it
-      if (this.currentView.name) {
-        this.displayOutHandler([`Switched to ${this.currentView.name}`]);
+      if (this.currentView) {
+        this.currentView.registerAnimationLoop(this.animationLoop.bind(this));
+        this.currentViewIndex = index;
+        // Concrete class must define createScene method
+        if (this.createScene) {
+          this.createScene();
+        }
+        // If there is a name for the view, show it
+        if (this.currentView.name) {
+          this.displayOutHandler([`Switched to ${this.currentView.name}`]);
+        }
       }
     }
   }
 
-  /*
+  /* *** Methods expected from concrete implementation *******
+  createCanvasView(CustomCanvasView) { 
+    return new CustomCanvasView();
+  } // Should be overridden by concrete classes
+
   getViewList() {
     return [];
   } // Should be overridden by concrete classes

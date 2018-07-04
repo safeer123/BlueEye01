@@ -16,7 +16,13 @@ export default class CanvasView {
     // render loop initialization flag
     this.loopStarted = false;
 
+    // This will be garanteed to be invoked prior to render call
     this.preRender = preRender;
+
+    // Animation loop
+    // Will get called in requestAnimationFrame
+    // Timestamp is passed
+    this.animationLoop = null;
   }
 
   setName(name) {
@@ -36,6 +42,10 @@ export default class CanvasView {
 
   sceneUpdater() {
     this.renderOnce = true;
+  }
+
+  registerAnimationLoop(loop) {
+    this.animationLoop = loop;
   }
 
   getSceneUpdater() {
@@ -62,8 +72,11 @@ export default class CanvasView {
     if (Math.abs(this.prevTimeStamp - timeStamp) < 20) {
       return;
     }
-    this.prevTimeStamp = timeStamp;
+    // If there is animationLoop call this here
+    if (this.animationLoop) this.animationLoop(timeStamp);
     this.render();
+
+    this.prevTimeStamp = timeStamp;
   }
 
   start() {

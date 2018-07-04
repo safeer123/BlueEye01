@@ -5,6 +5,10 @@ export default class ControlModeManager {
     this.defaultMode = {};
   }
 
+  // Register a Control Mode
+  // key: What key should be bound to use this control
+  // controlModeObj: object having details what to perform when this control is selected
+  // controlModeObj { modeName: "ModeX", main: () => {}, ArrowLeftRight: () => {} }
   createControlMode(key, controlModeObj) {
     this.controlModes[key] = controlModeObj;
     if (key === "default") {
