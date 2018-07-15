@@ -1,29 +1,31 @@
 const Buttons = {
-  X: "X",
-  Y: "Y",
-  A: "A",
-  B: "B",
+  x: "x",
+  y: "y",
+  a: "a",
+  b: "b",
   SELECT: "SELECT",
   ESC: "ESC"
 };
 
-const Joysticks = {
-  JSTICK: "JSTICK"
+const Axes = {
+  AxisX: "AxisX",
+  AxisY: "AxisY"
 };
 
 const mapping = {
-  id: "XYZ",
+  gpid: "VRSHINECON",
   buttonMapping: {
-    [Buttons.X]: 2,
-    [Buttons.Y]: 3,
-    [Buttons.A]: 0,
-    [Buttons.B]: 1,
-    [Buttons.SELECT]: 4,
-    [Buttons.ESC]: 5
+    0: Buttons.a,
+    1: Buttons.b,
+    2: Buttons.x,
+    3: Buttons.y,
+    4: Buttons.SELECT,
+    5: Buttons.ESC
   },
-  JoystickMapping: {
-    [Joysticks.JSTICK]: 0
+  axesMapping: {
+    0: Axes.AxisX,
+    1: Axes.AxisY
   }
 };
 
-export default { Buttons, Joysticks, mapping };
+export default { Buttons, Axes, mapping };
