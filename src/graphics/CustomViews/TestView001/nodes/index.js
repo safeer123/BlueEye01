@@ -56,12 +56,12 @@ export default function getNodes(inpObj) {
   const oneEyeCam = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
   oneEyeCam.setProperty("position", [0, 0, 40]);
   oneEyeCam.setProperty("radius", 40);
-  oneEyeCam.setProperty("initial_phi", 1.5 * Math.PI);
+  oneEyeCam.setProperty("base_phi", 1.5 * Math.PI);
 
   const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
   twoEyes.setProperty("position", [0, 0, 40]);
   twoEyes.setProperty("radius", 40);
-  oneEyeCam.setProperty("initial_phi", 1.5 * Math.PI);
+  oneEyeCam.setProperty("base_phi", 1.5 * Math.PI);
 
   // Animation
   let theta = 0;
