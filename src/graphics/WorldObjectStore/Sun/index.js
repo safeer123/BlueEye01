@@ -5,6 +5,7 @@ import config from "./config";
 import Utils from "../../AppUtils";
 import OBJ2D from "../../ObjectGroup2D/objects";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
+import { PrimaryKeys, SecondaryKeys } from "../../lib/UserControl/constants";
 
 export default class Sun extends SceneSetter {
   constructor(inObj, configList = []) {
@@ -20,34 +21,33 @@ export default class Sun extends SceneSetter {
       const theta = this.getProperty("theta");
       return Utils.rThetaPhiToXYZ(1, theta, Math.PI / 2);
     });
+
+    this.setPropertyGetter("isDay", () => {
+      const theta = this.getProperty("theta");
+      return theta > Math.PI * 0.5 || theta < -Math.PI * 0.5;
+    });
+
     this.setupControls();
   }
 
   setupControls() {
-    const changeDirection = t => {
-      const newTheta = Utils.interpolate(-Math.PI, Math.PI, t);
+    const modeName = "Sun Direction";
+    const DTHETA = 0.01;
+    const changeDirection = dt => {
+      const newTheta = this.getProperty("theta") + dt;
       this.setProperty("theta", newTheta);
-      if (newTheta > Math.PI / 2 || newTheta < -Math.PI / 2) {
-        this.setProperty("isDay", false);
-      } else {
-        this.setProperty("isDay", true);
-      }
-      const sunAngle = Utils.radToDeg(this.getProperty("theta"));
-      return [`θ: ${sunAngle}°`];
     };
     const summary = () => {
       const sunAngle = Utils.radToDeg(this.getProperty("theta"));
       return [`Sun Orientation: (θ: ${sunAngle}°)`];
     };
     const keyControlObject = {
-      ArrowLeftRight: {
-        t: 0,
-        dt: 0.02,
-        cb: changeDirection
-      },
+      modeName,
+      [SecondaryKeys.ArrowLeft]: () => changeDirection(-DTHETA),
+      [SecondaryKeys.ArrowRight]: () => changeDirection(DTHETA),
       summary
     };
-    this.userControl.registerControlMode("s", keyControlObject);
+    this.userControl.registerControlMode(PrimaryKeys.s, keyControlObject);
 
     // Create sky color for background
     this.objRenderer.setUniformGetter(SHADER_VARS.u_color, () => {

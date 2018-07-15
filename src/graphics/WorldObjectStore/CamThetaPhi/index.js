@@ -2,6 +2,7 @@ import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
 import config from "./config";
 import Camera from "../AbstractCamera";
 import Utils from "../../AppUtils";
+import { SecondaryKeys } from "../../lib/UserControl/constants";
 
 export default class CamThetaPhi extends Camera {
   constructor(inObj, configList = []) {
@@ -38,40 +39,30 @@ export default class CamThetaPhi extends Camera {
   }
 
   setupControls() {
-    const getThetaAt = t => Utils.interpolate(0, Math.PI, t);
-    const getPhiAt = t => Utils.interpolate(2 * Math.PI, 0, t);
-
     const modeName = "Camera-θφ";
-    const displayAngles = () => {
+    const DPHI = 0.01;
+    const DTHETA = 0.01;
+    const phiPlus = dPhi => {
+      const phi = (this.getProperty("phi") + dPhi) % (2 * Math.PI);
+      this.setProperty("phi", phi);
+    };
+    const thetaPlus = dTheta => {
+      const theta = (this.getProperty("theta") + dTheta) % Math.PI;
+      this.setProperty("theta", theta);
+    };
+    const summary = () => {
       const phiInDeg = Utils.radToDeg(this.getProperty("phi"));
       const thetaInDeg = Utils.radToDeg(this.getProperty("theta"));
       return [modeName, `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`];
     };
-    const changePhi = t => {
-      this.setProperty("phi", getPhiAt(t));
-      return displayAngles();
-    };
-    const changeTheta = t => {
-      this.setProperty("theta", getThetaAt(t));
-      return displayAngles();
-    };
     const keyControlObject = {
-      modeName: "Camera-ThetaPhi",
-      ArrowLeftRight: {
-        t: 0,
-        dt: 0.01,
-        cb: changePhi
-      },
-      ArrowUpDown: {
-        t: 0.4,
-        dt: 0.01,
-        cb: changeTheta
-      }
+      modeName,
+      [SecondaryKeys.ArrowLeft]: () => phiPlus(-DPHI),
+      [SecondaryKeys.ArrowRight]: () => phiPlus(DPHI),
+      [SecondaryKeys.ArrowUp]: () => thetaPlus(-DTHETA),
+      [SecondaryKeys.ArrowDown]: () => thetaPlus(DTHETA),
+      summary
     };
     this.userControl.registerControlMode("default", keyControlObject);
-
-    // initialize the userControl Init values
-    this.setProperty("theta", getThetaAt(0.4));
-    this.setProperty("phi", getThetaAt(0));
   }
 }

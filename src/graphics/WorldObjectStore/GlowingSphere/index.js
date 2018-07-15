@@ -4,6 +4,7 @@ import Utils from "../../AppUtils";
 import WOFACTORY from "../Factory";
 import NodeTypes from "../constants/NodeTypes";
 import WorldObject from "../../WorldObject";
+import { PrimaryKeys, SecondaryKeys } from "../../lib/UserControl/constants";
 
 export default class GlowingSphere extends WorldObject {
   constructor(inObj, configList = []) {
@@ -43,45 +44,35 @@ export default class GlowingSphere extends WorldObject {
   }
 
   setupControls() {
-    const getXAt = t => Utils.interpolate(0, 20, t);
-    const getZAt = t => Utils.interpolate(0, 20, t);
-
-    const modeNameDisplay = "GlowingSphere";
-    const changeX = t => {
+    const modeName = "GlowingSphere Position";
+    const DX = 0.5;
+    const DZ = 0.5;
+    const xPlus = dx => {
       const translation = this.getProperty("translation");
-      translation[0] = getXAt(t).toFixed(2);
+      translation[0] += dx;
       this.setProperty("translation", translation);
-      return [`X: ${translation[0]}`];
     };
-    const changeZ = t => {
+    const zPlus = dz => {
       const translation = this.getProperty("translation");
-      translation[2] = getZAt(t).toFixed(2);
+      translation[2] += dz;
       this.setProperty("translation", translation);
-      return [`Z: ${translation[2]}`];
     };
     const summary = () => {
       const translation = this.getProperty("translation");
       return [
-        `${modeNameDisplay}: (X: ${translation[0]}, Z: ${translation[2]})`
+        `${modeName}:`,
+        `(X: ${translation[0].toFixed(2)}, Z: ${translation[2].toFixed(2)})`
       ];
     };
     const keyControlObject = {
-      modeName: "GlowingSpherePosition",
-      ArrowLeftRight: {
-        t: 0,
-        dt: 0.01,
-        cb: changeX
-      },
-      ArrowUpDown: {
-        t: 0,
-        dt: 0.01,
-        cb: changeZ
-      },
+      modeName,
+      main: () => [modeName],
+      [SecondaryKeys.ArrowLeft]: () => xPlus(-DX),
+      [SecondaryKeys.ArrowRight]: () => xPlus(DX),
+      [SecondaryKeys.ArrowUp]: () => zPlus(DZ),
+      [SecondaryKeys.ArrowDown]: () => zPlus(-DZ),
       summary
     };
-    this.userControl.registerControlMode("l", keyControlObject);
-
-    // initialize the userControl Init values
-    this.setProperty("translation", [getXAt(0.5), 10, getZAt(0)]);
+    this.userControl.registerControlMode(PrimaryKeys.a, keyControlObject);
   }
 }

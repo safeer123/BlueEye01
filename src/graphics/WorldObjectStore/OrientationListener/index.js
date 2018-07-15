@@ -37,41 +37,51 @@ export default class OrientationListener extends WorldObject {
       const relativeTargetPos = this.getProperty("relative_target_position");
       return addVectors(position, relativeTargetPos);
     });
+
+    this.setPropertyGetter("phi", () =>
+      Utils.clampTo0And2PI(
+        this.getProperty("base_phi") + this.getProperty("relative_phi")
+      )
+    );
+
+    this.setPropertyGetter(
+      "theta",
+      () => this.getProperty("base_theta") + this.getProperty("relative_theta")
+    );
   }
 
   listentToOrientationChange() {
-    const initialPhi = this.getProperty("initial_phi");
+    const initialPhi = this.getProperty("base_phi");
     this.setProperty("phi", initialPhi);
     let phiRef;
 
     const toPhiInDeg = (gamma, alpha) =>
       360 - (gamma > 0 ? alpha + 180 : alpha) % 360;
 
-    const handleChange = obj => {
-      const { alpha, beta, gamma } = obj;
+    const handleChange = e => {
+      const { alpha, beta, gamma } = e;
       if (!alpha || !beta || !gamma) return;
 
-      // calculate phi from alpha value
-      // We consider relative phi around initial phi that we set as property
+      // calculate relative phi from alpha value
       const phiInDeg = toPhiInDeg(gamma, alpha);
       const phiNew = Utils.degToRad(phiInDeg);
       if (phiRef === undefined) phiRef = phiNew; // Initialize phiRef
-      const phi = Utils.clampTo0And2PI(initialPhi + (phiNew - phiRef));
+      const relativePhi = phiNew - phiRef;
 
-      // Calculate theta from gamma value
+      // Calculate relative theta from gamma value
       const thetaInDeg = gamma > 0 ? gamma : 180 + gamma;
-      const theta = Utils.degToRad(thetaInDeg);
+      const relativeTheta = Utils.degToRad(thetaInDeg) - Math.PI * 0.5;
 
-      this.setProperty("phi", phi);
-      this.setProperty("theta", theta);
+      this.setProperty("relative_phi", relativePhi);
+      this.setProperty("relative_theta", relativeTheta);
       this.setProperty("up_vector", [0, 1, 0]);
 
       const displayOutList = [
         `alpha: ${parseFloat(alpha).toFixed(2)}`,
         `gamma: ${parseFloat(gamma).toFixed(2)}`,
         `phiNew: ${parseFloat(phiNew).toFixed(2)}`,
-        `phi: ${parseFloat(phi).toFixed(2)}`,
-        `theta: ${parseFloat(theta).toFixed(2)}`
+        `phi: ${parseFloat(relativePhi).toFixed(2)}`,
+        `theta: ${parseFloat(relativeTheta).toFixed(2)}`
       ];
       // this.userControl.displayOut(displayOutList);
     };

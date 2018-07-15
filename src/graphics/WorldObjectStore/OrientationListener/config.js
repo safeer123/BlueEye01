@@ -42,9 +42,24 @@ const config = {
       max: 200
     },
     {
-      name: "initial_phi",
+      name: "base_phi",
       type: "float",
       value: 1.5 * Math.PI
+    },
+    {
+      name: "base_theta",
+      type: "float",
+      value: 0.5 * Math.PI
+    },
+    {
+      name: "relative_phi",
+      type: "float",
+      value: 0
+    },
+    {
+      name: "relative_theta",
+      type: "float",
+      value: 0
     }
   ]
 };

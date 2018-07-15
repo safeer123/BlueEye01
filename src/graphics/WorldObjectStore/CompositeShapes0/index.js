@@ -3,6 +3,7 @@ import WorldObject from "../../WorldObject";
 import OBJ0 from "../../ObjectGroup3D/objects";
 import config from "./config";
 import Utils from "../../AppUtils";
+import { PrimaryKeys, SecondaryKeys } from "../../lib/UserControl/constants";
 
 export default class CompositeShape extends WorldObject {
   constructor(inObj, configList = []) {
@@ -123,43 +124,31 @@ export default class CompositeShape extends WorldObject {
   }
 
   setupControls() {
-    const getThetaAt = t => Utils.interpolate(0, Math.PI, t);
-    const getPhiAt = t => Utils.interpolate(2 * Math.PI, 0, t);
-
-    const modeNameDisplay = "Composite Shapes";
-    const changePhi = t => {
-      this.setProperty("phi", getPhiAt(t));
-      const phiInDeg = Utils.radToDeg(this.getProperty("phi"));
-      return [`φ: ${phiInDeg}°`];
+    const modeName = "Composite Shapes Rotation";
+    const DPHI = 0.01;
+    const DTHETA = 0.01;
+    const phiPlus = dPhi => {
+      const phi = (this.getProperty("phi") + dPhi) % (2 * Math.PI);
+      this.setProperty("phi", phi);
     };
-    const changeTheta = t => {
-      this.setProperty("theta", getThetaAt(t));
-      const thetaInDeg = Utils.radToDeg(this.getProperty("theta"));
-      return [`θ: ${thetaInDeg}°`];
+    const thetaPlus = dTheta => {
+      const theta = (this.getProperty("theta") + dTheta) % (2 * Math.PI);
+      this.setProperty("theta", theta);
     };
     const summary = () => {
       const theta = Utils.radToDeg(this.getProperty("theta"));
       const phi = Utils.radToDeg(this.getProperty("phi"));
-      return [`${modeNameDisplay} (φ: ${phi}°, θ: ${theta})°`];
+      return [`${modeName}`, `(φ: ${phi}°, θ: ${theta})°`];
     };
     const keyControlObject = {
-      modeName: "CompositeObjs",
-      ArrowLeftRight: {
-        t: 0,
-        dt: 0.01,
-        cb: changePhi
-      },
-      ArrowUpDown: {
-        t: 0.4,
-        dt: 0.01,
-        cb: changeTheta
-      },
+      modeName,
+      main: () => [modeName],
+      [SecondaryKeys.ArrowLeft]: () => phiPlus(-DPHI),
+      [SecondaryKeys.ArrowRight]: () => phiPlus(DPHI),
+      [SecondaryKeys.ArrowUp]: () => thetaPlus(-DTHETA),
+      [SecondaryKeys.ArrowDown]: () => thetaPlus(DTHETA),
       summary
     };
-    this.userControl.registerControlMode("c", keyControlObject);
-
-    // initialize the userControl Init values
-    this.setProperty("theta", getThetaAt(0.4));
-    this.setProperty("phi", getThetaAt(0));
+    this.userControl.registerControlMode(PrimaryKeys.c, keyControlObject);
   }
 }
