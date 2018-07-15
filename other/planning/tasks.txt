@@ -197,14 +197,27 @@ DONE ---> a config file for this gamepad
 	- buttons mapping
 	- axis mapping
 
-===========================================
+DONE ---> current phi, theta => relativePhi, relativeTheta
+	define basePhi, baseTheta
+	phi => basePhi + relativePhi, theta => baseTheta + relativeTheta
+	Add this logic in deviceOrienListener
+DONE ---> Refactored GamePad Controller class
+	It should just emit events just like keyboard events
 	
+DONE ---> Discard stepChange method in UserControl. No normalized t. // DONE
+DONE ---> Keep seperate ArrowLeft and ArrowRight methods // DONE
+DONE ---> All incremental logic should go within the WO // DONE
+DONE ---> controlModeObj: main_key and pre-defined secondary keys should work // DONE
+===========================================
 
-current phi, theta => relativePhi, relativeTheta
-define basePhi, baseTheta
-phi => basePhi + relativePhi, theta => baseTheta + relativeTheta
-basePhi and baseTheta are controlled by user input keys
-Add this logic on deviceOrienListener
+
+
+Integrate Axis values with TwoEyes base angles
+
+bring UserCOntrol folder outside lib
+
+
+TwoEyes: basePhi and baseTheta are controlled by user input keys
 	
 What is unique id for a gamepad. Are we using it correclty for configuring.
 
@@ -236,7 +249,7 @@ Remove enableNormals from ObjectRenderer, these flags should be bound to geometr
 
 define getColor for more flexibility on choosing the color
 
-controlModeObj: main_key and any secondary keys should work
+
 
 settle issues related to normals
 renderConfig supporting normals can have a setupGeometry(geometry => geometry.setOptions(...))
@@ -290,8 +303,6 @@ Consider re-using one scene for all views
 Create one/few super scenes and clone from them
 
 Try generating key-index https://menubar.io/react-keys-index
-
-Discard stepChange method in UserControl. No normalized t.
 
 Fix: Theta stoping at 2pi and cant rotate further
 
