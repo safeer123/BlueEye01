@@ -2,8 +2,9 @@ class GamepadController {
   constructor() {
     this.connectedGamepads = [];
     this.gpConfig = null;
-    this.buttonHandlerList = {};
-    this.JoystickHandlerList = {};
+
+    // Previous state of buttons and axes
+    this.prevState = {};
 
     // If we gave gamepad API
     if ("getGamepads" in navigator) {
@@ -26,7 +27,9 @@ class GamepadController {
   }
 
   // TODO: check if the config id matching with this gamepad
-  idMatchingWithGamepadConnected() {
+  getGpConfig(id) {
+    // For now just retun the existing configuration
+    // Ideally we should compare id and return the correct config if we have
     return this.gpConfig;
   }
 
@@ -37,20 +40,29 @@ class GamepadController {
       gamepads.forEach(gamepad => {
         const { index, id } = gamepad;
 
-        if (this.idMatchingWithGamepadConnected(id)) {
-          Object.entries(this.buttonHandlerList).forEach(btn => {
-            const key = btn[0];
-            const handlerObj = btn[1];
-            const btnIndex = this.gpConfig.mapping.buttonMapping[key];
-            if (btnIndex !== undefined) {
-              const buttonState = gamepad.buttons[btnIndex];
-              const isPressed = buttonState.pressed;
-              if (isPressed) {
-                if (handlerObj.down) handlerObj.down(buttonState);
-                handlerObj.isPressed = true;
-              } else if (handlerObj.isPressed) {
-                if (handlerObj.up) handlerObj.up(buttonState);
-                handlerObj.isPressed = false;
+        const config = this.getGpConfig(id);
+        if (config) {
+          const { gpid, buttonMapping, axesMapping } = config.mapping;
+
+          if (!this.prevState[gpid])
+            this.defineState(
+              gpid,
+              Object.keys(buttonMapping),
+              Object.keys(axesMapping)
+            );
+
+          Object.keys(buttonMapping).forEach(bi => {
+            if (bi in gamepad.buttons) {
+              const { pressed } = gamepad.buttons[bi];
+              // If previous state is defined
+              const pressedBefore = this.prevState[gpid].btn[bi].pressed;
+              if (pressed !== pressedBefore) {
+                const key = buttonMapping[bi];
+                const e = { pressed, index: bi, key };
+                if (pressed && this.buttonDown) this.buttonDown(e);
+                if (!pressed && this.buttonUp) this.buttonUp(e);
+
+                this.prevState[gpid].btn[bi].pressed = pressed;
               }
             }
           });
@@ -82,29 +94,31 @@ class GamepadController {
     */
   }
 
+  defineState(id, btns, axes) {
+    const stateObj = { btn: {}, axs: {} };
+    btns.forEach(bi => {
+      stateObj.btn[bi] = { pressed: false };
+    });
+    axes.forEach(ai => {
+      stateObj.axs[ai] = { value: 0.0 };
+    });
+    this.prevState[id] = stateObj;
+  }
+
   registerGamepadConfig(config) {
     this.gpConfig = config;
   }
 
-  onButtonDown(key, cb) {
-    this.buttonHandlerList[key] = {
-      ...this.buttonHandlerList[key],
-      down: cb
-    };
+  onButtonDown(cb) {
+    this.buttonDown = cb;
   }
 
-  onButtonUp(key, cb) {
-    this.buttonHandlerList[key] = {
-      ...this.buttonHandlerList[key],
-      up: cb
-    };
+  onButtonUp(cb) {
+    this.buttonUp = cb;
   }
 
-  onJoystickChanged(key, cb) {
-    this.JoystickHandlerList[key] = {
-      ...this.JoystickHandlerList[key],
-      valueChanged: cb
-    };
+  onAxisValueChanged(cb) {
+    this.axisValueChanged = cb;
   }
 
   onConnected(cb) {

@@ -24,17 +24,14 @@ export default class KeyboardControl {
 
   gamepadeKeySetup() {
     const { controlModeMngr } = this;
-    GamepadControl.onButtonDown(configGP.Buttons.Y, () => {
-      controlModeMngr.onKeyDown("ArrowUp");
+    GamepadControl.onButtonDown(e => {
+      // console.log("Button Down", e);
+      const displayOutList = controlModeMngr.onKeyDown(e.key);
+      this.sceneUpdater(displayOutList);
     });
-    GamepadControl.onButtonDown(configGP.Buttons.A, () => {
-      controlModeMngr.onKeyDown("ArrowDown");
-    });
-    GamepadControl.onButtonDown(configGP.Buttons.X, () => {
-      controlModeMngr.onKeyDown("ArrowLeft");
-    });
-    GamepadControl.onButtonDown(configGP.Buttons.B, () => {
-      controlModeMngr.onKeyDown("ArrowRight");
+    GamepadControl.onButtonUp(e => {
+      // console.log("Button Up", e);
+      controlModeMngr.onKeyUp(e.key);
     });
   }
 
@@ -45,6 +42,11 @@ export default class KeyboardControl {
   registerControlMode(key, controlModeObj) {
     const { controlModeMngr } = this;
     controlModeMngr.createControlMode(key, controlModeObj);
+  }
+
+  clearControlModes() {
+    const { controlModeMngr } = this;
+    controlModeMngr.clearControlModes();
   }
 
   listenToKeys() {
