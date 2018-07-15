@@ -72,6 +72,7 @@ export default class ViewHolder extends GraphicsLayer {
   setCurrentView(index) {
     if (this.currentView) {
       this.currentView.stop();
+      this.userControl.clearControlModes();
     }
     const CustomCanvasView = this.viewList[index];
     if (this.createCanvasView) {
