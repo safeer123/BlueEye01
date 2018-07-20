@@ -8,30 +8,32 @@ export default class KeyboardControl {
   constructor(sceneUpdater) {
     this.sceneUpdater = sceneUpdater;
     this.controlModeMngr = new ControlModeManager();
-
-    this.listenToKeys();
-
     this.orientationFeed = new DeviceOrientationFeed();
     // this.displayDeviceOrientation();
+    this.listenToKeys();
+  }
 
+  gamepadControllerSetup() {
     GamepadControl.onConnected(e => this.displayOut(["Connected", e.name]));
     GamepadControl.onDisconnected(e =>
       this.displayOut(["Disconnected", e.name])
     );
     GamepadControl.registerGamepadConfig(configGP);
-    this.gamepadeKeySetup();
-  }
 
-  gamepadeKeySetup() {
     const { controlModeMngr } = this;
     GamepadControl.onButtonDown(e => {
-      // console.log("Button Down", e);
+      // console.log("GP Button Down: ", e);
       const displayOutList = controlModeMngr.onKeyDown(e.key);
       this.sceneUpdater(displayOutList);
     });
     GamepadControl.onButtonUp(e => {
-      // console.log("Button Up", e);
+      // console.log("GP Button Up: ", e);
       controlModeMngr.onKeyUp(e.key);
+    });
+    GamepadControl.onAxisValueChanged(e => {
+      // console.log("GP Axis: ", e);
+      const { axisName, value } = e;
+      controlModeMngr.onAxisValueChanged(axisName, value);
     });
   }
 
@@ -72,6 +74,9 @@ export default class KeyboardControl {
 
       controlModeMngr.onKeyUp(keyName);
     });
+
+    // listen to Gamepad controller
+    this.gamepadControllerSetup();
   }
 
   getKeyName = event => {

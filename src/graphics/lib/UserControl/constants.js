@@ -46,7 +46,9 @@ const SecondaryKeys = {
   ArrowLeft: "ArrowLeft",
   ArrowRight: "ArrowRight",
   ArrowUp: "ArrowUp",
-  ArrowDown: "ArrowDown"
+  ArrowDown: "ArrowDown",
+  AxisX: "AxisX",
+  AxisY: "AxisY"
 };
 
 export { MasterPrimaryKeys, PrimaryKeys, SecondaryKeys };

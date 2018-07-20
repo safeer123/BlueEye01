@@ -70,4 +70,25 @@ export default class ControlModeManager {
       this.currentModeKey = "default";
     }
   }
+
+  onAxisValueChanged(axisName, value) {
+    const { controlModes } = this;
+    if (this.isSecondaryKey(axisName)) {
+      const modes = controlModes[this.currentModeKey];
+      if (modes) {
+        const displayOutList = [];
+        modes.forEach(mode => {
+          if (mode[axisName]) {
+            mode[axisName](value);
+            if (mode.summary) {
+              const summaryOut = mode.summary();
+              if (summaryOut) displayOutList.push(...summaryOut);
+            }
+          }
+        });
+        return displayOutList;
+      }
+    }
+    return null;
+  }
 }

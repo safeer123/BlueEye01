@@ -1,3 +1,6 @@
+// Error in axis values of the gamepad
+const AxisError = 0.005;
+
 class GamepadController {
   constructor() {
     this.connectedGamepads = [];
@@ -18,7 +21,7 @@ class GamepadController {
       window.setInterval(() => {
         if (navigator.getGamepads()[0]) {
           if (!this.gamepadDetected) {
-            console.log("GAMEPAD DETECTED INSIDE SET INTERVAL LOOP...");
+            console.log("GAMEPAD DETECTED INSIDE SETINTERVAL LOOP...");
             this.handleNewConnection({ gamepad: navigator.getGamepads()[0] });
           }
         }
@@ -32,6 +35,8 @@ class GamepadController {
     // Ideally we should compare id and return the correct config if we have
     return this.gpConfig;
   }
+
+  isGoodAxisValue = val => Math.abs(val) > AxisError;
 
   loop() {
     if (navigator.getGamepads().length > 0) {
@@ -51,10 +56,10 @@ class GamepadController {
               Object.keys(axesMapping)
             );
 
+          // Process button events
           Object.keys(buttonMapping).forEach(bi => {
             if (bi in gamepad.buttons) {
               const { pressed } = gamepad.buttons[bi];
-              // If previous state is defined
               const pressedBefore = this.prevState[gpid].btn[bi].pressed;
               if (pressed !== pressedBefore) {
                 const key = buttonMapping[bi];
@@ -66,32 +71,30 @@ class GamepadController {
               }
             }
           });
+
+          // Process axes events
+          Object.keys(axesMapping).forEach(ai => {
+            if (ai in gamepad.axes) {
+              // console.log("Axis value: " + gamepad.axes[ai]);
+              const value = this.isGoodAxisValue(gamepad.axes[ai])
+                ? gamepad.axes[ai]
+                : 0;
+              const valueBefore = this.prevState[gpid].axs[ai].value;
+              if (
+                this.isGoodAxisValue(value) ||
+                this.isGoodAxisValue(valueBefore)
+              ) {
+                const axisName = axesMapping[ai];
+                const e = { value, index: ai, axisName };
+                if (this.axisValueChanged) this.axisValueChanged(e);
+
+                this.prevState[gpid].btn[ai].value = value;
+              }
+            }
+          });
         }
       });
     }
-
-    /*
-    let gp = navigator.getGamepads()[0];
-    let html = "";
-    html += "id: " + gp.id + "<br/>";
-
-    for (var i = 0; i < gp.buttons.length; i++) {
-      html += "Button " + (i + 1) + ": ";
-      if (gp.buttons[i].pressed) html += " pressed";
-      html += "<br/>";
-    }
-
-    for (var i = 0; i < gp.axes.length; i += 2) {
-      html +=
-        "Stick " +
-        (Math.ceil(i / 2) + 1) +
-        ": " +
-        gp.axes[i] +
-        "," +
-        gp.axes[i + 1] +
-        "<br/>";
-    }
-    */
   }
 
   defineState(id, btns, axes) {
@@ -122,20 +125,20 @@ class GamepadController {
   }
 
   onConnected(cb) {
-    this.handleConnected = cb;
+    this.notifyConnected = cb;
   }
 
   onDisconnected(cb) {
-    this.handleDisconnected = cb;
+    this.notifyDisconnected = cb;
   }
 
   handleDisconnection = e => {
     this.gamepadDetected = false;
     console.log("gamepad disconnected.");
-    if (this.handleDisconnected && e && e.gamepad) {
+    if (this.notifyDisconnected && e && e.gamepad) {
       const name = e.gamepad.id;
       const index = e.gamepad.index;
-      this.handleDisconnected({ name, index });
+      this.notifyDisconnected({ name, index });
     }
     // window.clearInterval(repGP);
   };
@@ -143,10 +146,10 @@ class GamepadController {
   handleNewConnection = e => {
     this.gamepadDetected = true;
     console.log("gamepad connected.");
-    if (this.handleConnected && e && e.gamepad) {
+    if (this.notifyConnected && e && e.gamepad) {
       const name = e.gamepad.id;
       const index = e.gamepad.index;
-      this.handleConnected({ name, index });
+      this.notifyConnected({ name, index });
       this.connectedGamepads[index] = e.gamepad;
     }
     // repGP = window.setInterval(reportOnGamepad, 100);
