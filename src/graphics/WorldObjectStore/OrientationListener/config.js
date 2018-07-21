@@ -65,6 +65,11 @@ const config = {
       name: "relative_theta",
       type: "float",
       value: 0
+    },
+    {
+      name: "omega",
+      type: "float",
+      value: 0
     }
   ]
 };

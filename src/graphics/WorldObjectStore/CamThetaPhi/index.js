@@ -1,4 +1,4 @@
-import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
+import { addVectors, Matrix4 } from "../../lib/m4";
 import config from "./config";
 import Camera from "../AbstractCamera";
 import Utils from "../../AppUtils";
@@ -21,18 +21,11 @@ export default class CamThetaPhi extends Camera {
     });
 
     this.setPropertyGetter("up_vector", () => {
-      // (r, theta, phi) to (r, theta-dtheta, phi)
-      const sphericalPosDown = Utils.rThetaPhiToXYZ(
-        this.getProperty("radius"),
-        this.getProperty("theta"),
-        this.getProperty("phi")
-      );
-      const sphericalPosUp = Utils.rThetaPhiToXYZ(
-        this.getProperty("radius"),
-        this.getProperty("theta") - 0.01,
-        this.getProperty("phi")
-      );
-      return normalize(subtractVectors(sphericalPosUp, sphericalPosDown));
+      const upVec = [0, 1, 0];
+      const theta = this.getProperty("theta");
+      const phi = this.getProperty("phi");
+      const mtx4 = new Matrix4().zRotate(0.5 * Math.PI - theta).yRotate(-phi);
+      return mtx4.apply(upVec);
     });
 
     this.setupControls();

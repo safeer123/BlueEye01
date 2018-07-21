@@ -1,4 +1,10 @@
-import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
+import {
+  m4,
+  addVectors,
+  Matrix4,
+  subtractVectors,
+  normalize
+} from "../../lib/m4";
 import config from "./config";
 import WorldObject from "../../WorldObject";
 import Utils from "../../AppUtils";
@@ -64,12 +70,25 @@ export default class OrientationListener extends WorldObject {
       "theta",
       () => this.getProperty("base_theta") + this.getProperty("relative_theta")
     );
+
+    // Calculate Up vector from theta, phi and omega
+    this.setPropertyGetter("up_vector", () => {
+      const upVec = [0, 1, 0];
+      const omega = this.getProperty("omega");
+      const theta = this.getProperty("theta");
+      const phi = this.getProperty("phi");
+      const mtx4 = new Matrix4()
+        .xRotate(omega)
+        .zRotate(0.5 * Math.PI - theta)
+        .yRotate(-phi);
+      return mtx4.apply(upVec);
+    });
   }
 
   listentToOrientationChange() {
     const initialPhi = this.getProperty("base_phi");
     this.setProperty("phi", initialPhi);
-    let phiRef;
+    let phiAtStart;
 
     const toPhiInDeg = (gamma, alpha) =>
       360 - (gamma > 0 ? alpha + 180 : alpha) % 360;
@@ -80,9 +99,9 @@ export default class OrientationListener extends WorldObject {
 
       // calculate relative phi from alpha value
       const phiInDeg = toPhiInDeg(gamma, alpha);
-      const phiNew = Utils.degToRad(phiInDeg);
-      if (phiRef === undefined) phiRef = phiNew; // Initialize phiRef
-      const relativePhi = parseFloat(phiNew - phiRef);
+      const phi = Utils.degToRad(phiInDeg);
+      if (phiAtStart === undefined) phiAtStart = phi; // Initialize phiAtStart
+      const relativePhi = parseFloat(phi - phiAtStart);
 
       // Calculate relative theta from gamma value
       const thetaInDeg = gamma > 0 ? gamma : 180 + gamma;
@@ -90,26 +109,31 @@ export default class OrientationListener extends WorldObject {
         Utils.degToRad(thetaInDeg) - Math.PI * 0.5
       );
 
+      // Calculate Omega, this is head rotation w.r.t lookat axis
+      const omega = Utils.degToRad(gamma > 0 ? 180 - beta : beta);
+
       const prevRelativePhi = this.getProperty("relative_phi");
       const prevRelativeTheta = this.getProperty("relative_theta");
+      const prevOmega = this.getProperty("omega");
       if (Math.abs(relativePhi - prevRelativePhi) > AngleError) {
         this.setProperty("relative_phi", relativePhi);
       }
       if (Math.abs(relativeTheta - prevRelativeTheta) > AngleError) {
         this.setProperty("relative_theta", relativeTheta);
       }
-      this.setProperty("up_vector", [0, 1, 0]);
+      if (Math.abs(omega - prevOmega) > AngleError) {
+        this.setProperty("omega", omega);
+      }
 
-      /*
       const displayOutList = [
-        `alpha: ${parseFloat(alpha).toFixed(2)}`,
-        `gamma: ${parseFloat(gamma).toFixed(2)}`,
-        `phiNew: ${parseFloat(phiNew).toFixed(2)}`,
+        `(α:${parseFloat(alpha).toFixed(1)},
+          β:${parseFloat(beta).toFixed(1)},
+          γ:${parseFloat(gamma).toFixed(1)})`,
+        `phi: ${parseFloat(phi).toFixed(2)}`,
         `relativePhi: ${relativePhi.toFixed(2)}`,
         `relativeTheta: ${relativeTheta.toFixed(2)}`
       ];
       this.userControl.displayOut(displayOutList);
-      */
     };
     const listenerObj = {
       name: "TwoEyesListener",
@@ -118,3 +142,7 @@ export default class OrientationListener extends WorldObject {
     this.userControl.listenToDeviceOrientation(listenerObj);
   }
 }
+
+// Gamma negative: beta 0 to 180
+// Gamma positive: beta 180 to 0
+// omega = gamma > 0 180 - beta : beta;
