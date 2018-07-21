@@ -1,6 +1,5 @@
 import config from "./config";
 import OBJ0 from "../../ObjectGroup3D/objects";
-import Utils from "../../AppUtils";
 import WOFACTORY from "../Factory";
 import NodeTypes from "../constants/NodeTypes";
 import WorldObject from "../../WorldObject";
