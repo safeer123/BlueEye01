@@ -208,22 +208,29 @@ DONE ---> Discard stepChange method in UserControl. No normalized t. // DONE
 DONE ---> Keep seperate ArrowLeft and ArrowRight methods // DONE
 DONE ---> All incremental logic should go within the WO // DONE
 DONE ---> controlModeObj: main_key and pre-defined secondary keys should work // DONE
+DONE ---> Integrate Axis values with TwoEyes base angles
+DONE ---> Fixed: Scene is slightly disturbed for small orientational changes
+
+DONE ---> Implement 3D Walking using gamepad
+		Fixed big issue found on the assumption we kept on Camera target pos.
+		TwoEyes: basePhi and baseTheta are controlled by user input keys
 ===========================================
-
-
-
-Integrate Axis values with TwoEyes base angles
 
 bring UserCOntrol folder outside lib
 
-
-TwoEyes: basePhi and baseTheta are controlled by user input keys
-	
-What is unique id for a gamepad. Are we using it correclty for configuring.
+all user controls should be inside optional method enableDefaultUserControls
 
 Cylindrical.js
 CylinderSurface3D
 ClosedCylinder3D
+
+Implement 3D walking using gestures like pinch, slide etc
+
+Derive OneEye and TwoEyes from a 3D Walker
+
+
+
+What is unique id for a gamepad. Are we using it correclty for configuring.
 
 New Scene
 	- a horizontal plane from x = -100 to x=100
