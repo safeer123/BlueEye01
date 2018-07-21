@@ -38,8 +38,8 @@ const m4 = {
 
   lookAt(cameraPosition, target, up) {
     const zAxis = normalize(subtractVectors(cameraPosition, target));
-    const xAxis = cross(up, zAxis);
-    const yAxis = cross(zAxis, xAxis);
+    const xAxis = normalize(cross(up, zAxis));
+    const yAxis = normalize(cross(zAxis, xAxis));
 
     return [
       xAxis[0],
