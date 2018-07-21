@@ -214,6 +214,7 @@ DONE ---> Fixed: Scene is slightly disturbed for small orientational changes
 DONE ---> Implement 3D Walking using gamepad
 		Fixed big issue found on the assumption we kept on Camera target pos.
 		TwoEyes: basePhi and baseTheta are controlled by user input keys
+DONE ---> up_vector calculation in OrientationListener
 ===========================================
 
 bring UserCOntrol folder outside lib
@@ -224,11 +225,13 @@ Cylindrical.js
 CylinderSurface3D
 ClosedCylinder3D
 
+Geometry Objects: primary arguments, and inObj, setParams
+
+refactor (alpha,beta,gamma) to (phi, theta) calc in OrientationListener
+
 Implement 3D walking using gestures like pinch, slide etc
 
 Derive OneEye and TwoEyes from a 3D Walker
-
-
 
 What is unique id for a gamepad. Are we using it correclty for configuring.
 
@@ -262,8 +265,6 @@ settle issues related to normals
 renderConfig supporting normals can have a setupGeometry(geometry => geometry.setOptions(...))
 enableNormals and enableTexture should be under options
 
-Geometry Objects: primary arguments, and inObj, setParams
-
 How to segregate files for Different Geometry
 
 Can we show loader only when there is a delay in processing objects ?
@@ -271,8 +272,6 @@ Can we show loader only when there is a delay in processing objects ?
 check whether noSleep implementation is working in Content/index
 
 Move stateUpdateHandler in Coontent/index to Overlay components
-
-up_vector calculation needs to be reconsidered in OneEye and TwoEyes
 
 Fix: We implemented a dirty way to pass world_matrix by calling setProp(world_matrix) in render() call
 
