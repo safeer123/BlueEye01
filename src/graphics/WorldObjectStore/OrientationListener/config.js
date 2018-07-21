@@ -11,6 +11,11 @@ const config = {
       value: [0, 0, 0]
     },
     {
+      name: "target_direction",
+      type: "vec3",
+      value: [0, 0, 0]
+    },
+    {
       name: "relative_target_position",
       type: "vec3",
       value: [0, 0, 1]

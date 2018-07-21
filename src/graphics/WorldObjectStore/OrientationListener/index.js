@@ -3,6 +3,10 @@ import config from "./config";
 import WorldObject from "../../WorldObject";
 import Utils from "../../AppUtils";
 
+// We neglect changes less than angle error
+// This helps very small orientational change not to disturb the view
+const AngleError = 0.001;
+
 // Define OrientationListener
 // Here we listen to device orientation changes and updates look at direction
 export default class OrientationListener extends WorldObject {
@@ -24,6 +28,18 @@ export default class OrientationListener extends WorldObject {
       // r, theta, phi to relative target position
       const sphericalPos = Utils.rThetaPhiToXYZ(
         this.getProperty("radius"),
+        this.getProperty("theta"),
+        this.getProperty("phi")
+      );
+      return sphericalPos;
+    });
+
+    // base_target_direction based on base angles
+    // we can turn our head to get new orientation w.r.t this direction.
+    this.setPropertyGetter("target_direction", () => {
+      // r, theta, phi to relative target position
+      const sphericalPos = Utils.rThetaPhiToXYZ(
+        1,
         this.getProperty("theta"),
         this.getProperty("phi")
       );
@@ -66,24 +82,34 @@ export default class OrientationListener extends WorldObject {
       const phiInDeg = toPhiInDeg(gamma, alpha);
       const phiNew = Utils.degToRad(phiInDeg);
       if (phiRef === undefined) phiRef = phiNew; // Initialize phiRef
-      const relativePhi = phiNew - phiRef;
+      const relativePhi = parseFloat(phiNew - phiRef);
 
       // Calculate relative theta from gamma value
       const thetaInDeg = gamma > 0 ? gamma : 180 + gamma;
-      const relativeTheta = Utils.degToRad(thetaInDeg) - Math.PI * 0.5;
+      const relativeTheta = parseFloat(
+        Utils.degToRad(thetaInDeg) - Math.PI * 0.5
+      );
 
-      this.setProperty("relative_phi", relativePhi);
-      this.setProperty("relative_theta", relativeTheta);
+      const prevRelativePhi = this.getProperty("relative_phi");
+      const prevRelativeTheta = this.getProperty("relative_theta");
+      if (Math.abs(relativePhi - prevRelativePhi) > AngleError) {
+        this.setProperty("relative_phi", relativePhi);
+      }
+      if (Math.abs(relativeTheta - prevRelativeTheta) > AngleError) {
+        this.setProperty("relative_theta", relativeTheta);
+      }
       this.setProperty("up_vector", [0, 1, 0]);
 
+      /*
       const displayOutList = [
         `alpha: ${parseFloat(alpha).toFixed(2)}`,
         `gamma: ${parseFloat(gamma).toFixed(2)}`,
         `phiNew: ${parseFloat(phiNew).toFixed(2)}`,
-        `phi: ${parseFloat(relativePhi).toFixed(2)}`,
-        `theta: ${parseFloat(relativeTheta).toFixed(2)}`
+        `relativePhi: ${relativePhi.toFixed(2)}`,
+        `relativeTheta: ${relativeTheta.toFixed(2)}`
       ];
-      // this.userControl.displayOut(displayOutList);
+      this.userControl.displayOut(displayOutList);
+      */
     };
     const listenerObj = {
       name: "TwoEyesListener",
