@@ -61,10 +61,10 @@ export default function getNodes(inpObj) {
   cylinderShape.addChildren([camThetaPhi]);
 
   const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
-  twoEyes.setProperty("position", [0, 5, 40]);
+  twoEyes.setProperty("position", [0, 5, -40]);
   twoEyes.setProperty("radius", 150);
-  twoEyes.setProperty("base_phi", 1.5 * Math.PI);
-
+  twoEyes.setProperty("base_phi", 0.5 * Math.PI);
+  twoEyes.enableDefaultUserControls();
   // Animation
   const initAnimation = () => {
     setTimeout(() => {
