@@ -215,23 +215,40 @@ DONE ---> Implement 3D Walking using gamepad
 		Fixed big issue found on the assumption we kept on Camera target pos.
 		TwoEyes: basePhi and baseTheta are controlled by user input keys
 DONE ---> up_vector calculation in OrientationListener
+DONE ---> Fix: Theta stoping at 2pi and cant rotate further
+
+DONE ---> bring UserCOntrol folder outside lib
+DONE ---> rename ObjectGroup2D(3D) to Geometry/Objects2D(3D)
+DONE ---> all user controls should be inside optional method enableDefaultUserControls
+DONE ---> Cylindrical.js
+DONE ---> CylinderSurface3D
+DONE ---> ClosedCylinder3D
+DONE ---> Planar.js
+DONE ---> Sector3D
+
 ===========================================
 
-bring UserCOntrol folder outside lib
+Spherical.js
+HemisphereSurface3D
+ClosedHemisphere3D
 
-all user controls should be inside optional method enableDefaultUserControls
+define getColor for more flexibility on choosing the color
 
-Cylindrical.js
-CylinderSurface3D
-ClosedCylinder3D
+settle issues related to normals
+renderConfig supporting normals can have a setupGeometry(geometry => geometry.setOptions(...))
+enableNormals and enableTexture should be under options
+
+Remove enableNormals from ObjectRenderer, these flags should be bound to geometry and renderConfig
 
 Geometry Objects: primary arguments, and inObj, setParams
+
+Use model() method instead of using modelMatrix directly
 
 refactor (alpha,beta,gamma) to (phi, theta) calc in OrientationListener
 
 Implement 3D walking using gestures like pinch, slide etc
 
-Derive OneEye and TwoEyes from a 3D Walker
+Derive OneEye and TwoEyes from a 3D Walker Class
 
 What is unique id for a gamepad. Are we using it correclty for configuring.
 
@@ -242,28 +259,11 @@ New Scene
 	- bring sphere, box on it in one end
 	- move cylinder to the next position
 
-Spherical.js
-HemisphereSurface3D
-ClosedHemisphere3D
-
-Planar.js
-DiscSurface3D
-Sector3D
-
 Other.js
 Define pipeSurface
 
-objects.js to ObjectGroup3D/index
-
-Remove enableNormals from ObjectRenderer, these flags should be bound to geometry and renderConfig
-
-define getColor for more flexibility on choosing the color
 
 
-
-settle issues related to normals
-renderConfig supporting normals can have a setupGeometry(geometry => geometry.setOptions(...))
-enableNormals and enableTexture should be under options
 
 How to segregate files for Different Geometry
 
@@ -301,18 +301,12 @@ We can pass a state from CanvasLayer to Content
 	- setTimeout( createScene() )
 	- discard the done() callback
 
-Define SmartGraphicsLayer(?) and abstract out Test001 layer
-
 Keyboard activities and configuration are tightly bound to WOs. Should be decoupled.
 
 Consider re-using one scene for all views
 Create one/few super scenes and clone from them
 
 Try generating key-index https://menubar.io/react-keys-index
-
-Fix: Theta stoping at 2pi and cant rotate further
-
-Fix: orientation not working error displayed in desktop
 
 Rename/Refactor stateUpdateHandler in Content
 
