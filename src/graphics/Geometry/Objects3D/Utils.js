@@ -1,4 +1,4 @@
-import { subtractVectors, cross, normalize } from "../lib/m4";
+import { subtractVectors, cross, normalize } from "../../lib/m4";
 
 // p: list of 3 vec3
 const surfaceNormal = p => {

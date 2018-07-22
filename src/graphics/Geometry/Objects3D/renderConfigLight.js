@@ -1,4 +1,4 @@
-import { PROGRAMS, SHADER_VARS } from "../ShaderFactory/constants";
+import { PROGRAMS, SHADER_VARS } from "../../ShaderFactory/constants";
 
 const attribPtrDetails = [
   {

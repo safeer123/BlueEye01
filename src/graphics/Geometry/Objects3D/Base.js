@@ -1,3 +1,5 @@
+import { Matrix4 } from "../../lib/m4";
+
 // Defines Vertex Data structure we are going to build for objects
 class VertexData {
   constructor() {
@@ -27,6 +29,11 @@ class TrMeshObject {
     this.setOptions(opts);
   }
 
+  model() {
+    if (!this.modelMatrix) this.modelMatrix = new Matrix4();
+    return this.modelMatrix;
+  }
+
   setOptions(opts = null) {
     if (opts) {
       this.options = { ...this.options, ...opts };
@@ -44,7 +51,11 @@ class TrMeshObject {
       this.childList.forEach(child => {
         // pass model matrix to children
         if (this.modelMatrix) {
-          child.modelMatrix = this.modelMatrix;
+          if (child.modelMatrix) {
+            child.modelMatrix.transform(this.modelMatrix.matrix());
+          } else {
+            child.modelMatrix = this.modelMatrix;
+          }
         }
         // pass normals
         if (this.enableNormals) {

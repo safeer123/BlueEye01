@@ -1,6 +1,6 @@
 import { TrMeshObject, VertexData } from "./Base";
 import { surfaceNormal } from "./Utils";
-import Utils from "../AppUtils";
+import Utils from "../../AppUtils";
 
 // p(position): list of 3 vec3
 // t(textureCoord): list of 3 vec2
@@ -21,23 +21,6 @@ class Triangle3D {
       for (let i = 0; i < 3; i += 1) {
         vertexData.push(...p[i], ...color, ...n[i], ...t[i]);
       }
-      /*
-      const vertexData = [
-        ...p1,
-        ...color,
-        ...n1,
-        ...t1,
-        ...p2,
-        ...color,
-        ...n2,
-        ...t2,
-        ...p3,
-        ...color,
-        ...n3,
-        ...t3
-      ];
-      */
-
       const vertexNum = 3; // 3 vertices here
       dataObj.trglItems = vertexNum;
       dataObj.trglData = vertexData;
@@ -90,28 +73,81 @@ class Quad3D extends TrMeshObject {
   }
 }
 
-const defaultOptions = {
+const defaultOptionsSector3D = {
+  dPhiCount: 20,
+  dRCount: 1,
+  startTheta: 0,
+  endTheta: 2 * Math.PI,
+  color: [0.4, 0.4, 0.4, 1],
+  deltaColor: 0.02
+};
+
+class Sector3D extends TrMeshObject {
+  constructor(radius = 1, options) {
+    super(defaultOptionsSector3D);
+    this.radius = radius;
+    this.setOptions(options);
+    this.deltaColor = 0.02;
+    this.normal = [0, 1, 0];
+  }
+
+  generateChildItems() {
+    if (this.childList.length === 0) {
+      const { radius } = this;
+      const {
+        dPhiCount,
+        dRCount,
+        startTheta,
+        endTheta,
+        color,
+        deltaColor
+      } = this.options;
+      const dTheta = (endTheta - startTheta) / dPhiCount;
+      const dR = radius / dRCount;
+      const colorList = [color, color.map(c => c + deltaColor)];
+
+      const phi = i => startTheta + i * dTheta;
+      const r = i => 0 + i * dR;
+
+      for (let i = 0; i < dPhiCount; i += 1) {
+        for (let j = 0; j < dRCount; j += 1) {
+          const HalfPi = 0.5 * Math.PI;
+          const p1 = Utils.rThetaPhiToXYZ(r(j + 1), HalfPi, phi(i + 1));
+          const p2 = Utils.rThetaPhiToXYZ(r(j), HalfPi, phi(i + 1));
+          const p3 = Utils.rThetaPhiToXYZ(r(j), HalfPi, phi(i));
+          const p4 = Utils.rThetaPhiToXYZ(r(j + 1), HalfPi, phi(i));
+          const quad = new Quad3D([p1, p2, p3, p4]);
+          const colorKey = (i + j) % colorList.length;
+          quad.color = colorList[colorKey];
+          this.childList.push(quad);
+        }
+      }
+    }
+  }
+}
+
+const defaultOptionsRectSurface3D = {
   divCount1: 10,
   divCount2: 10,
-  color: [0.04, 0.24, 0.47, 1]
+  color: [0.4, 0.4, 0.4, 1],
+  deltaColor: 0.2
 };
 
 class RectSurface3D extends TrMeshObject {
   constructor(p1, p2, p3, p4, options) {
-    super(defaultOptions);
+    super(defaultOptionsRectSurface3D);
     this.p1 = p1;
     this.p2 = p2;
     this.p3 = p3;
     this.p4 = p4;
     this.setOptions(options);
-    this.deltaColor = 0.2;
     this.normal = surfaceNormal([p1, p2, p3]);
   }
 
   generateChildItems() {
     if (this.childList.length === 0) {
-      const { p1, p2, p3, p4, deltaColor } = this;
-      const { divCount1, divCount2, color } = this.options;
+      const { p1, p2, p3, p4 } = this;
+      const { divCount1, divCount2, color, deltaColor } = this.options;
       const dAlpha = 1.0 / divCount1;
       const dBeta = 1.0 / divCount2;
       const colorList = [color, color.map(c => c + deltaColor)];
@@ -145,4 +181,4 @@ class RectSurface3D extends TrMeshObject {
   }
 }
 
-export { Triangle3D, Quad3D, RectSurface3D };
+export { Triangle3D, Quad3D, RectSurface3D, Sector3D };

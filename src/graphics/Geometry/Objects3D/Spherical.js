@@ -1,5 +1,5 @@
 import { TrMeshObject } from "./Base";
-import Utils from "../AppUtils";
+import Utils from "../../AppUtils";
 import { Quad3D } from "./Planar";
 
 // Define Spherical objects
