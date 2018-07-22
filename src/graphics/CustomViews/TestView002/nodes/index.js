@@ -2,7 +2,7 @@
 import WOFACTORY from "../../../WorldObjectStore/Factory";
 import NodeTypes from "../../../WorldObjectStore/constants/NodeTypes";
 
-import CarpetType from "./Carpet1";
+import PlatformType from "./Platform";
 import CylinderType from "./CylinderObject";
 
 const pupillaryDistance = 2;
@@ -24,10 +24,10 @@ export default function getNodes(inpObj) {
     userControl
   });
 
-  const carpet = WOFACTORY.create(CarpetType, [inObj()]);
+  const platform = WOFACTORY.create(PlatformType, [inObj()]);
 
   const cylinderShape = WOFACTORY.create(CylinderType, [inObj()]);
-  carpet.addChildren([cylinderShape]);
+  platform.addChildren([cylinderShape]);
 
   const sunObj = WOFACTORY.create(NodeTypes.SUN_OBJECT, [
     inObj(renderConfig2D)
@@ -36,7 +36,7 @@ export default function getNodes(inpObj) {
   const lightObj0 = WOFACTORY.create(NodeTypes.GLOWING_SPHERE, [inObj()]);
   lightObj0.setProperty("isON", true);
   lightObj0.setProperty("translation", [0, 5, 0]);
-  carpet.addChildren([lightObj0]);
+  platform.addChildren([lightObj0]);
 
   const leftCamPos = [pupillaryDistance * 0.5, 20, -40];
   const rightCamPos = [-pupillaryDistance * 0.5, 20, -40];
@@ -57,13 +57,14 @@ export default function getNodes(inpObj) {
     inObj()
   ]);
   camThetaPhi.setProperty("target_position", [0, 0, 0]);
-  camThetaPhi.setProperty("radius", 20);
+  camThetaPhi.setProperty("radius", 30);
+  camThetaPhi.enableDefaultUserControls();
   cylinderShape.addChildren([camThetaPhi]);
 
   const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
-  twoEyes.setProperty("position", [0, 5, -40]);
+  twoEyes.setProperty("position", [80, 5, 0]);
   twoEyes.setProperty("radius", 150);
-  twoEyes.setProperty("base_phi", 0.5 * Math.PI);
+  twoEyes.setProperty("base_phi", Math.PI);
   twoEyes.enableDefaultUserControls();
   // Animation
   const initAnimation = () => {
@@ -74,7 +75,7 @@ export default function getNodes(inpObj) {
 
   // return all root nodes
   return {
-    nodes: [sunObj, carpet, camLeft, camRight, twoEyes],
+    nodes: [sunObj, platform, camLeft, camRight, twoEyes],
     camLeft,
     camRight,
     camThetaPhi,

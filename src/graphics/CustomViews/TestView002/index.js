@@ -1,6 +1,6 @@
-import renderConfigNoLight from "../../ObjectGroup3D/renderConfig";
-import renderConfigLight from "../../ObjectGroup3D/renderConfigLight";
-import renderConfig2D from "../../ObjectGroup2D/renderConfig";
+import renderConfigNoLight from "../../Geometry/Objects3D/renderConfig";
+import renderConfigLight from "../../Geometry/Objects3D/renderConfigLight";
+import renderConfig2D from "../../Geometry/Objects2D/renderConfig";
 import ViewHolder from "../../SceneBuilder/ViewHolder";
 // import { GestureType } from "../../../constants/Gesture";
 
