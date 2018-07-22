@@ -1,5 +1,5 @@
 import GraphicsLayer from "../lib/GraphicsLayer";
-import UserControl from "../lib/UserControl";
+import UserControl from "../UserControl";
 import { GestureType } from "../../constants/Gesture";
 
 const Hammer = require("hammerjs");

@@ -1,9 +1,9 @@
 import config from "./config";
-import OBJ0 from "../../ObjectGroup3D/objects";
+import OBJ0 from "../../Geometry/Objects3D/objects";
 import WOFACTORY from "../Factory";
 import NodeTypes from "../constants/NodeTypes";
 import WorldObject from "../../WorldObject";
-import { PrimaryKeys, SecondaryKeys } from "../../lib/UserControl/constants";
+import { PrimaryKeys, SecondaryKeys } from "../../UserControl/constants";
 
 export default class GlowingSphere extends WorldObject {
   constructor(inObj, configList = []) {
@@ -31,8 +31,6 @@ export default class GlowingSphere extends WorldObject {
       }
       return [0, 0, 0];
     });
-
-    this.setupControls();
   }
 
   defineGeometry() {
@@ -42,7 +40,7 @@ export default class GlowingSphere extends WorldObject {
     return [shape];
   }
 
-  setupControls() {
+  enableDefaultUserControls() {
     const modeName = "GlowingSphere Position";
     const DX = 0.5;
     const DZ = 0.5;

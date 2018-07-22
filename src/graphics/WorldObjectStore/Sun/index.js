@@ -3,9 +3,9 @@ import { SHADER_VARS } from "../../ShaderFactory/constants";
 import SceneSetter from "../SceneSetter";
 import config from "./config";
 import Utils from "../../AppUtils";
-import OBJ2D from "../../ObjectGroup2D/objects";
+import OBJ2D from "../../Geometry/Objects2D/objects";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
-import { PrimaryKeys, SecondaryKeys } from "../../lib/UserControl/constants";
+import { PrimaryKeys, SecondaryKeys } from "../../UserControl/constants";
 
 export default class Sun extends SceneSetter {
   constructor(inObj, configList = []) {
@@ -27,10 +27,19 @@ export default class Sun extends SceneSetter {
       return theta > Math.PI * 0.5 || theta < -Math.PI * 0.5;
     });
 
-    this.setupControls();
+    // Create sky color for background
+    this.objRenderer.setUniformGetter(SHADER_VARS.u_color, () => {
+      const ambient = [0.1, 0.1, 0.1];
+      const diffuseI = dot([0, 1, 0], this.getProperty("sun_direction"));
+      const netColor = addVectors(
+        ambient,
+        multVector(diffuseI, [0.1, 0.1, 0.1])
+      );
+      return [...netColor, 1.0];
+    });
   }
 
-  setupControls() {
+  enableDefaultUserControls() {
     const modeName = "Sun Direction";
     const DTHETA = 0.01;
     const changeDirection = dt => {
@@ -48,17 +57,6 @@ export default class Sun extends SceneSetter {
       summary
     };
     this.userControl.registerControlMode(PrimaryKeys.s, keyControlObject);
-
-    // Create sky color for background
-    this.objRenderer.setUniformGetter(SHADER_VARS.u_color, () => {
-      const ambient = [0.1, 0.1, 0.1];
-      const diffuseI = dot([0, 1, 0], this.getProperty("sun_direction"));
-      const netColor = addVectors(
-        ambient,
-        multVector(diffuseI, [0.1, 0.1, 0.1])
-      );
-      return [...netColor, 1.0];
-    });
   }
 
   defineGeometry() {

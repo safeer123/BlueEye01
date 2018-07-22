@@ -4,7 +4,7 @@ import OrientationListener from "../OrientationListener";
 import WOFACTORY from "../Factory";
 import NodeTypes from "../constants/NodeTypes";
 import Utils from "../../AppUtils";
-import { PrimaryKeys, SecondaryKeys } from "../../lib/UserControl/constants";
+import { PrimaryKeys, SecondaryKeys } from "../../UserControl/constants";
 
 // Define Two Eyes
 // Two cameras attached to OrientationListener

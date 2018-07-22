@@ -2,7 +2,7 @@ import { addVectors, Matrix4 } from "../../lib/m4";
 import config from "./config";
 import Camera from "../AbstractCamera";
 import Utils from "../../AppUtils";
-import { SecondaryKeys } from "../../lib/UserControl/constants";
+import { SecondaryKeys } from "../../UserControl/constants";
 
 export default class CamThetaPhi extends Camera {
   constructor(inObj, configList = []) {
@@ -27,11 +27,9 @@ export default class CamThetaPhi extends Camera {
       const mtx4 = new Matrix4().zRotate(0.5 * Math.PI - theta).yRotate(-phi);
       return mtx4.apply(upVec);
     });
-
-    this.setupControls();
   }
 
-  setupControls() {
+  enableDefaultUserControls() {
     const modeName = "Camera-θφ";
     const DPHI = 0.01;
     const DTHETA = 0.01;

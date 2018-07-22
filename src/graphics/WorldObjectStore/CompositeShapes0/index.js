@@ -1,9 +1,9 @@
 import { m4, Matrix4 } from "../../lib/m4";
 import WorldObject from "../../WorldObject";
-import OBJ0 from "../../ObjectGroup3D/objects";
+import OBJ0 from "../../Geometry/Objects3D/objects";
 import config from "./config";
 import Utils from "../../AppUtils";
-import { PrimaryKeys, SecondaryKeys } from "../../lib/UserControl/constants";
+import { PrimaryKeys, SecondaryKeys } from "../../UserControl/constants";
 
 export default class CompositeShape extends WorldObject {
   constructor(inObj, configList = []) {
@@ -17,8 +17,6 @@ export default class CompositeShape extends WorldObject {
       this.modelMatrix.xRotate(phi);
       return this.modelMatrix.matrix();
     });
-
-    this.setupControls();
   }
 
   defineGeometry() {
@@ -123,7 +121,7 @@ export default class CompositeShape extends WorldObject {
     ];
   }
 
-  setupControls() {
+  enableDefaultUserControls() {
     const modeName = "Composite Shapes Rotation";
     const DPHI = 0.01;
     const DTHETA = 0.01;
