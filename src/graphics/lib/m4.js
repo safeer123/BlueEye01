@@ -431,6 +431,12 @@ class Matrix4 {
     return this;
   }
 
+  transform(mtx) {
+    this.__matrix = m4.multiply(mtx, this.__matrix);
+    this.onChange();
+    return this;
+  }
+
   setMatrix(matrix) {
     this.__matrix = matrix;
     this.onChange();
