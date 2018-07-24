@@ -17,10 +17,8 @@ export default class WorldObject extends Node {
       this.objRenderer = new ObjectRenderer(gl, programs, renderConfig);
     }
 
+    // Set user control for this
     this.userControl = userControl;
-    this.modelMatrix = new Matrix4(() => {
-      this.rebuildProperties = true;
-    });
 
     // We combine self configuration with inherited configuration
     // Each one is a configObject having PropertyList/InitList of its own
@@ -32,7 +30,7 @@ export default class WorldObject extends Node {
     });
 
     // default getters
-    this.setPropertyGetter("model_matrix", () => this.modelMatrix.matrix());
+    this.setPropertyGetter("model_matrix", () => this.model().matrix());
 
     this.setPropertyGetter("world_matrix", () => {
       // world_matrix = parent_world_matrix * model_matrix;
@@ -156,6 +154,14 @@ export default class WorldObject extends Node {
 
     // Render all children
     this.children.forEach(childNode => childNode.render());
+  }
+
+  model() {
+    if (!this.modelMatrix)
+      this.modelMatrix = new Matrix4(() => {
+        this.rebuildProperties = true;
+      });
+    return this.modelMatrix;
   }
 
   // override this method to add geometry

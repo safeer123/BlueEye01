@@ -20,9 +20,9 @@ export default class GlowingSphere extends WorldObject {
 
     this.setPropertyGetter("model_matrix", () => {
       const translation = this.getProperty("translation");
-      this.modelMatrix.identity();
-      this.modelMatrix.translate(...translation);
-      return this.modelMatrix.matrix();
+      this.model().identity();
+      this.model().translate(...translation);
+      return this.model().matrix();
     });
 
     this.setPropertyGetter("emissive_color", () => {

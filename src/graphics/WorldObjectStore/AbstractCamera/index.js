@@ -19,8 +19,8 @@ export default class AbstractCamera extends SceneSetter {
       const targetPosition = this.getProperty("target_position");
       const upVector = this.getProperty("up_vector");
       const lookAtMatrix = m4.lookAt(cameraPosition, targetPosition, upVector);
-      this.modelMatrix.setMatrix(lookAtMatrix);
-      return this.modelMatrix.matrix();
+      this.model().setMatrix(lookAtMatrix);
+      return this.model().matrix();
     });
 
     this.setPropertyGetter(

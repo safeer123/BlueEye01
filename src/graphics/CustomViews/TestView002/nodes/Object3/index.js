@@ -8,7 +8,7 @@ const Obj3Type = "Obj3Type";
 class Shape3 extends WorldObject {
   constructor(inObj) {
     super(inObj, [config]);
-    this.modelMatrix.translate(-40, 0, 2);
+    this.model().translate(-40, 0, 2);
   }
 
   defineGeometry() {

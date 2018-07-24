@@ -25,8 +25,8 @@ export default class OrientationListener extends WorldObject {
       const targetPosition = this.getProperty("target_position");
       const upVector = this.getProperty("up_vector");
       const lookAtMatrix = m4.lookAt(position, targetPosition, upVector);
-      this.modelMatrix.setMatrix(lookAtMatrix);
-      return this.modelMatrix.matrix();
+      this.model().setMatrix(lookAtMatrix);
+      return this.model().matrix();
     });
 
     // we should be setting relative_target_position based on orientation

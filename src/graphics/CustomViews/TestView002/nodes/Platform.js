@@ -46,7 +46,7 @@ class Carpet extends WorldObject {
       dRCount: 10,
       color: DiscColor
     });
-    this.discSurface.modelMatrix = new Matrix4().translate(0, baseY, 0);
+    this.discSurface.model().translate(0, baseY, 0);
     return [
       this.carpetSurface,
       this.sideSurface1,

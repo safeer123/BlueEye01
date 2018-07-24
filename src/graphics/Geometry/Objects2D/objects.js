@@ -15,7 +15,11 @@ let TrMeshObject = class {
       this.childList.forEach(child => {
         // pass model matrix to children
         if (this.modelMatrix) {
-          child.modelMatrix = this.modelMatrix;
+          if (child.modelMatrix) {
+            child.modelMatrix.transform(this.modelMatrix.matrix());
+          } else {
+            child.modelMatrix = this.modelMatrix;
+          }
         }
 
         // pass texture flag
