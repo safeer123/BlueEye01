@@ -61,6 +61,7 @@ class Sphere3D extends TrMeshObject {
 }
 
 const defaultOptionsHemisphere3D = {
+  startTheta: 0,
   endTheta: 0.5 * Math.PI
 };
 
