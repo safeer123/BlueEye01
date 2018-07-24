@@ -3,7 +3,9 @@ import WOFACTORY from "../../../WorldObjectStore/Factory";
 import NodeTypes from "../../../WorldObjectStore/constants/NodeTypes";
 
 import PlatformType from "./Platform";
-import CylinderType from "./CylinderObject";
+import Obj1Type from "./Object1";
+import Obj2Type from "./Object2";
+import Obj3Type from "./Object3";
 
 const pupillaryDistance = 2;
 
@@ -26,8 +28,14 @@ export default function getNodes(inpObj) {
 
   const platform = WOFACTORY.create(PlatformType, [inObj()]);
 
-  const cylinderShape = WOFACTORY.create(CylinderType, [inObj()]);
-  platform.addChildren([cylinderShape]);
+  const shape1 = WOFACTORY.create(Obj1Type, [inObj()]);
+  platform.addChildren([shape1]);
+
+  const shape2 = WOFACTORY.create(Obj2Type, [inObj()]);
+  platform.addChildren([shape2]);
+
+  const shape3 = WOFACTORY.create(Obj3Type, [inObj()]);
+  platform.addChildren([shape3]);
 
   const sunObj = WOFACTORY.create(NodeTypes.SUN_OBJECT, [
     inObj(renderConfig2D)
@@ -59,7 +67,7 @@ export default function getNodes(inpObj) {
   camThetaPhi.setProperty("target_position", [0, 0, 0]);
   camThetaPhi.setProperty("radius", 30);
   camThetaPhi.enableDefaultUserControls();
-  cylinderShape.addChildren([camThetaPhi]);
+  shape3.addChildren([camThetaPhi]);
 
   const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
   twoEyes.setProperty("position", [80, 5, 0]);
@@ -69,7 +77,7 @@ export default function getNodes(inpObj) {
   // Animation
   const initAnimation = () => {
     setTimeout(() => {
-      cylinderShape.setProperty("height", 5);
+      shape1.setProperty("height", 5);
     }, 2);
   };
 
