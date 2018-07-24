@@ -226,11 +226,17 @@ DONE ---> ClosedCylinder3D
 DONE ---> Planar.js
 DONE ---> Sector3D
 
+DONE ---> Spherical.js
+DONE ---> ClosedHemisphere3D
+
 ===========================================
 
-Spherical.js
-HemisphereSurface3D
-ClosedHemisphere3D
+Quad should support color per vertex
+
+Derive OneEye and TwoEyes from a 3D Walker Class
+implement space walking in OneEye as well.
+
+Closed Cylinder should be renamed to just cylinder. Do for other objects.
 
 define getColor for more flexibility on choosing the color
 
@@ -248,7 +254,7 @@ refactor (alpha,beta,gamma) to (phi, theta) calc in OrientationListener
 
 Implement 3D walking using gestures like pinch, slide etc
 
-Derive OneEye and TwoEyes from a 3D Walker Class
+
 
 What is unique id for a gamepad. Are we using it correclty for configuring.
 
