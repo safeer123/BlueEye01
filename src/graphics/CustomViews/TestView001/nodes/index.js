@@ -60,9 +60,10 @@ export default function getNodes(inpObj) {
   oneEyeCam.setProperty("base_phi", 1.5 * Math.PI);
 
   const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
-  twoEyes.setProperty("position", [0, 0, 40]);
+  twoEyes.setProperty("position", [0, 0, -40]);
   twoEyes.setProperty("radius", 40);
-  oneEyeCam.setProperty("base_phi", 1.5 * Math.PI);
+  twoEyes.setProperty("base_phi", 0.5 * Math.PI);
+  twoEyes.enableDefaultUserControls();
 
   // Animation
   let theta = 0;
