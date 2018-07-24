@@ -13,9 +13,9 @@ class CylinderShape extends WorldObject {
 
   defineGeometry() {
     this.enableNormals = true;
-    this.cylinder3D = new OBJ0.ClosedCylinder3D(2, 5, { deltaColor: 0.1 });
+    this.cylinder3D = new OBJ0.Cylinder3D(2, 5, { deltaColor: 0.1 });
     this.cylinder3D.model().translate(0, 2.5, 0);
-    this.axis = new OBJ0.ClosedCylinder3D(0.5, 10, {
+    this.axis = new OBJ0.Cylinder3D(0.5, 10, {
       deltaColor: 0.01,
       color: [0.4, 0.4, 0.5, 1]
     });

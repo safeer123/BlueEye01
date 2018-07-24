@@ -60,7 +60,7 @@ class CylinderSurface3D extends TrMeshObject {
 }
 
 // Define Closed cylinder object
-class ClosedCylinder3D extends TrMeshObject {
+class Cylinder3D extends TrMeshObject {
   constructor(radius, height, options = null) {
     super(defaultOptions);
     this.radius = radius;
@@ -85,4 +85,4 @@ class ClosedCylinder3D extends TrMeshObject {
   }
 }
 
-export { CylinderSurface3D, ClosedCylinder3D };
+export { CylinderSurface3D, Cylinder3D };

@@ -1,5 +1,5 @@
 import { TrMeshObject } from "./Base";
-import { RectSurface3D } from "./Planar";
+import { QuadSurface3D } from "./Planar";
 
 // Defines Box object using rectangle surfaces
 class Box3D extends TrMeshObject {
@@ -25,7 +25,7 @@ class Box3D extends TrMeshObject {
     this.xDivisions = xDivisions;
     this.yDivisions = yDivisions;
     this.zDivisions = zDivisions;
-    this.faceXY1 = new RectSurface3D(
+    this.faceXY1 = new QuadSurface3D(
       [xLeft, yBottom, zNear],
       [xLeft, yTop, zNear],
       [xRight, yTop, zNear],
@@ -33,7 +33,7 @@ class Box3D extends TrMeshObject {
       this.xDivisions,
       this.yDivisions
     );
-    this.faceXY2 = new RectSurface3D(
+    this.faceXY2 = new QuadSurface3D(
       [xRight, yBottom, zFar],
       [xRight, yTop, zFar],
       [xLeft, yTop, zFar],
@@ -41,7 +41,7 @@ class Box3D extends TrMeshObject {
       this.xDivisions,
       this.yDivisions
     );
-    this.faceZY1 = new RectSurface3D(
+    this.faceZY1 = new QuadSurface3D(
       [xRight, yBottom, zNear],
       [xRight, yTop, zNear],
       [xRight, yTop, zFar],
@@ -49,7 +49,7 @@ class Box3D extends TrMeshObject {
       this.zDivisions,
       this.yDivisions
     );
-    this.faceZY2 = new RectSurface3D(
+    this.faceZY2 = new QuadSurface3D(
       [xLeft, yBottom, zFar],
       [xLeft, yTop, zFar],
       [xLeft, yTop, zNear],
@@ -57,7 +57,7 @@ class Box3D extends TrMeshObject {
       this.zDivisions,
       this.yDivisions
     );
-    this.faceXZ1 = new RectSurface3D(
+    this.faceXZ1 = new QuadSurface3D(
       [xLeft, yTop, zNear],
       [xLeft, yTop, zFar],
       [xRight, yTop, zFar],
@@ -65,7 +65,7 @@ class Box3D extends TrMeshObject {
       this.xDivisions,
       this.zDivisions
     );
-    this.faceXZ2 = new RectSurface3D(
+    this.faceXZ2 = new QuadSurface3D(
       [xRight, yBottom, zNear],
       [xRight, yBottom, zFar],
       [xLeft, yBottom, zFar],

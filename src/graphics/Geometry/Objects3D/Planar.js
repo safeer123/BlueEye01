@@ -125,16 +125,16 @@ class Sector3D extends TrMeshObject {
   }
 }
 
-const defaultOptionsRectSurface3D = {
+const defaultOptionsQuadSurface3D = {
   divCount1: 10,
   divCount2: 10,
   color: [0.4, 0.4, 0.4, 1],
   deltaColor: 0.2
 };
 
-class RectSurface3D extends TrMeshObject {
+class QuadSurface3D extends TrMeshObject {
   constructor(p1, p2, p3, p4, options) {
-    super(defaultOptionsRectSurface3D);
+    super(defaultOptionsQuadSurface3D);
     this.p1 = p1;
     this.p2 = p2;
     this.p3 = p3;
@@ -180,4 +180,4 @@ class RectSurface3D extends TrMeshObject {
   }
 }
 
-export { Triangle3D, Quad3D, RectSurface3D, Sector3D };
+export { Triangle3D, Quad3D, QuadSurface3D, Sector3D };
