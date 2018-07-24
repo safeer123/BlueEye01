@@ -1,5 +1,5 @@
 import { Triangle3D, Quad3D, RectSurface3D, Sector3D } from "./Planar";
-import { Sphere3D } from "./Spherical";
+import { Sphere3D, Hemisphere3D, InvertedHemisphere3D } from "./Spherical";
 import { Box3D } from "./Other";
 import { CylinderSurface3D, ClosedCylinder3D } from "./Cylindrical";
 
@@ -11,6 +11,8 @@ const OBJ0 = {
   Sphere3D,
   Box3D,
   CylinderSurface3D,
-  ClosedCylinder3D
+  ClosedCylinder3D,
+  Hemisphere3D,
+  InvertedHemisphere3D
 };
 export default OBJ0;

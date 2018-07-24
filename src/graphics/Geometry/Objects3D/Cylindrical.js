@@ -4,7 +4,7 @@ import { Quad3D, Sector3D } from "./Planar";
 
 const defaultOptions = {
   color: [0.5, 0.5, 0.5, 1],
-  dPhiCount: 64,
+  dPhiCount: 20,
   dYCount: 10,
   phiMin: 0,
   phiMax: 2 * Math.PI,
