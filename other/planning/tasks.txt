@@ -228,15 +228,21 @@ DONE ---> Sector3D
 
 DONE ---> Spherical.js
 DONE ---> ClosedHemisphere3D
+DONE ---> Use model() method instead of using modelMatrix directly
+DONE ---> All Geometry Objects: primary arguments, and options, use setOptions
+DONE ---> Closed Cylinder should be renamed to just cylinder. Do for other objects.
+DONE ---> rename RectSurface3D to QuadSurface3D
 
 ===========================================
+
+
 
 Quad should support color per vertex
 
 Derive OneEye and TwoEyes from a 3D Walker Class
 implement space walking in OneEye as well.
 
-Closed Cylinder should be renamed to just cylinder. Do for other objects.
+Refactor Objects2D
 
 define getColor for more flexibility on choosing the color
 
@@ -246,9 +252,9 @@ enableNormals and enableTexture should be under options
 
 Remove enableNormals from ObjectRenderer, these flags should be bound to geometry and renderConfig
 
-Geometry Objects: primary arguments, and inObj, setParams
 
-Use model() method instead of using modelMatrix directly
+
+
 
 refactor (alpha,beta,gamma) to (phi, theta) calc in OrientationListener
 
@@ -319,7 +325,7 @@ Rename/Refactor stateUpdateHandler in Content
 Decouple the Sun Object from Background Objec
 To create background we define new class: Background
 
-Camera can have optional Background child
+? Camera can have optional Background child
 
 use drawingBufferWidth when we are dealing with canvas dimesions for drawingBufferWidth
 
