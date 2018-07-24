@@ -76,8 +76,8 @@ class Quad3D extends TrMeshObject {
 const defaultOptionsSector3D = {
   dPhiCount: 20,
   dRCount: 1,
-  startTheta: 0,
-  endTheta: 2 * Math.PI,
+  startPhi: 0,
+  endPhi: 2 * Math.PI,
   color: [0.4, 0.4, 0.4, 1],
   deltaColor: 0.02
 };
@@ -87,7 +87,6 @@ class Sector3D extends TrMeshObject {
     super(defaultOptionsSector3D);
     this.radius = radius;
     this.setOptions(options);
-    this.deltaColor = 0.02;
     this.normal = [0, 1, 0];
   }
 
@@ -97,16 +96,16 @@ class Sector3D extends TrMeshObject {
       const {
         dPhiCount,
         dRCount,
-        startTheta,
-        endTheta,
+        startPhi,
+        endPhi,
         color,
         deltaColor
       } = this.options;
-      const dTheta = (endTheta - startTheta) / dPhiCount;
+      const dPhi = (endPhi - startPhi) / dPhiCount;
       const dR = radius / dRCount;
       const colorList = [color, color.map(c => c + deltaColor)];
 
-      const phi = i => startTheta + i * dTheta;
+      const phi = i => startPhi + i * dPhi;
       const r = i => 0 + i * dR;
 
       for (let i = 0; i < dPhiCount; i += 1) {
