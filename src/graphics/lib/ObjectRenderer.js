@@ -30,7 +30,7 @@ export default class ObjectRenderer {
   }
 
   addObjects(objList) {
-    this.objects.push.apply(this.objects, objList);
+    this.objects.push(...objList);
   }
 
   clearObjects() {
@@ -55,8 +55,13 @@ export default class ObjectRenderer {
       const lineBuffer = this.buffers.line;
       const lineData = [];
 
+      const setup = obj => {
+        if (this.config.setupGeometry) this.config.setupGeometry(obj);
+      };
+
       // Create array of data from all objects
       this.objects.forEach(object => {
+        setup(object);
         const arrayObj = object.toArrayBuffer();
 
         // Gather all traingle data
