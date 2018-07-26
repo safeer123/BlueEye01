@@ -233,7 +233,13 @@ DONE ---> All Geometry Objects: primary arguments, and options, use setOptions
 DONE ---> Closed Cylinder should be renamed to just cylinder. Do for other objects.
 DONE ---> rename RectSurface3D to QuadSurface3D
 
+DONE ---> settle issues related to normals
+DONE ---> renderConfig supporting normals can have a setupGeometry(geometry => geometry.enableNormals())
+DONE ---> enableNormals and enableTexture should be under options - not needed.
+DONE ---> Remove enableNormals from ObjectRenderer, these flags should be bound to geometry and renderConfig
+
 ===========================================
+
 
 
 
@@ -245,12 +251,6 @@ implement space walking in OneEye as well.
 Refactor Objects2D
 
 define getColor for more flexibility on choosing the color
-
-settle issues related to normals
-renderConfig supporting normals can have a setupGeometry(geometry => geometry.setOptions(...))
-enableNormals and enableTexture should be under options
-
-Remove enableNormals from ObjectRenderer, these flags should be bound to geometry and renderConfig
 
 
 
