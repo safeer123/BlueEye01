@@ -26,7 +26,10 @@ const config = {
     lineBfrPtrConfig: attribPtrDetails
   },
   enableDepthTest: true,
-  enableCulling: false
+  enableCulling: false,
+  setupGeometry: obj => {
+    if (obj.disableNormals) obj.disableNormals();
+  }
 };
 
 export default config;

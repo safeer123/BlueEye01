@@ -22,7 +22,7 @@ class VertexData {
 // Defines a Trangle based mesh structure
 class TrMeshObject {
   constructor(opts = null) {
-    this.enableNormals = false; // default
+    this.normalsEnabled = false; // default
     this.enableTexture = false; // default
     this.childList = [];
     this.options = {};
@@ -58,8 +58,8 @@ class TrMeshObject {
           }
         }
         // pass normals
-        if (this.enableNormals) {
-          child.enableNormals = true;
+        if (this.normalsEnabled) {
+          child.enableNormals();
           if (this.normal) {
             child.normal = this.normal;
           }
@@ -76,6 +76,14 @@ class TrMeshObject {
       });
     }
     return arrayBuffer;
+  }
+
+  enableNormals() {
+    this.normalsEnabled = true;
+  }
+
+  disableNormals() {
+    this.normalsEnabled = false;
   }
 }
 

@@ -23,7 +23,7 @@ const attribPtrDetails = [
     type: WebGLRenderingContext.FLOAT,
     normalize: false, // whether to normalize to fall in 0-1
     stride: 40, // bytes to skip, sumAll(size*sizeof(type))
-    offset: 12+16 // offset from the beginning in bytes
+    offset: 12 + 16 // offset from the beginning in bytes
   }
 ];
 
@@ -34,7 +34,10 @@ const config = {
     lineBfrPtrConfig: attribPtrDetails
   },
   enableDepthTest: true,
-  enableCulling: false
+  enableCulling: false,
+  setupGeometry: obj => {
+    if (obj.enableNormals) obj.enableNormals();
+  }
 };
 
 export default config;

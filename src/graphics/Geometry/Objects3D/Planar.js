@@ -4,8 +4,9 @@ import Utils from "../../AppUtils";
 
 // p(position): list of 3 vec3
 // t(textureCoord): list of 3 vec2
-class Triangle3D {
+class Triangle3D extends TrMeshObject {
   constructor(p, t = [[], [], []]) {
+    super();
     if (p.length !== 3 || t.length !== 3) {
       console.error("Triangle3D: we expect 3 values from each vertex data");
     }
@@ -28,7 +29,7 @@ class Triangle3D {
     }
     let n = [[], [], []];
     let p;
-    if (this.enableNormals) {
+    if (this.normalsEnabled) {
       if (this.normal) {
         n = n.map(() => this.normal);
       } else if (this.getNormal) {
@@ -40,7 +41,7 @@ class Triangle3D {
     }
     if (this.modelMatrix) {
       p = this.p.map(vec => this.modelMatrix.apply(vec));
-      if (this.enableNormals) {
+      if (this.normalsEnabled) {
         n = n.map(vec => this.modelMatrix.applyInverseTransposeMatrix(vec));
       }
     } else {
