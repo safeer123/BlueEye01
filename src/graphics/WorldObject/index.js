@@ -54,10 +54,6 @@ export default class WorldObject extends Node {
   }
 
   createObjects(objList) {
-    objList.forEach(obj => {
-      obj.enableNormals = this.enableNormals;
-    });
-
     const { objRenderer } = this;
     if (objRenderer) {
       objRenderer.clearObjects();

@@ -11,7 +11,6 @@ class Carpet extends WorldObject {
   }
 
   defineGeometry() {
-    this.enableNormals = true;
     const baseY = -2;
     const p1 = [-100, 0, 10];
     const p2 = [-100, 0, -10];

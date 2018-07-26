@@ -20,8 +20,6 @@ export default class CompositeShape extends WorldObject {
   }
 
   defineGeometry() {
-    this.enableNormals = true;
-
     this.ball1 = new OBJ0.Sphere3D(3, { color: [0.6, 0.8, 0.6, 1] });
     this.ball1.model().translate(0, 3, 0);
     this.ball1.color = [200 / 256, 80 / 256, 110 / 256, 1];

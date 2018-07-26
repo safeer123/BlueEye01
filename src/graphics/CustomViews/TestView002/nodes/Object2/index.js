@@ -12,7 +12,6 @@ class Shape2 extends WorldObject {
   }
 
   defineGeometry() {
-    this.enableNormals = true;
     const color = [0.7, 0.6, 0.6, 1];
     const hemiSphere1 = new OBJ0.Sphere3D(2, {
       startTheta: 0.5 * Math.PI,
@@ -21,6 +20,7 @@ class Shape2 extends WorldObject {
       color
     });
     hemiSphere1.model().translate(0, 2, 0);
+    this.hemiSphere1 = hemiSphere1;
 
     const hemiSphere2 = new OBJ0.Sphere3D(2, {
       endTheta: 0.5 * Math.PI,

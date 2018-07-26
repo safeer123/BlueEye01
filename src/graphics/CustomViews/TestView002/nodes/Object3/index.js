@@ -12,7 +12,6 @@ class Shape3 extends WorldObject {
   }
 
   defineGeometry() {
-    this.enableNormals = true;
     const color = [0.6, 0.8, 0.45, 1];
     const radius = 3;
     const hemiSphere1 = new OBJ0.Hemisphere3D(radius, {
