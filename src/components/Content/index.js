@@ -49,7 +49,7 @@ class Content extends React.Component {
   }
 
   setupGestureHandlers = () => {
-    console.log("setupGestureHandlers");
+    console.log("setup Gesture Handlers...");
     const hammer = new Hammer(this.canvasWrapper);
     hammer.get("pan").set({ direction: Hammer.DIRECTION_ALL });
     hammer.get("pinch").set({
