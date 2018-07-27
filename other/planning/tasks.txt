@@ -237,32 +237,19 @@ DONE ---> settle issues related to normals
 DONE ---> renderConfig supporting normals can have a setupGeometry(geometry => geometry.enableNormals())
 DONE ---> enableNormals and enableTexture should be under options - not needed.
 DONE ---> Remove enableNormals from ObjectRenderer, these flags should be bound to geometry and renderConfig
+DONE ---> Define 3D walker class which derives from Orientation Listener
+DONE ---> Derive OneEye and TwoEyes from a 3D Walker Class
+DONE ---> implement space walking in OneEye as well.
+DONE ---> OrientationListener enable and disble functions
 
+
+DONE ---> Swipe for switching view will happen only in non-fullscreen model
+DONE ---> Handle this from Content index
+DONE ---> Implement 3D walking using gestures like pinch, pan etc
+	- use pan gesture and rotate theta-phi. use e.velocityX
+	- Implemented spacewalk using pinch
 ===========================================
 
-
-
-
-Quad should support color per vertex
-
-Derive OneEye and TwoEyes from a 3D Walker Class
-implement space walking in OneEye as well.
-
-Refactor Objects2D
-
-define getColor for more flexibility on choosing the color
-
-
-
-
-
-refactor (alpha,beta,gamma) to (phi, theta) calc in OrientationListener
-
-Implement 3D walking using gestures like pinch, slide etc
-
-
-
-What is unique id for a gamepad. Are we using it correclty for configuring.
 
 New Scene
 	- a horizontal plane from x = -100 to x=100
@@ -270,6 +257,23 @@ New Scene
 	- bring cylinder on it
 	- bring sphere, box on it in one end
 	- move cylinder to the next position
+
+Quad should support color per vertex
+
+Refactor Objects2D
+
+Fix: Fullscreen is failing in some cases but works in other cases
+
+Fix: gesture handling should be done inside UserControl only
+
+Refactor M4 lib and Matrix4 class. add sub tasks here.
+
+define getColor for more flexibility on choosing the color
+
+refactor (alpha,beta,gamma) to (phi, theta) calc in OrientationListener
+
+
+What is unique id for a gamepad. Are we using it correclty for configuring.
 
 Other.js
 Define pipeSurface
