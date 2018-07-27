@@ -57,14 +57,11 @@ export default class ViewHolder extends GraphicsLayer {
   };
 
   handleGesture(gestureType, event) {
-    const step = event.direction === Hammer.DIRECTION_LEFT ? 1 : -1;
-    console.log(gestureType, event);
+    // console.log(gestureType, event);
+    this.userControl.handleGesture(gestureType, event);
     switch (gestureType) {
-      case GestureType.Swipe:
-        this.switchView(step);
-        break;
       default:
-        this.displayOutHandler([gestureType]);
+        // this.displayOutHandler([gestureType]);
         break;
     }
   }
