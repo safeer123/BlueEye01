@@ -1,14 +1,15 @@
 import getNodes from "./nodes";
-import SingleCanvasView from "../../SceneBuilder/CustomCanvasViews/SingleCanvasView";
 import Scene from "./../../SceneBuilder/Scene";
+import SingleCanvasView from "../../SceneBuilder/CustomCanvasViews/SingleCanvasView";
 
-export default class SingleNodeView extends SingleCanvasView {
+// OneEyeView Layer
+export default class OneEyeView extends SingleCanvasView {
   constructor(canvas, preRender, inObj) {
     super(canvas, preRender);
     this.inObj = inObj;
     this.canvas = canvas;
     this.viewUpdater = this.getSceneUpdater();
-    this.setName("SingleNodeView");
+    this.setName("OneEyeView");
   }
 
   updater = () => {
@@ -16,11 +17,10 @@ export default class SingleNodeView extends SingleCanvasView {
   };
 
   rebuildNodes() {
-    this.viewUpdater = this.getSceneUpdater();
-    const { nodes, camThetaPhi, initAnimation } = getNodes(this.inObj);
+    const { nodes, oneEye, initAnimation } = getNodes(this.inObj);
 
     this.nodes = nodes;
-    this.camThetaPhi = camThetaPhi;
+    this.oneEye = oneEye;
     this.initAnimation = initAnimation;
   }
 
@@ -28,13 +28,13 @@ export default class SingleNodeView extends SingleCanvasView {
     // Reconstruct nodes every time this methode is called
     this.rebuildNodes();
 
-    // Define scene and right scene
-    const scene = new Scene("MAIN_SCENE", this.updater);
+    // Define scene
+    const scene = new Scene("ONE_EYE_SCENE", this.updater);
     scene.setNodeList(this.nodes);
 
     // Set active camera Ids
-    const mainCamId = this.camThetaPhi.getId();
-    scene.setActiveCameraId(mainCamId);
+    const camId = this.oneEye.getCamId();
+    scene.setActiveCameraId(camId);
 
     // Set scenes in CanvasView
     const { canvas } = this;

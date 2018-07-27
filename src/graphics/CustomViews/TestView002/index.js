@@ -4,9 +4,9 @@ import renderConfig2D from "../../Geometry/Objects2D/renderConfig";
 import ViewHolder from "../../SceneBuilder/ViewHolder";
 // import { GestureType } from "../../../constants/Gesture";
 
-import SplitScreenView from "./SplitScreenView";
 import SingleNodeView from "./SingleNodeView";
 import TwoEyesView from "./TwoEyesView";
+import OneEyeView from "./OneEyeView";
 
 // TestView001 ViewHolder (Smart Graphics Layer)
 export default class TestView001 extends ViewHolder {
@@ -27,7 +27,7 @@ export default class TestView001 extends ViewHolder {
   getViewList() {
     return[
     TwoEyesView,
-    SplitScreenView,
+    OneEyeView,
     SingleNodeView
   ];
   }

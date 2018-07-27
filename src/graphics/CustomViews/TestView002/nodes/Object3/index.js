@@ -28,7 +28,8 @@ class Shape3 extends WorldObject {
     });
     hemiSphere2.model().translate(0, 0, -radius * 0.7);
 
-    return [hemiSphere1, hemiSphere2];
+    this.geometryList = [hemiSphere1, hemiSphere2];
+    return this.geometryList;
   }
 }
 

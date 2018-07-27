@@ -7,8 +7,6 @@ import Obj1Type from "./Object1";
 import Obj2Type from "./Object2";
 import Obj3Type from "./Object3";
 
-const pupillaryDistance = 2;
-
 // Scene0 Layer
 export default function getNodes(inpObj) {
   const {
@@ -46,21 +44,6 @@ export default function getNodes(inpObj) {
   lightObj0.setProperty("translation", [0, 5, 0]);
   platform.addChildren([lightObj0]);
 
-  const leftCamPos = [pupillaryDistance * 0.5, 20, -40];
-  const rightCamPos = [-pupillaryDistance * 0.5, 20, -40];
-  const targetPos = [0, 0, 0];
-  const upVec = [0, 1, 0];
-
-  const camLeft = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj(null)]);
-  camLeft.setProperty("camera_position", leftCamPos);
-  camLeft.setProperty("target_position", targetPos);
-  camLeft.setProperty("up_vector", upVec);
-
-  const camRight = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj(null)]);
-  camRight.setProperty("camera_position", rightCamPos);
-  camRight.setProperty("target_position", targetPos);
-  camRight.setProperty("up_vector", upVec);
-
   const camThetaPhi = WOFACTORY.create(NodeTypes.CAMERA_SPHERICAL_PATH, [
     inObj()
   ]);
@@ -69,10 +52,18 @@ export default function getNodes(inpObj) {
   camThetaPhi.enableDefaultUserControls();
   shape3.addChildren([camThetaPhi]);
 
+  const oneEye = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
+  oneEye.setProperty("position", [80, 5, 0]);
+  oneEye.setProperty("radius", 150);
+  oneEye.setProperty("base_phi", Math.PI);
+  // oneEye.listenToOrientationChange();
+  oneEye.enableDefaultUserControls();
+
   const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
   twoEyes.setProperty("position", [80, 5, 0]);
   twoEyes.setProperty("radius", 150);
   twoEyes.setProperty("base_phi", Math.PI);
+  twoEyes.listenToOrientationChange();
   twoEyes.enableDefaultUserControls();
   // Animation
   const initAnimation = () => {
@@ -83,11 +74,10 @@ export default function getNodes(inpObj) {
 
   // return all root nodes
   return {
-    nodes: [sunObj, platform, camLeft, camRight, twoEyes],
-    camLeft,
-    camRight,
+    nodes: [sunObj, platform, twoEyes, oneEye],
     camThetaPhi,
     twoEyes,
+    oneEye,
     initAnimation
   };
 }
