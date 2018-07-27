@@ -34,4 +34,12 @@ export default class GLController {
       }
     });
   }
+
+  switchView(step) {
+    this.viewList.forEach(view => {
+      if (view.switchView) {
+        view.switchView(step);
+      }
+    });
+  }
 }

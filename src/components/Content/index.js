@@ -49,16 +49,26 @@ class Content extends React.Component {
   }
 
   setupGestureHandlers = () => {
+    console.log("setupGestureHandlers");
     const hammer = new Hammer(this.canvasWrapper);
+    hammer.get("pan").set({ direction: Hammer.DIRECTION_ALL });
+    hammer.get("pinch").set({
+      enable: true
+    });
     // Subscribe to a quick start event: press, tap, or doubletap.
     // These are quick start events.
     GestureTypeList.forEach(gesture => {
       hammer.on(gesture, e => {
-        if (this.glController) {
-          this.glController.handleGesture(gesture, e);
-        }
         if (gesture === GestureType.DoubleTap) {
           this.handleFullscreenSwitch();
+        } else if (this.glController && this.state.isFullscreenMode) {
+          this.glController.handleGesture(gesture, e);
+        } else if (
+          !this.state.isFullscreenMode &&
+          gesture === GestureType.Swipe
+        ) {
+          const step = e.direction === Hammer.DIRECTION_LEFT ? 1 : -1;
+          this.glController.switchView(step);
         }
       });
     });

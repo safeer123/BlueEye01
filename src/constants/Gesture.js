@@ -3,14 +3,18 @@ const GestureType = {
   Swipe: "swipe",
   Press: "press",
   // Tap: "tap",
-  DoubleTap: "doubletap"
+  Pan: "pan",
+  DoubleTap: "doubletap",
+  Pinch: "pinch"
 };
 
 const GestureTypeList = [
   GestureType.Press,
   GestureType.Swipe,
   // GestureType.Tap,
-  GestureType.DoubleTap
+  GestureType.DoubleTap,
+  GestureType.Pan,
+  GestureType.Pinch
 ];
 
 export { GestureType, GestureTypeList };
