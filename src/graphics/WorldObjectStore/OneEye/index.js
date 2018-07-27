@@ -1,12 +1,11 @@
-import { m4, addVectors, subtractVectors, normalize } from "../../lib/m4";
 import config from "./config";
-import OrientationListener from "../OrientationListener";
+import Space3DWalker from "../3DWalker";
 import WOFACTORY from "../Factory";
 import NodeTypes from "../constants/NodeTypes";
 
 // Single camera acting like a single eye vision.
-// One camera attached to OrientationListener
-export default class OneEye extends OrientationListener {
+// One camera attached to a Space3DWalker which is an OrientationListener as well
+export default class OneEye extends Space3DWalker {
   constructor(inObj, configList = []) {
     super(inObj, [config, ...configList]);
 
@@ -22,8 +21,6 @@ export default class OneEye extends OrientationListener {
     this.camera.setProperty("up_vector", [0, 1, 0]);
 
     this.addChildren([this.camera]);
-
-    super.listentToOrientationChange();
   }
 
   getCamId() {

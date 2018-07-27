@@ -1,10 +1,4 @@
-import {
-  m4,
-  addVectors,
-  Matrix4,
-  subtractVectors,
-  normalize
-} from "../../lib/m4";
+import { m4, addVectors, Matrix4 } from "../../lib/m4";
 import config from "./config";
 import WorldObject from "../../WorldObject";
 import Utils from "../../AppUtils";
@@ -85,7 +79,7 @@ export default class OrientationListener extends WorldObject {
     });
   }
 
-  listentToOrientationChange() {
+  listenToOrientationChange() {
     const initialPhi = this.getProperty("base_phi");
     this.setProperty("phi", initialPhi);
     let phiAtStart;
@@ -124,22 +118,38 @@ export default class OrientationListener extends WorldObject {
       if (Math.abs(omega - prevOmega) > AngleError) {
         this.setProperty("omega", omega);
       }
-
-      const displayOutList = [
-        `(α:${parseFloat(alpha).toFixed(1)},
-          β:${parseFloat(beta).toFixed(1)},
-          γ:${parseFloat(gamma).toFixed(1)})`,
-        `phi: ${parseFloat(phi).toFixed(2)}`,
-        `relativePhi: ${relativePhi.toFixed(2)}`,
-        `relativeTheta: ${relativeTheta.toFixed(2)}`
-      ];
-      this.userControl.displayOut(displayOutList);
+      /*
+      this.displayAngleUpdates(
+        alpha,
+        beta,
+        gamma,
+        phi,
+        relativePhi,
+        relativeTheta
+      );
+      */
     };
     const listenerObj = {
       name: "TwoEyesListener",
       cb: handleChange
     };
-    this.userControl.listenToDeviceOrientation(listenerObj);
+    this.userControl.listenToDeviceOrientation(this.Id, listenerObj);
+  }
+
+  stopListeningToOrientationChange() {
+    this.userControl.stopListeningToOrientationChange(this.Id);
+  }
+
+  displayAngleUpdates(alpha, beta, gamma, phi, relativePhi, relativeTheta) {
+    const displayOutList = [
+      `(α:${parseFloat(alpha).toFixed(1)},
+        β:${parseFloat(beta).toFixed(1)},
+        γ:${parseFloat(gamma).toFixed(1)})`,
+      `phi: ${parseFloat(phi).toFixed(2)}`,
+      `relativePhi: ${relativePhi.toFixed(2)}`,
+      `relativeTheta: ${relativeTheta.toFixed(2)}`
+    ];
+    this.userControl.displayOut(displayOutList);
   }
 }
 
