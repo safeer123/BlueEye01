@@ -248,15 +248,15 @@ DONE ---> Handle this from Content index
 DONE ---> Implement 3D walking using gestures like pinch, pan etc
 	- use pan gesture and rotate theta-phi. use e.velocityX
 	- Implemented spacewalk using pinch
-===========================================
-
-
-New Scene
+DONE ---> New Scene
 	- a horizontal plane from x = -100 to x=100
 	- place objects on it
 	- bring cylinder on it
 	- bring sphere, box on it in one end
 	- move cylinder to the next position
+===========================================
+
+
 
 Quad should support color per vertex
 
