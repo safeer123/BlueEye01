@@ -1,3 +1,5 @@
+import { GestureType } from "../../constants/Gesture";
+
 const MasterPrimaryKeys = {
   Controlv: "Controlv",
   Controla: "Controla"
@@ -48,7 +50,9 @@ const SecondaryKeys = {
   ArrowUp: "ArrowUp",
   ArrowDown: "ArrowDown",
   AxisX: "AxisX",
-  AxisY: "AxisY"
+  AxisY: "AxisY",
+  pan: GestureType.Pan,
+  pinch: GestureType.Pinch
 };
 
 export { MasterPrimaryKeys, PrimaryKeys, SecondaryKeys };

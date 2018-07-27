@@ -44,22 +44,7 @@ export default class ControlModeManager {
       return displayOutList;
     }
 
-    if (this.isSecondaryKey(keyName)) {
-      const modes = controlModes[this.currentModeKey];
-      if (modes) {
-        const displayOutList = [];
-        modes.forEach(mode => {
-          if (mode[keyName]) {
-            mode[keyName]();
-            if (mode.summary) {
-              const summaryOut = mode.summary();
-              if (summaryOut) displayOutList.push(...summaryOut);
-            }
-          }
-        });
-        return displayOutList;
-      }
-    }
+    this.handleSecondaryKey(keyName);
     return null;
   }
 
@@ -71,15 +56,19 @@ export default class ControlModeManager {
     }
   }
 
-  onAxisValueChanged(axisName, value) {
+  onGesture(gestureType, e) {
+    this.handleSecondaryKey(gestureType, e);
+  }
+
+  handleSecondaryKey(key, value) {
     const { controlModes } = this;
-    if (this.isSecondaryKey(axisName)) {
+    if (this.isSecondaryKey(key)) {
       const modes = controlModes[this.currentModeKey];
       if (modes) {
         const displayOutList = [];
         modes.forEach(mode => {
-          if (mode[axisName]) {
-            mode[axisName](value);
+          if (mode[key]) {
+            mode[key](value);
             if (mode.summary) {
               const summaryOut = mode.summary();
               if (summaryOut) displayOutList.push(...summaryOut);
@@ -90,5 +79,9 @@ export default class ControlModeManager {
       }
     }
     return null;
+  }
+
+  onAxisValueChanged(axisName, value) {
+    this.handleSecondaryKey(axisName, value);
   }
 }

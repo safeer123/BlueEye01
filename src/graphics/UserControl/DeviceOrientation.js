@@ -11,12 +11,12 @@ export default class DeviceOrientationFeed {
       console.log("Sorry, your browser doesn't support Device Orientation");
     }
 
-    this.listenerList = [];
+    this.listenerList = {};
   }
 
   // Axes on device
   deviceOrientationListener(event) {
-    this.listenerList.forEach(listener => {
+    Object.values(this.listenerList).forEach(listener => {
       listener.cb({
         alpha: event.alpha,
         beta: event.beta,
@@ -25,8 +25,12 @@ export default class DeviceOrientationFeed {
     });
   }
 
-  addListener(l) {
-    this.listenerList.push(l);
+  addListener(id, l) {
+    this.listenerList[id] = l;
+  }
+
+  removeListener(id) {
+    delete this.listenerList[id];
   }
 
   clearListeners() {

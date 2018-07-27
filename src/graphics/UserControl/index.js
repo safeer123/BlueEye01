@@ -37,8 +37,12 @@ export default class KeyboardControl {
     });
   }
 
-  listenToDeviceOrientation(listenerObj) {
-    this.orientationFeed.addListener(listenerObj);
+  listenToDeviceOrientation(id, listenerObj) {
+    this.orientationFeed.addListener(id, listenerObj);
+  }
+
+  stopListeningToDeviceOrientation(id) {
+    this.orientationFeed.removeListener(id);
   }
 
   registerControlMode(key, controlModeObj) {
@@ -88,6 +92,11 @@ export default class KeyboardControl {
 
     return keyName;
   };
+
+  handleGesture(gestureType, e) {
+    const { controlModeMngr } = this;
+    controlModeMngr.onGesture(gestureType, e);
+  }
 
   displayDeviceOrientation() {
     this.orientationFeed.addListener({
