@@ -1,4 +1,4 @@
-import TestView from "./CustomViews/TestView002";
+import TestView from "./CustomViews/TestView001";
 
 export default class GLController {
   constructor(wrapperDiv) {
