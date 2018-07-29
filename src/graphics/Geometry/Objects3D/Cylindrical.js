@@ -1,14 +1,13 @@
-import { TrMeshObject } from "./Base";
+import { TrMeshObject, BasicOptions } from "./Base";
 import Utils from "../../AppUtils";
 import { Quad3D, Sector3D } from "./Planar";
 
 const defaultOptions = {
-  color: [0.5, 0.5, 0.5, 1],
+  ...BasicOptions,
   dPhiCount: 20,
   dYCount: 10,
   phiMin: 0,
-  phiMax: 2 * Math.PI,
-  deltaColor: 0.02
+  phiMax: 2 * Math.PI
 };
 // Define Cylindrical objects
 // Y axis is the cylinder axis and stays in y>0
@@ -27,32 +26,43 @@ class CylinderSurface3D extends TrMeshObject {
         dYCount,
         phiMin,
         phiMax,
-        color,
-        deltaColor
+        colorPerVertex,
+        getColor
       } = this.options;
       const dPhi = (phiMax - phiMin) / dPhiCount;
       const yMin = 0;
       const yMax = this.height;
       const dy = (yMax - yMin) / dYCount;
       const r = this.radius;
-      const colorList = [color, color.map(c => c + deltaColor)];
       const phi = i => phiMin + i * dPhi;
       const y = i => 0 + i * dy;
+      const processIndices = indices => {
+        const pListForQuad = [];
+        const cListForQuad = [];
+        indices.forEach(ij => {
+          const p = Utils.rPhiYtoXYZ(r, phi(ij[0]), y(ij[1]));
+          pListForQuad.push(p);
+          if (colorPerVertex && getColor) {
+            cListForQuad.push(getColor(ij[0], ij[1], this.options));
+          }
+        });
+        const quad = new Quad3D(pListForQuad);
+        quad.getNormal = v => [v[0], 0, v[2]];
+        if (getColor) {
+          if (colorPerVertex) {
+            quad.setOptions({ colorPerVertexArray: cListForQuad });
+          } else {
+            const color = getColor(indices[0][0], indices[0][1], this.options);
+            quad.setOptions({ color });
+          }
+        }
+        this.childList.push(quad);
+      };
+
       for (let i = 0; i < dPhiCount; i += 1) {
         for (let j = 0; j < dYCount; j += 1) {
-          const p1 = Utils.rPhiYtoXYZ(r, phi(i), y(j + 1));
-          const p2 = Utils.rPhiYtoXYZ(r, phi(i), y(j));
-          const p3 = Utils.rPhiYtoXYZ(r, phi(i + 1), y(j));
-          const p4 = Utils.rPhiYtoXYZ(r, phi(i + 1), y(j + 1));
-          const quad = new Quad3D([p1, p2, p3, p4]);
-
-          // hack! TODO: change this logic
-          // support adding normal per vertex for quad3d
-          quad.getNormal = v => [v[0], 0, v[2]];
-
-          const colorKey = (i + j) % colorList.length;
-          quad.color = colorList[colorKey];
-          this.childList.push(quad);
+          const indices = [[i, j + 1], [i, j], [i + 1, j], [i + 1, j + 1]];
+          processIndices(indices);
         }
       }
     }

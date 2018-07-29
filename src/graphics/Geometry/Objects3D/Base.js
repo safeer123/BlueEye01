@@ -87,4 +87,16 @@ class TrMeshObject {
   }
 }
 
-export { VertexData, TrMeshObject };
+const BasicOptions = {
+  color: [0.6, 0.7, 0.6, 1],
+  deltaColor: 0.05,
+  colorPerVertex: false,
+  getColor: (i, j, options) => {
+    const { color, deltaColor } = options;
+    const k = (i + j) % 2;
+    const colorPlus = color.map(c => c + deltaColor);
+    return k > 0 ? color : colorPlus;
+  }
+};
+
+export { VertexData, TrMeshObject, BasicOptions };

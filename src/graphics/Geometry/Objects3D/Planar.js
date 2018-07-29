@@ -1,26 +1,32 @@
-import { TrMeshObject, VertexData } from "./Base";
+import { TrMeshObject, VertexData, BasicOptions } from "./Base";
 import { surfaceNormal } from "./Utils";
 import Utils from "../../AppUtils";
+
+const defaultOptionsTriangle3D = {
+  color: [0.5, 0.5, 0.5, 1],
+  colorPerVertexArray: null // array of colors (vec3 of vec4) for each vertex
+};
 
 // p(position): list of 3 vec3
 // t(textureCoord): list of 3 vec2
 class Triangle3D extends TrMeshObject {
   constructor(p, t = [[], [], []]) {
-    super();
+    super(defaultOptionsTriangle3D);
     if (p.length !== 3 || t.length !== 3) {
       console.error("Triangle3D: we expect 3 values from each vertex data");
     }
     this.p = p;
     this.t = t;
-    this.color = [0.5, 0.5, 0.5, 1];
   }
 
   toArrayBuffer() {
-    function toVertices(p, n, t, color) {
+    // Each input is an array
+    // p:position, n:normal, t:textureCoord, c:color
+    function toVertices(p, n, t, c) {
       const dataObj = new VertexData();
       const vertexData = [];
       for (let i = 0; i < 3; i += 1) {
-        vertexData.push(...p[i], ...color, ...n[i], ...t[i]);
+        vertexData.push(...p[i], ...c[i], ...n[i], ...t[i]);
       }
       const vertexNum = 3; // 3 vertices here
       dataObj.trglItems = vertexNum;
@@ -47,40 +53,60 @@ class Triangle3D extends TrMeshObject {
     } else {
       p = this.p;
     }
-    return toVertices(p, n, this.t, this.color);
+    const { color, colorPerVertexArray } = this.options;
+    let c = []; // We should create array of colors
+    if (colorPerVertexArray && colorPerVertexArray.length === 3) {
+      c = colorPerVertexArray;
+    } else {
+      c = [1, 2, 3].map(() => color);
+    }
+    return toVertices(p, n, this.t, c);
   }
 }
 
+const defaultOptionsQuad3D = {
+  color: [0.5, 0.5, 0.5, 1],
+  colorPerVertexArray: null // array of colors (vec4 of vec4) for each vertex
+};
 // p(position): list of 4 vec3
 // t(textureCoord): list of 4 vec2
 class Quad3D extends TrMeshObject {
   constructor(p, t = [[], [], [], []]) {
-    super();
+    super(defaultOptionsQuad3D);
     if (p.length !== 4 || t.length !== 4) {
       console.error("Quad3D: we expect 4 values from each vertex data");
     }
-    this.triangle1 = new Triangle3D([p[0], p[1], p[2]], [t[0], t[1], t[2]]);
-    this.triangle2 = new Triangle3D([p[0], p[2], p[3]], [t[0], t[2], t[3]]);
-    this.color = [72 / 256, 162 / 256, 219 / 256, 1]; // default
+    this.p = p;
+    this.t = t;
   }
 
   generateChildItems() {
     if (this.childList.length === 0) {
-      this.triangle1.color = this.color;
-      this.triangle2.color = this.color;
-      this.childList.push(this.triangle1);
-      this.childList.push(this.triangle2);
+      const { p, t } = this;
+      const { color, colorPerVertexArray } = this.options;
+      const triangleFromIndices = (i, j, k) => {
+        const triangle = new Triangle3D([p[i], p[j], p[k]], [t[i], t[j], t[k]]);
+        triangle.setOptions({ color });
+        if (colorPerVertexArray && colorPerVertexArray.length === 4) {
+          const c4 = colorPerVertexArray;
+          const c = [c4[i], c4[j], c4[k]];
+          triangle.setOptions({ colorPerVertexArray: c });
+        }
+        return triangle;
+      };
+      this.triangle1 = triangleFromIndices(0, 1, 2);
+      this.triangle2 = triangleFromIndices(0, 2, 3);
+      this.childList.push(this.triangle1, this.triangle2);
     }
   }
 }
 
 const defaultOptionsSector3D = {
+  ...BasicOptions,
   dPhiCount: 20,
   dRCount: 1,
   startPhi: 0,
-  endPhi: 2 * Math.PI,
-  color: [0.4, 0.4, 0.4, 1],
-  deltaColor: 0.02
+  endPhi: 2 * Math.PI
 };
 
 class Sector3D extends TrMeshObject {
@@ -99,27 +125,41 @@ class Sector3D extends TrMeshObject {
         dRCount,
         startPhi,
         endPhi,
-        color,
-        deltaColor
+        colorPerVertex,
+        getColor
       } = this.options;
       const dPhi = (endPhi - startPhi) / dPhiCount;
       const dR = radius / dRCount;
-      const colorList = [color, color.map(c => c + deltaColor)];
 
+      const HalfPi = 0.5 * Math.PI;
       const phi = i => startPhi + i * dPhi;
       const r = i => 0 + i * dR;
+      const processIndices = indices => {
+        const pListForQuad = [];
+        const cListForQuad = [];
+        indices.forEach(ij => {
+          const p = Utils.rThetaPhiToXYZ(r(ij[0]), HalfPi, phi(ij[1]));
+          pListForQuad.push(p);
+          if (colorPerVertex && getColor) {
+            cListForQuad.push(getColor(ij[0], ij[1], this.options));
+          }
+        });
+        const quad = new Quad3D(pListForQuad);
+        if (getColor) {
+          if (colorPerVertex) {
+            quad.setOptions({ colorPerVertexArray: cListForQuad });
+          } else {
+            const color = getColor(indices[0][0], indices[0][1], this.options);
+            quad.setOptions({ color });
+          }
+        }
+        this.childList.push(quad);
+      };
 
       for (let i = 0; i < dPhiCount; i += 1) {
         for (let j = 0; j < dRCount; j += 1) {
-          const HalfPi = 0.5 * Math.PI;
-          const p1 = Utils.rThetaPhiToXYZ(r(j + 1), HalfPi, phi(i + 1));
-          const p2 = Utils.rThetaPhiToXYZ(r(j), HalfPi, phi(i + 1));
-          const p3 = Utils.rThetaPhiToXYZ(r(j), HalfPi, phi(i));
-          const p4 = Utils.rThetaPhiToXYZ(r(j + 1), HalfPi, phi(i));
-          const quad = new Quad3D([p1, p2, p3, p4]);
-          const colorKey = (i + j) % colorList.length;
-          quad.color = colorList[colorKey];
-          this.childList.push(quad);
+          const indices = [[j + 1, i + 1], [j, i + 1], [j, i], [j + 1, i]];
+          processIndices(indices);
         }
       }
     }
@@ -127,10 +167,9 @@ class Sector3D extends TrMeshObject {
 }
 
 const defaultOptionsQuadSurface3D = {
+  ...BasicOptions,
   divCount1: 10,
-  divCount2: 10,
-  color: [0.4, 0.4, 0.4, 1],
-  deltaColor: 0.2
+  divCount2: 10
 };
 
 class QuadSurface3D extends TrMeshObject {
@@ -147,11 +186,9 @@ class QuadSurface3D extends TrMeshObject {
   generateChildItems() {
     if (this.childList.length === 0) {
       const { p1, p2, p3, p4 } = this;
-      const { divCount1, divCount2, color, deltaColor } = this.options;
+      const { divCount1, divCount2, colorPerVertex, getColor } = this.options;
       const dAlpha = 1.0 / divCount1;
       const dBeta = 1.0 / divCount2;
-      const colorList = [color, color.map(c => c + deltaColor)];
-
       const grid = [];
       for (let i = 0; i <= divCount1; i += 1) {
         const t = i * dAlpha;
@@ -164,17 +201,32 @@ class QuadSurface3D extends TrMeshObject {
         }
       }
 
+      const processIndices = indices => {
+        const pListForQuad = [];
+        const cListForQuad = [];
+        indices.forEach(ij => {
+          const p = grid[ij[0]][ij[1]];
+          pListForQuad.push(p);
+          if (colorPerVertex && getColor) {
+            cListForQuad.push(getColor(ij[0], ij[1], this.options));
+          }
+        });
+        const quad = new Quad3D(pListForQuad);
+        if (getColor) {
+          if (colorPerVertex) {
+            quad.setOptions({ colorPerVertexArray: cListForQuad });
+          } else {
+            const color = getColor(indices[0][0], indices[0][1], this.options);
+            quad.setOptions({ color });
+          }
+        }
+        this.childList.push(quad);
+      };
+
       for (let i = 0; i < divCount1; i += 1) {
         for (let j = 0; j < divCount2; j += 1) {
-          const quad = new Quad3D([
-            grid[i][j],
-            grid[i][j + 1],
-            grid[i + 1][j + 1],
-            grid[i + 1][j]
-          ]);
-          const colorKey = (i + j) % colorList.length;
-          quad.color = colorList[colorKey];
-          this.childList.push(quad);
+          const indices = [[i, j], [i, j + 1], [i + 1, j + 1], [i + 1, j]];
+          processIndices(indices);
         }
       }
     }

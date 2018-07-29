@@ -1,12 +1,11 @@
-import { TrMeshObject } from "./Base";
+import { TrMeshObject, BasicOptions } from "./Base";
 import Utils from "../../AppUtils";
 import { Quad3D, Sector3D } from "./Planar";
 
 const defaultOptionsSphere3D = {
+  ...BasicOptions,
   dThetaCount: 20,
   dPhiCount: 20,
-  deltaColor: 0.2,
-  color: [0.6, 0.6, 0.6, 1],
   startTheta: 0,
   endTheta: Math.PI,
   startPhi: 0,
@@ -26,34 +25,46 @@ class Sphere3D extends TrMeshObject {
       const {
         dThetaCount,
         dPhiCount,
-        color,
-        deltaColor,
         startTheta,
         endTheta,
         startPhi,
-        endPhi
+        endPhi,
+        colorPerVertex,
+        getColor
       } = this.options;
       const dTheta = (endTheta - startTheta) / dThetaCount;
       const dPhi = (endPhi - startPhi) / dPhiCount;
       const r = this.radius;
-      const colorList = [color, color.map(c => c + deltaColor)];
 
       const theta = i => startTheta + i * dTheta;
       const phi = i => startPhi + i * dPhi;
+      const processIndices = indices => {
+        const pListForQuad = [];
+        const cListForQuad = [];
+        indices.forEach(ij => {
+          const p = Utils.rThetaPhiToXYZ(r, theta(ij[0]), phi(ij[1]));
+          pListForQuad.push(p);
+          if (colorPerVertex && getColor) {
+            cListForQuad.push(getColor(ij[0], ij[1], this.options));
+          }
+        });
+        const quad = new Quad3D(pListForQuad);
+        quad.getNormal = v => v;
+        if (getColor) {
+          if (colorPerVertex) {
+            quad.setOptions({ colorPerVertexArray: cListForQuad });
+          } else {
+            const color = getColor(indices[0][0], indices[0][1], this.options);
+            quad.setOptions({ color });
+          }
+        }
+        this.childList.push(quad);
+      };
 
       for (let i = 0; i < dThetaCount; i += 1) {
         for (let j = 0; j < dPhiCount; j += 1) {
-          const p1 = Utils.rThetaPhiToXYZ(r, theta(i), phi(j));
-          const p2 = Utils.rThetaPhiToXYZ(r, theta(i + 1), phi(j));
-          const p3 = Utils.rThetaPhiToXYZ(r, theta(i + 1), phi(j + 1));
-          const p4 = Utils.rThetaPhiToXYZ(r, theta(i), phi(j + 1));
-          const quad = new Quad3D([p1, p2, p3, p4]);
-
-          quad.getNormal = v => v;
-
-          const colorKey = (i + j) % colorList.length;
-          quad.color = colorList[colorKey];
-          this.childList.push(quad);
+          const indices = [[i, j], [i + 1, j], [i + 1, j + 1], [i, j + 1]];
+          processIndices(indices);
         }
       }
     }
