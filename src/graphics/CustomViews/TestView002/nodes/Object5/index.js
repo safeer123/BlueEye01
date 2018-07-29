@@ -2,7 +2,6 @@ import WorldObject from "../../../../WorldObject";
 import OBJ0 from "../../../../Geometry/Objects3D/objects";
 import WOFACTORY from "../../../../WorldObjectStore/Factory";
 import config from "./config";
-import { createTrue } from "typescript";
 
 const Obj5Type = "Obj5Type";
 
@@ -37,7 +36,7 @@ class Shape5 extends WorldObject {
       {
         color: [0.5, 0.3, 0.2, 1],
         deltaColor: 0.2,
-        colorPerVertex: false,
+        colorPerVertex: true,
         getColor
       }
     );
