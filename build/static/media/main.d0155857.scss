@@ -1,0 +1,77 @@
+@import './fonts/font-family.scss';
+
+$theme_color:#064a62;
+$main_font_family: "Open Sans";
+
+body, html{
+    height: 100%;
+    overflow: hidden;
+    font-family: "Open Sans";
+}
+canvas {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+#root{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.main-footer{
+    background-color: $theme_color;
+    width: 100%;
+    height: 0px;
+    color: #DDD;
+}
+
+.wrapper {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.main-content{
+    background-color: #ced1d2;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.main-content .canvas-wrapper{
+    height: 100%;
+    width: 100%;
+    background-color: #ced1d2;
+}
+
+.main-content .loader{
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    font-size: 18px;
+    letter-spacing: 2;
+    font-weight: bold;
+    color: #666;
+    z-index: 2;
+    opacity: 1;
+}
+
+.main-content .fullscreen{
+    height: 100% !important;
+}
+
+.custom-popover{
+    font-family: $main_font_family;
+    font-size: 15px;
+    line-height: 0.4;
+    position: absolute;
+    background-color: #EEE;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid #CCC;
+    border-radius: 3px;
+    z-index: 2;
+    pointer-events: none;
+    margin-left: -5px;
+    margin-top: 5px;
+    padding: 10px;
+}

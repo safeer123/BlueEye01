@@ -142,7 +142,7 @@ const commonConfig = () => ({
         to: __dirname + "/dist/images/"
       },
       {
-        from: __dirname + "/styles",
+        from: __dirname + "/src/styles",
         to: __dirname + "/dist/styles/"
       }
     ]),

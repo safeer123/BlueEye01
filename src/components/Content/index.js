@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import Fullscreen from "react-full-screen";
-import NoSleep from "nosleep.js";
 import GLController from "../../graphics/GLController";
 import CustomPopover from "../Overlay/CustomPopover";
 import Utils from "../../graphics/AppUtils";
@@ -22,9 +21,6 @@ class Content extends React.Component {
         displayItemList: []
       }
     };
-
-    this.noSleepObj = new NoSleep();
-
     this.resizeHandler = this.resizeHandler.bind(this);
   }
 
@@ -132,12 +128,6 @@ class Content extends React.Component {
   }
 
   render() {
-    // If we are fullscreen, then we restrict device going to sleep mode
-    if (this.state.isFullscreenMode) {
-      this.noSleepObj.enable();
-    } else {
-      this.noSleepObj.disable();
-    }
 
     return (
       <div
