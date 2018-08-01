@@ -1,8 +1,6 @@
 ---
 ---
 
-@import './fonts/font-family.scss';
-
 $theme_color:#064a62;
 $main_font_family: "Open Sans";
 
@@ -64,7 +62,7 @@ canvas {
 }
 
 .custom-popover{
-    font-family: $main_font_family;
+    font-family: "Arial";
     font-size: 15px;
     line-height: 0.4;
     position: absolute;
