@@ -257,17 +257,16 @@ DONE ---> New Scene
 	- bring cylinder on it
 	- bring sphere, box on it in one end
 	- move cylinder to the next position
+	
+DONE ---> Quad should support color per vertex
+
+DONE ---> define getColor for more flexibility on choosing the color
+DONE ---> Coloring of Geometry based on a callback with all inputs
+DONE ---> Color on vertex level
+DONE ---> Make a github page for hosting static project
 ===========================================
 
-
-
-Quad should support color per vertex
-
-define getColor for more flexibility on choosing the color
-Coloring of Geometry based on a callback with all inputs
-Color on vertex level
-
-Fix: Desktop: blank screen just after fullscreen. need some interactio to see the scene.
+Fix: Desktop: blank screen just after fullscreen. need some interaction to see the scene.
 
 Cam ThetaPhi implement pan based rotation
 
