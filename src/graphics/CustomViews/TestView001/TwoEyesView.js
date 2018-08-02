@@ -17,11 +17,11 @@ export default class TwoEyesView extends SplitScreenCanvasView {
   };
 
   rebuildNodes() {
-    const { nodes, twoEyes, initAnimation } = getNodes(this.inObj);
+    const { nodes, twoEyes, initScene } = getNodes(this.inObj);
 
     this.nodes = nodes;
     this.twoEyes = twoEyes;
-    this.initAnimation = initAnimation;
+    this.initScene = initScene;
   }
 
   createScene() {
@@ -43,6 +43,6 @@ export default class TwoEyesView extends SplitScreenCanvasView {
     const { canvas } = this;
     this.setLeftRightScenes(leftScene, rightScene, canvas);
 
-    this.initAnimation();
+    this.initScene();
   }
 }

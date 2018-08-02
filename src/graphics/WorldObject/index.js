@@ -156,6 +156,7 @@ export default class WorldObject extends Node {
     if (!this.modelMatrix)
       this.modelMatrix = new Matrix4(() => {
         this.rebuildProperties = true;
+        this.trySceneUpdate();
       });
     return this.modelMatrix;
   }

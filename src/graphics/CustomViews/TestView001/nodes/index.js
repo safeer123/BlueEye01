@@ -69,7 +69,7 @@ export default function getNodes(inpObj) {
   let theta = 0;
   const deltaTheta = 0.005;
   let animationRef = null;
-  const initAnimation = () => {
+  const initScene = () => {
     if (animationRef) {
       clearInterval(animationRef);
     }
@@ -90,6 +90,6 @@ export default function getNodes(inpObj) {
     camThetaPhi,
     oneEyeCam,
     twoEyes,
-    initAnimation
+    initScene
   };
 }

@@ -19,6 +19,7 @@ export default class TestView001 extends ViewHolder {
   createScene() {
     // This should be How we rebuild the scene
     if (this.currentView) {
+      this.currentView.stop();
       this.currentView.createScene();
       this.currentView.start();
     }

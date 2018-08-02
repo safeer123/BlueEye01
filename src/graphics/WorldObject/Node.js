@@ -89,7 +89,7 @@ export default class Node {
     // This will imply that we should recompute all properties
     this.rebuildProperties = true;
 
-    if (this.sceneUpdater) this.sceneUpdater();
+    this.trySceneUpdate();
   }
 
   setPropertyGetter(propertyName, getter) {
@@ -100,7 +100,7 @@ export default class Node {
     // This will imply that we should recompute all properties
     this.rebuildProperties = true;
 
-    if (this.sceneUpdater) this.sceneUpdater();
+    this.trySceneUpdate();
   }
 
   getProperty(propertyName) {
@@ -132,5 +132,9 @@ export default class Node {
 
   setSceneUpdater(sceneUpdater) {
     this.sceneUpdater = sceneUpdater;
+  }
+
+  trySceneUpdate() {
+    if (this.sceneUpdater) this.sceneUpdater();
   }
 }

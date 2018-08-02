@@ -81,6 +81,7 @@ export default class CanvasView {
 
   start() {
     if (!this.loopStarted) {
+      this.renderOnce = true;
       Utils.startRenderingLoop(this.renderLoop.bind(this));
       this.loopStarted = true;
     }

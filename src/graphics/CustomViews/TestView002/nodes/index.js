@@ -74,10 +74,10 @@ export default function getNodes(inpObj) {
   twoEyes.listenToOrientationChange();
   twoEyes.enableDefaultUserControls();
   // Animation
-  const initAnimation = () => {
+  const initScene = () => {
     setTimeout(() => {
-      shape1.setProperty("height", 5);
-    }, 2);
+      shape1.trySceneUpdate();
+    }, 100);
   };
 
   // return all root nodes
@@ -86,6 +86,6 @@ export default function getNodes(inpObj) {
     camThetaPhi,
     twoEyes,
     oneEye,
-    initAnimation
+    initScene
   };
 }

@@ -16,12 +16,12 @@ export default class SplitScreenView extends SplitScreenCanvasView {
   };
 
   rebuildNodes() {
-    const { nodes, camLeft, camRight, initAnimation } = getNodes(this.inObj);
+    const { nodes, camLeft, camRight, initScene } = getNodes(this.inObj);
 
     this.nodes = nodes;
     this.camLeft = camLeft;
     this.camRight = camRight;
-    this.initAnimation = initAnimation;
+    this.initScene = initScene;
   }
 
   createScene() {
@@ -43,6 +43,6 @@ export default class SplitScreenView extends SplitScreenCanvasView {
     const { canvas } = this;
     this.setLeftRightScenes(leftScene, rightScene, canvas);
 
-    this.initAnimation();
+    this.initScene();
   }
 }
