@@ -1,8 +1,3 @@
-@import './fonts/font-family.scss';
-
-$theme_color:#064a62;
-$main_font_family: "Open Sans";
-
 body, html{
     height: 100%;
     overflow: hidden;
@@ -19,7 +14,7 @@ canvas {
     height: 100%;
 }
 .main-footer{
-    background-color: $theme_color;
+    background-color: #064a62;
     width: 100%;
     height: 0px;
     color: #DDD;
@@ -61,7 +56,7 @@ canvas {
 }
 
 .custom-popover{
-    font-family: $main_font_family;
+    font-family: "Arial";
     font-size: 15px;
     line-height: 0.4;
     position: absolute;

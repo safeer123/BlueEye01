@@ -1,7 +1,8 @@
 import React from "react";
 import Footer from "./Footer";
 import Content from "./Content";
-import "../styles/main.scss";
+
+require("../styles/main.css");
 
 const App = props => {
   return (

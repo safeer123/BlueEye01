@@ -36,7 +36,7 @@ class Shape5 extends WorldObject {
       {
         color: [0.5, 0.3, 0.2, 1],
         deltaColor: 0.2,
-        colorPerVertex: true,
+        colorPerVertex: false,
         getColor
       }
     );
