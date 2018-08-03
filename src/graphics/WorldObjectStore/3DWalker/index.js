@@ -83,6 +83,9 @@ export default class Space3DWalker extends OrientationListener {
       [SecondaryKeys.pinch]: e => {
         walk(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);
       },
+      [SecondaryKeys.wheel]: e => {
+        walk(STEPDIST * (e.dy > 0 ? -1 : 1) * 1);
+      },
       summary: summaryPosition
     };
     this.userControl.registerControlMode(

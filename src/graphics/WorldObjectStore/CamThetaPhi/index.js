@@ -33,6 +33,7 @@ export default class CamThetaPhi extends Camera {
     const modeName = "Camera-θφ";
     const DPHI = 0.01;
     const DTHETA = 0.01;
+    const STEPDIST = 1;
     const phiPlus = dPhi => {
       const phi = (this.getProperty("phi") + dPhi) % (2 * Math.PI);
       this.setProperty("phi", phi);
@@ -40,6 +41,10 @@ export default class CamThetaPhi extends Camera {
     const thetaPlus = dTheta => {
       const theta = (this.getProperty("theta") + dTheta) % Math.PI;
       this.setProperty("theta", theta);
+    };
+    const radiusPlus = dR => {
+      const radius = this.getProperty("radius") + dR;
+      this.setProperty("radius", radius);
     };
     const summary = () => {
       const phiInDeg = Utils.radToDeg(this.getProperty("phi"));
@@ -52,6 +57,16 @@ export default class CamThetaPhi extends Camera {
       [SecondaryKeys.ArrowRight]: () => phiPlus(DPHI),
       [SecondaryKeys.ArrowUp]: () => thetaPlus(-DTHETA),
       [SecondaryKeys.ArrowDown]: () => thetaPlus(DTHETA),
+      [SecondaryKeys.pan]: e => {
+        phiPlus(DPHI * e.velocityX);
+        thetaPlus(-DTHETA * e.velocityY);
+      },
+      [SecondaryKeys.pinch]: e => {
+        radiusPlus(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);
+      },
+      [SecondaryKeys.wheel]: e => {
+        radiusPlus(STEPDIST * (e.dy > 0 ? -1 : 1) * 1);
+      },
       summary
     };
     this.userControl.registerControlMode("default", keyControlObject);
