@@ -1,12 +1,12 @@
 {
-  "name": "graphics-max",
+  "name": "blue-eye-01",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://safeer123.github.io/graphics-max",
+  "homepage": "https://safeer123.github.io/BlueEye01/",
   "scripts": {
     "prod": "webpack -p --env.prod=true",
-    "start": "webpack-dev-server --host 192.168.0.105 --inline --env.prod=false --port=4088",
+    "start": "webpack-dev-server --host localhost --inline --env.prod=false --port=4088",
     "test": "cross-env NODE_ENV=test jest",
     "lint": "eslint src --fix",
     "build": "react-scripts build",
@@ -85,6 +85,7 @@
     "json-loader": "^0.5.7",
     "lodash": "^4.17.4",
     "moment": "^2.19.2",
+    "mouse-wheel": "^1.2.0",
     "nosleep.js": "^0.7.0",
     "prop-types": "^15.6.0",
     "react": "^16.1.1",

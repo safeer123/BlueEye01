@@ -13,20 +13,14 @@ const devConfig = () => ({
   devtool: "eval-source-map",
   devServer: {
     disableHostCheck: true,
-    public: '192.168.0.105:4088',
+    public: 'localhost:4088',
     contentBase: "dist",
     compress: true,
     port: "4088",
     stats: "errors-only",
     open: true,
     inline: true,
-    historyApiFallback: true,
-    proxy: {
-      //"/signalr/**": "http://bsrrmtddbint01.corp.optym.net/rmt_api/",
-      //'/rmt_api/signalr/**': "http://bsrrmtddbint01.corp.optym.net/rmt_api/signalr/",
-      //"/api": "http://bsrrmtddbint01.corp.optym.net/rmt_api/",
-      //"/token": "http://bsrrmtddbint01.corp.optym.net/rmt_api/"
-    }
+    historyApiFallback: true
   }
 });
 const prodConfig = () => ({
