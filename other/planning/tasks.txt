@@ -259,16 +259,17 @@ DONE ---> New Scene
 	- move cylinder to the next position
 	
 DONE ---> Quad should support color per vertex
-
 DONE ---> define getColor for more flexibility on choosing the color
 DONE ---> Coloring of Geometry based on a callback with all inputs
 DONE ---> Color on vertex level
 DONE ---> Make a github page for hosting static project
+DONE ---> Fix: Desktop: blank screen just after fullscreen. need some interaction to see the scene.
+DONE ---> Rename initAnimation to initScene
+DONE ---> mouse wheel for space walk on desktop. check hammerjs has mousewheel support.
+DONE ---> Cam ThetaPhi implement pan based rotation.
 ===========================================
 
-Fix: Desktop: blank screen just after fullscreen. need some interaction to see the scene.
-
-Cam ThetaPhi implement pan based rotation
+Remove idea of InitList from WO class.
 
 Box3D: propery faceColorGetter(face) return getColor for face;
 Optymize code for Box3D generateChildren
