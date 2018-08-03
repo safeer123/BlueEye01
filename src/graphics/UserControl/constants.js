@@ -52,7 +52,8 @@ const SecondaryKeys = {
   AxisX: "AxisX",
   AxisY: "AxisY",
   pan: GestureType.Pan,
-  pinch: GestureType.Pinch
+  pinch: GestureType.Pinch,
+  wheel: GestureType.Wheel
 };
 
 export { MasterPrimaryKeys, PrimaryKeys, SecondaryKeys };

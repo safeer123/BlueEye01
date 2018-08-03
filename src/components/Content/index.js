@@ -6,6 +6,8 @@ import CustomPopover from "../Overlay/CustomPopover";
 import Utils from "../../graphics/AppUtils";
 import { GestureTypeList, GestureType } from "../../constants/Gesture";
 
+const MouseWheel = require("mouse-wheel");
+
 const Hammer = require("hammerjs");
 
 class Content extends React.Component {
@@ -68,6 +70,12 @@ class Content extends React.Component {
         }
       });
     });
+
+    MouseWheel(this.canvasWrapper, (dx, dy) => {
+      if (this.glController && this.state.isFullscreenMode) {
+        this.glController.handleGesture(GestureType.Wheel, { dx, dy });
+      }
+    });
   };
 
   displayLoaderOnNeed() {
@@ -128,7 +136,6 @@ class Content extends React.Component {
   }
 
   render() {
-
     return (
       <div
         className="main-content"

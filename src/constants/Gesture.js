@@ -5,7 +5,8 @@ const GestureType = {
   // Tap: "tap",
   Pan: "pan",
   DoubleTap: "doubletap",
-  Pinch: "pinch"
+  Pinch: "pinch",
+  Wheel: "wheel"
 };
 
 const GestureTypeList = [
