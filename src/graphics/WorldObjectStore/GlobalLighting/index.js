@@ -7,10 +7,10 @@ import OBJ2D from "../../Geometry/Objects2D/objects";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
 import { PrimaryKeys, SecondaryKeys } from "../../UserControl/constants";
 
-export default class Sun extends SceneSetter {
+export default class GlobalLighting extends SceneSetter {
   constructor(inObj, configList = []) {
     super(inObj, [config, ...configList]);
-    this.setSceneSetterType(SceneSetterTypes.SUN_SCENE_SETTER);
+    this.setSceneSetterType(SceneSetterTypes.GLOBAL_LIGHTING_SCENE_SETTER);
 
     this.setPropertyGetter("sun_light_color", () => {
       if (this.getProperty("isDay")) return config.dayColor;
@@ -24,7 +24,7 @@ export default class Sun extends SceneSetter {
 
     this.setPropertyGetter("isDay", () => {
       const theta = this.getProperty("theta");
-      return theta > Math.PI * 0.5 || theta < -Math.PI * 0.5;
+      return theta < Math.PI * 0.5 && theta > -Math.PI * 0.5;
     });
 
     // Create sky color for background
@@ -37,6 +37,8 @@ export default class Sun extends SceneSetter {
       );
       return [...netColor, 1.0];
     });
+
+    this.addSceneSettingProps(["sun_direction", "sun_light_color"]);
   }
 
   enableDefaultUserControls() {

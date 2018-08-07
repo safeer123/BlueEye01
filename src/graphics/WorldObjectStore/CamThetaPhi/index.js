@@ -65,7 +65,7 @@ export default class CamThetaPhi extends Camera {
         radiusPlus(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);
       },
       [SecondaryKeys.wheel]: e => {
-        radiusPlus(STEPDIST * (e.dy > 0 ? -1 : 1) * 1);
+        radiusPlus(STEPDIST * (e.dy > 0 ? 1 : -1) * 1);
       },
       summary
     };

@@ -27,6 +27,8 @@ export default class AbstractCamera extends SceneSetter {
       "projection_view_matrix",
       this.getProjectionViewMatrix.bind(this)
     );
+
+    this.addSceneSettingProps(["projection_view_matrix"]);
   }
 
   setupScene(objRenderer) {

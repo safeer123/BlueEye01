@@ -8,8 +8,8 @@ import OneEye from "../OneEye";
 import CompositeShapes0 from "../CompositeShapes0";
 import AbstractPointLight from "../AbstractPointLight";
 import GlowingSphere from "../GlowingSphere";
-import Sun from "../Sun";
 import TwoEyes from "../TwoEyes";
+import GlobalLighting from "./../GlobalLighting";
 
 const TypeNodeMapping = [
   { type: NodeTypes.ABSTRACT_NODE, Class: Node },
@@ -20,7 +20,7 @@ const TypeNodeMapping = [
   { type: NodeTypes.COMPOSITE_CUSTOM_SHAPES, Class: CompositeShapes0 },
   { type: NodeTypes.ABSTRACT_LIGHT, Class: AbstractPointLight },
   { type: NodeTypes.GLOWING_SPHERE, Class: GlowingSphere },
-  { type: NodeTypes.SUN_OBJECT, Class: Sun },
+  { type: NodeTypes.GLOBAL_LIGHTING, Class: GlobalLighting },
   { type: NodeTypes.TWO_EYES, Class: TwoEyes }
 ];
 

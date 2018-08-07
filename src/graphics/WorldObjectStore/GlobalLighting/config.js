@@ -1,6 +1,6 @@
 const config = {
-  dayColor: [0.9, 0.7, 0.7],
-  nightColor: [0.1, 0.1, 0.1],
+  dayColor: [0.3, 0.1, 0.1],
+  nightColor: [0.0, 0.0, 0.0],
 
   PropertyList: [
     {
@@ -11,7 +11,7 @@ const config = {
     {
       name: "sun_light_color",
       type: "vec3",
-      value: [0.9, 0.7, 0.7]
+      value: [0.0, 0.0, 0.0]
     },
     {
       name: "isDay",
