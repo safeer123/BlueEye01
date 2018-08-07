@@ -7,6 +7,13 @@ export default class SceneSetter extends WorldObject {
   constructor(inObj, configList = []) {
     super(inObj, [config, ...configList]);
     this.sceneSetterType = null; // to be defined by derived class
+    this.sceneSettingProps = [];
+  }
+
+  addSceneSettingProps(propNameList) {
+    if (propNameList && propNameList.length > 0) {
+      this.sceneSettingProps.push(...propNameList);
+    }
   }
 
   setSceneSetterType(type) {
@@ -22,5 +29,17 @@ export default class SceneSetter extends WorldObject {
         this.sceneSetterType
       }: Scene setter does not have mandatory setupScene method.`
     );
+  }
+
+  // Override render
+  render() {
+    if (this.rebuildProperties && this.sceneSettingProps.length > 0) {
+      this.sceneSettingProps.forEach(propName => {
+        // We just recompute the properties once
+        this.getProperty(propName);
+      });
+    }
+    // call WO render method
+    super.render();
   }
 }
