@@ -27,9 +27,9 @@ export default class TestView001 extends ViewHolder {
 /* eslint-disable */
   getViewList() {
     return[
+    SingleNodeView,
     TwoEyesView,
-    OneEyeView,
-    SingleNodeView
+    OneEyeView
   ];
   }
   /* eslint-enable */

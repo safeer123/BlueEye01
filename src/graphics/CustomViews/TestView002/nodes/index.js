@@ -43,9 +43,10 @@ export default function getNodes(inpObj) {
   const shape5 = WOFACTORY.create(Obj5Type, [inObj()]);
   platform.addChildren([shape5]);
 
-  const sunObj = WOFACTORY.create(NodeTypes.SUN_OBJECT, [
+  const globalLightObj = WOFACTORY.create(NodeTypes.GLOBAL_LIGHTING, [
     inObj(renderConfig2D)
   ]);
+  globalLightObj.setProperty("theta", 0.1 * Math.PI);
 
   const lightObj0 = WOFACTORY.create(NodeTypes.GLOWING_SPHERE, [inObj()]);
   lightObj0.setProperty("isON", true);
@@ -58,7 +59,7 @@ export default function getNodes(inpObj) {
   camThetaPhi.setProperty("target_position", [0, 0, 0]);
   camThetaPhi.setProperty("radius", 30);
   camThetaPhi.enableDefaultUserControls();
-  shape3.addChildren([camThetaPhi]);
+  lightObj0.addChildren([camThetaPhi]);
 
   const oneEye = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
   oneEye.setProperty("position", [70, 5, 0]);
@@ -82,7 +83,7 @@ export default function getNodes(inpObj) {
 
   // return all root nodes
   return {
-    nodes: [sunObj, platform, twoEyes, oneEye],
+    nodes: [globalLightObj, platform, twoEyes, oneEye],
     camThetaPhi,
     twoEyes,
     oneEye,

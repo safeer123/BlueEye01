@@ -23,7 +23,7 @@ export default function getNodes(inpObj) {
 
   const shapes = WOFACTORY.create(NodeTypes.COMPOSITE_CUSTOM_SHAPES, [inObj()]);
 
-  const sunObj = WOFACTORY.create(NodeTypes.SUN_OBJECT, [
+  const globalLightObj = WOFACTORY.create(NodeTypes.GLOBAL_LIGHTING, [
     inObj(renderConfig2D)
   ]);
 
@@ -84,7 +84,7 @@ export default function getNodes(inpObj) {
 
   // return all root nodes
   return {
-    nodes: [sunObj, shapes, camLeft, camRight, oneEyeCam, twoEyes],
+    nodes: [globalLightObj, shapes, camLeft, camRight, oneEyeCam, twoEyes],
     camLeft,
     camRight,
     camThetaPhi,
