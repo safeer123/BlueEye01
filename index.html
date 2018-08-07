@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><title>BlueEye</title><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="/BlueEye01/static/css/main.ea537066.css" rel="stylesheet"></head><body><script id="shader-f-multilight-3d" type="x-shader/x-fragment">precision mediump float;
-            #define MAX_LIGHTS 3
+            #define MAX_LIGHTS 20
 
             struct PointLight {
                 vec3 lightColor;
@@ -45,14 +45,20 @@
                   // ambient term
                   surfaceColor += u_Ka * u_Lights[k].lightColor * objectColor;
 
+                  // attenuation factor
+                  float lightRadius = 50.0;
+                  float quadCoeff = 1.0 / (lightRadius * lightRadius);
+                  float linearCoeff = 2.0 / lightRadius;
+                  float dist = length(u_Lights[k].lightPositionInWorld - v_surfacePosition);
+                  float attenuationFactor = 1.0 / (1.0 + linearCoeff * dist + quadCoeff * dist * dist);
+
                   // diffuse term
                   vec3 surfaceToLight = normalize(u_Lights[k].lightPositionInWorld - v_surfacePosition);
                   float I_diffuse = max(0.0, dot(normal, surfaceToLight));
-                  surfaceColor += I_diffuse * u_Kd * u_Lights[k].lightColor * objectColor;
+                  surfaceColor += attenuationFactor * I_diffuse * u_Kd * u_Lights[k].lightColor * objectColor;
 
                   if(I_diffuse > 0.0) {
                       // specular term
-
                   }
               }
             
@@ -170,4 +176,4 @@
               gl_Position = vec4(clipspace* vec2(1, -1), 0, 1);
 
               v_texCoord = a_texCoord;
-          }</script><div id="root"></div><script type="text/javascript" src="/BlueEye01/static/js/main.35a640b4.js"></script></body></html>
+          }</script><div id="root"></div><script type="text/javascript" src="/BlueEye01/static/js/main.77c9f6e3.js"></script></body></html>
