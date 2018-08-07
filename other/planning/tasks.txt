@@ -267,18 +267,42 @@ DONE ---> Fix: Desktop: blank screen just after fullscreen. need some interactio
 DONE ---> Rename initAnimation to initScene
 DONE ---> mouse wheel for space walk on desktop. check hammerjs has mousewheel support.
 DONE ---> Cam ThetaPhi implement pan based rotation.
+DONE ---> Remove idea of InitList from WO class. Wont remove.
+	- because base class properties can be reinitialized to different value in InitList.
+	
+DONE ---> Fix: Scene setters properties are not recomputed, 
+	- when its own render is called earlier and no getProperty methods are present in the render call
+DONE ---> rename Sun WO to GlobalLighting
+	- Later it should take care of all global lighting
+DONE ---> Quadratic attenuation of the light source
+DONE ---> Test this is working along with radius of light
 ===========================================
 
-Remove idea of InitList from WO class.
+
+Shader: Lights should have isON flag, based on that, optimize the looping
+	- Already there is isON property for light WO, use this
+	
+Shader: Lights should have radius flag, pass it from a WO property
+
+Didn't understand this post on attenuation
+https://gamedev.stackexchange.com/questions/21057/does-the-linear-attenuation-component-in-lighting-models-have-a-physical-counter
+	
+global ambience should be implemented in GlobalLighting WO
+
+Fix: Display out font is very big now
+
+impelement support for multiple light sources	 1
+
+implement spot light with angle input
+
+Add light radius as a shader input attribute of type float
 
 Box3D: propery faceColorGetter(face) return getColor for face;
-Optymize code for Box3D generateChildren
+Refactor/Optymize code for Box3D generateChildren
 
-Move stateUpdateHandler in Coontent/index to Overlay components
+Move stateUpdateHandler in Content/index to Overlay components
 
 Refactor M4 lib and Matrix4 class. add sub tasks here.
-
-Quadratic attenuation of the light source
 
 Other.js
 Define pipeSurface
@@ -323,10 +347,6 @@ refactor (alpha,beta,gamma) to (phi, theta) calc in OrientationListener
 
 
 What is unique id for a gamepad. Are we using it correclty for configuring.
-
-
-
-
 
 
 Can we show loader only when there is a delay in processing objects ?
