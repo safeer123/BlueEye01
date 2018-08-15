@@ -276,6 +276,8 @@ DONE ---> rename Sun WO to GlobalLighting
 	- Later it should take care of all global lighting
 DONE ---> Quadratic attenuation of the light source
 DONE ---> Test this is working along with radius of light
+
+DONE ---> Fix: Display out font is very big now
 ===========================================
 
 
@@ -289,9 +291,7 @@ https://gamedev.stackexchange.com/questions/21057/does-the-linear-attenuation-co
 	
 global ambience should be implemented in GlobalLighting WO
 
-Fix: Display out font is very big now
-
-impelement support for multiple light sources	 1
+impelement support for multiple light sources
 
 implement spot light with angle input
 
@@ -304,11 +304,13 @@ Move stateUpdateHandler in Content/index to Overlay components
 
 Refactor M4 lib and Matrix4 class. add sub tasks here.
 
+Fix: pan rotations are not appropriate. Seems like we should not use x(y)Velocity
+
 Other.js
 Define pipeSurface
 Invent Complex structures
 
-Consider re-using one scene for all views
+Consider re-using one scene object across multiple CanvasViews
 Create one/few super scenes and clone from them
 
 Fix: We implemented a dirty way to pass world_matrix by calling setProp(world_matrix) in render() call
