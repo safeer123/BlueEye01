@@ -280,22 +280,31 @@ DONE ---> Test this is working along with radius of light
 DONE ---> Fix: Display out font is very big now
 ===========================================
 
+implement support for multiple light sources
+
+Place three light sources for test
+
+implement switches for each light source
+
+make another carpet on the platform perpenticular to the previous one
+
+Place lights at four ends and the center of the platform object
+
+Place more objects in the scene
+	- rearrange objects for better visual experience
 
 Shader: Lights should have isON flag, based on that, optimize the looping
 	- Already there is isON property for light WO, use this
 	
-Shader: Lights should have radius flag, pass it from a WO property
+Shader: Lights should have radius input, pass it from a WO property
+	- Add light radius as a shader input attribute of type float
 
 Didn't understand this post on attenuation
 https://gamedev.stackexchange.com/questions/21057/does-the-linear-attenuation-component-in-lighting-models-have-a-physical-counter
 	
 global ambience should be implemented in GlobalLighting WO
 
-impelement support for multiple light sources
-
 implement spot light with angle input
-
-Add light radius as a shader input attribute of type float
 
 Box3D: propery faceColorGetter(face) return getColor for face;
 Refactor/Optymize code for Box3D generateChildren
