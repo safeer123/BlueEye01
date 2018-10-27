@@ -1,9 +1,13 @@
 import configure from "./configure";
+import NodeTypes from "../constants/NodeTypes";
+
+const MAX_LIGHT_COUNT = 10;
 
 // WOFactory: Defines a factory for creating instances of World Objects
 class WOFactory {
   constructor() {
     this.countOfObjects = 0;
+    this.lightCount = 0;
     this.WOClassLookup = {};
   }
 
@@ -21,14 +25,26 @@ class WOFactory {
   // List of argument objects to be passed in
   create(type, argObjects) {
     if (this.WOClassLookup[type]) {
-      const id = this.generateUniqueId(type);
       const Class = this.WOClassLookup[type];
       const obj = new Class(...argObjects);
-      obj.setId(id);
-      obj.setType(type);
+      this.initObject(type, obj);
       return obj;
     }
     return null;
+  }
+
+  initObject(type, obj) {
+    const id = this.generateUniqueId(type);
+    obj.setId(id);
+    obj.setType(type);
+    if (type === NodeTypes.ABSTRACT_LIGHT) {
+      obj.setLightIndex(this.lightCount);
+      if (this.lightCount < MAX_LIGHT_COUNT - 1) this.lightCount += 1;
+      else
+        console.log(
+          `Maximum Light count reached... We don't support more than ${MAX_LIGHT_COUNT} lights.`
+        );
+    }
   }
 
   // Generate a unique id using object count
