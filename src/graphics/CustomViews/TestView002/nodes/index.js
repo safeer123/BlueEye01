@@ -8,6 +8,7 @@ import Obj2Type from "./Object2";
 import Obj3Type from "./Object3";
 import Obj4Type from "./Object4";
 import Obj5Type from "./Object5";
+import LightTowerType from "./Object6";
 
 // Scene0 Layer
 export default function getNodes(inpObj) {
@@ -43,15 +44,18 @@ export default function getNodes(inpObj) {
   const shape5 = WOFACTORY.create(Obj5Type, [inObj()]);
   platform.addChildren([shape5]);
 
+  const light01 = WOFACTORY.create(LightTowerType, [inObj()]);
+  platform.addChildren([light01]);
+
   const globalLightObj = WOFACTORY.create(NodeTypes.GLOBAL_LIGHTING, [
     inObj(renderConfig2D)
   ]);
   globalLightObj.setProperty("theta", 0.1 * Math.PI);
 
-  const lightObj0 = WOFACTORY.create(NodeTypes.GLOWING_SPHERE, [inObj()]);
-  lightObj0.setProperty("isON", true);
-  lightObj0.setProperty("translation", [0, 5, 0]);
-  platform.addChildren([lightObj0]);
+  const centralLightObj = WOFACTORY.create(NodeTypes.GLOWING_SPHERE, [inObj()]);
+  centralLightObj.setProperty("isON", true);
+  centralLightObj.setProperty("translation", [0, 5, 0]);
+  platform.addChildren([centralLightObj]);
 
   const camThetaPhi = WOFACTORY.create(NodeTypes.CAMERA_SPHERICAL_PATH, [
     inObj()
@@ -59,7 +63,7 @@ export default function getNodes(inpObj) {
   camThetaPhi.setProperty("target_position", [0, 0, 0]);
   camThetaPhi.setProperty("radius", 30);
   camThetaPhi.enableDefaultUserControls();
-  lightObj0.addChildren([camThetaPhi]);
+  light01.addChildren([camThetaPhi]);
 
   const oneEye = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
   oneEye.setProperty("position", [70, 5, 0]);

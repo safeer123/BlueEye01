@@ -23,6 +23,10 @@ export default class AbstractPointLight extends SceneSetter {
     this.addSceneSettingProps(["light_color", "world_matrix"]);
   }
 
+  setLightIndex(i) {
+    this.lightIndex = i;
+  }
+
   // This light index is used in shaders to translate to which index in the light array
   setLightIndex(index) {
     this.lightIndex = index;
