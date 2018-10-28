@@ -280,6 +280,15 @@ DONE ---> Test this is working along with radius of light
 DONE ---> Fix: Display out font is very big now
 ===========================================
 
+bring list of views in the reducer
+	- first emit event from viewHolder and set it
+	
+Consume list of views in the view buttons panel
+Handle selection of the view
+When user changes view throught other means update it as well
+
+fix: displayOut duration logic breaks
+
 implement support for multiple light sources
 
 Place three light sources for test

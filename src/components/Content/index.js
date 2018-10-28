@@ -2,9 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import Fullscreen from "react-full-screen";
 import GLController from "../../graphics/GLController";
-import CustomPopover from "../Overlay/CustomPopover";
 import Utils from "../../graphics/AppUtils";
 import { GestureTypeList, GestureType } from "../../constants/Gesture";
+import UpdateOverlay from "./UpdateOverlay";
+import EventEmitter from "../../graphics/lib/EventEmitter";
+import { EventName } from "../../constants/Events";
+import ViewButtonsPanel from "./ViewButtonsPanel";
 
 const MouseWheel = require("mouse-wheel");
 
@@ -16,12 +19,7 @@ class Content extends React.Component {
 
     this.state = {
       loading: true,
-      isFullscreenMode: false,
-      modeOverlayState: {
-        visible: false,
-        expiryTime: new Date(),
-        displayItemList: []
-      }
+      isFullscreenMode: false
     };
     this.resizeHandler = this.resizeHandler.bind(this);
   }
@@ -29,7 +27,6 @@ class Content extends React.Component {
   componentDidMount() {
     console.log("Initializing graphics controller..");
     this.glController = new GLController(this.canvasWrapper);
-    this.glController.setStateUpdateHandler(this.stateUpdateHandler.bind(this));
 
     window.addEventListener("resize", this.resizeHandler);
     this.resizeHandler();
@@ -66,7 +63,7 @@ class Content extends React.Component {
           gesture === GestureType.Swipe
         ) {
           const step = e.direction === Hammer.DIRECTION_LEFT ? 1 : -1;
-          this.glController.switchView(step);
+          EventEmitter.emit(EventName.SwitchView, { step });
         }
       });
     });
@@ -85,35 +82,6 @@ class Content extends React.Component {
         {this.state.loading ? <span> {displayMsg} </span> : null}
       </div>
     );
-  }
-
-  // State update handler
-  stateUpdateHandler(displayOutList, duration = 2) {
-    const now = new Date();
-    const expiryTime = now.setSeconds(now.getSeconds() + duration);
-    const overlayState = {
-      visible: true,
-      expiryTime,
-      displayItemList: []
-    };
-    if (displayOutList && displayOutList.length > 0) {
-      displayOutList.forEach((str, index) => {
-        overlayState.displayItemList.push({ text: str, key: index });
-      });
-    }
-    this.setState({ modeOverlayState: overlayState });
-    setTimeout(() => {
-      const { expiryTime } = this.state.modeOverlayState;
-      if (new Date() > expiryTime) {
-        this.setState({
-          modeOverlayState: {
-            visible: false,
-            displayItemList: [],
-            expiryTime
-          }
-        });
-      }
-    }, (duration + 1) * 1000);
   }
 
   resizeHandler() {
@@ -158,10 +126,12 @@ class Content extends React.Component {
           >
             {this.displayLoaderOnNeed()}
           </div>
+          <ViewButtonsPanel />
         </Fullscreen>
-        <CustomPopover
-          visible={this.state.modeOverlayState.visible}
-          displayItemList={this.state.modeOverlayState.displayItemList}
+        <UpdateOverlay
+          ref={r => {
+            this.updateOverlay = r;
+          }}
         />
       </div>
     );

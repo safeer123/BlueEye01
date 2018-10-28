@@ -21,24 +21,10 @@ export default class GLController {
     if (done) done();
   }
 
-  setStateUpdateHandler(stateUpdateHandler) {
-    this.viewList.forEach(view => {
-      view.stateUpdateHandler = stateUpdateHandler;
-    });
-  }
-
   handleGesture(gestureType, event) {
     this.viewList.forEach(view => {
       if (view.handleGesture) {
         view.handleGesture(gestureType, event);
-      }
-    });
-  }
-
-  switchView(step) {
-    this.viewList.forEach(view => {
-      if (view.switchView) {
-        view.switchView(step);
       }
     });
   }

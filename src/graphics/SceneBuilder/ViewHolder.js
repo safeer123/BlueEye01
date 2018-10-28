@@ -1,8 +1,7 @@
 import GraphicsLayer from "../lib/GraphicsLayer";
 import UserControl from "../UserControl";
-import { GestureType } from "../../constants/Gesture";
-
-const Hammer = require("hammerjs");
+import { EventName } from "../../constants/Events";
+import EventEmitter from "../lib/EventEmitter";
 
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
@@ -17,12 +16,16 @@ export default class ViewHolder extends GraphicsLayer {
     this.viewList = [];
     if (this.getViewList) {
       this.viewList = this.getViewList();
+      this.viewList.sort((a, b) => a.id - b.id);
+      EventEmitter.emit(EventName.SetViewList, this.viewList);
     }
 
     if (this.viewList.length > 0) {
-      this.setCurrentView(0);
+      this.setCurrentViewByIndex(0);
       this.currentViewIndex = 0;
     }
+
+    EventEmitter.on(EventName.SwitchView, this.switchView.bind(this));
   }
 
   // This is the main animation loop which gets invoked at screen refresh time
@@ -30,15 +33,19 @@ export default class ViewHolder extends GraphicsLayer {
     if (this.userControl) this.userControl.loop(timestamp);
   }
 
-  switchView = (step = 1) => {
-    let nextIndex = (this.currentViewIndex + step) % this.viewList.length;
-    if (nextIndex < 0) nextIndex += this.viewList.length;
-    this.setCurrentView(nextIndex);
+  switchView = ({ step, index }) => {
+    if (step) {
+      let nextIndex = (this.currentViewIndex + step) % this.viewList.length;
+      if (nextIndex < 0) nextIndex += this.viewList.length;
+      this.setCurrentViewByIndex(nextIndex);
+    } else {
+      this.setCurrentViewByIndex(index);
+    }
   };
 
   registerViewSwitchControl() {
     const { userControl } = this;
-    const main = this.switchView;
+    const main = () => this.switchView({ step: 1 });
     const keyControlObject = {
       modeName: "Switch Views",
       main
@@ -47,12 +54,11 @@ export default class ViewHolder extends GraphicsLayer {
   }
 
   displayOutHandler = displayOutList => {
-    if (
-      displayOutList &&
-      displayOutList.length > 0 &&
-      this.stateUpdateHandler
-    ) {
-      this.stateUpdateHandler(displayOutList, 2);
+    if (displayOutList && displayOutList.length > 0) {
+      EventEmitter.emit(EventName.DisplayOutRequest, {
+        displayOutList,
+        duration: 2
+      });
     }
   };
 
@@ -66,24 +72,27 @@ export default class ViewHolder extends GraphicsLayer {
     }
   }
 
-  setCurrentView(index) {
+  setCurrentViewByIndex(index) {
+    this.setCurrentView(this.viewList[index]);
+    this.currentViewIndex = index;
+  }
+
+  setCurrentView(view) {
     if (this.currentView) {
       this.currentView.stop();
       this.userControl.clearControlModes();
     }
-    const CustomCanvasView = this.viewList[index];
     if (this.createCanvasView) {
-      this.currentView = this.createCanvasView(CustomCanvasView);
+      this.currentView = this.createCanvasView(view.canvasViewClass);
       if (this.currentView) {
         this.currentView.registerAnimationLoop(this.animationLoop.bind(this));
-        this.currentViewIndex = index;
         // Concrete class must define createScene method
         if (this.createScene) {
           this.createScene();
         }
         // If there is a name for the view, show it
         if (this.currentView.name) {
-          this.displayOutHandler([`Switched to ${this.currentView.name}`]);
+          this.displayOutHandler([`Switched to ${view.name}`]);
         }
       }
     }

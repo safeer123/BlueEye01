@@ -27,15 +27,40 @@ export default class TestView001 extends ViewHolder {
 /* eslint-disable */
   getViewList() {
     return[
-    TwoEyesView,
-    OneEyeView,
-    SplitScreenView,
-    SingleNodeView
+    {
+      id: 1,
+      name: "Single Node View",
+      short: "SNV",
+      canvasViewClass: SingleNodeView
+    },
+    {
+      id: 0,
+      name: "VR View",
+      short: "VR",
+      canvasViewClass: TwoEyesView
+    },
+    {
+      id: 2,
+      name: "Split Screen View",
+      short: "SSV",
+      canvasViewClass: SplitScreenView
+    },
+    {
+      id: 3,
+      name: "One Eye View",
+      short: "OEV",
+      canvasViewClass: OneEyeView
+    }
   ];
 }
   /* eslint-enable */
   createCanvasView(CustomCanvasView) {
-    const { gl, shaderFac: { shaderPrograms }, userControl, canvas } = this;
+    const {
+      gl,
+      shaderFac: { shaderPrograms },
+      userControl,
+      canvas
+    } = this;
     const inObj = {
       gl,
       programs: shaderPrograms,
