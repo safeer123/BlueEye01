@@ -1,0 +1,15 @@
+.custom-popover {
+    font-size: 18px;
+    line-height: 0.4;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #1463ad;
+    color: #FFF;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    border: 0px solid #888;
+    border-radius: 3px;
+    z-index: 2;
+    pointer-events: none;
+    padding: 17px 15px 10px 15px;
+}

@@ -1,9 +1,9 @@
 import React from "react";
-import CustomPopover from "../Overlay/CustomPopover";
-import EventEmitter from "../../graphics/lib/EventEmitter";
-import { EventName } from "../../constants/Events";
+import CustomPopover from "../../Common/CustomPopover";
+import EventEmitter from "../../../graphics/lib/EventEmitter";
+import { EventName } from "../../../constants/Events";
 
-class UpdateOverlay extends React.Component {
+class UpdateMsg extends React.Component {
   constructor(props) {
     super(props);
 
@@ -67,4 +67,4 @@ class UpdateOverlay extends React.Component {
   }
 }
 
-export default UpdateOverlay;
+export default UpdateMsg;

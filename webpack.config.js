@@ -134,10 +134,6 @@ const commonConfig = () => ({
       {
         from: __dirname + "/src/images",
         to: __dirname + "/dist/images/"
-      },
-      {
-        from: __dirname + "/src/styles",
-        to: __dirname + "/dist/styles/"
       }
     ]),
    // new BundleAnalyzerPlugin(),

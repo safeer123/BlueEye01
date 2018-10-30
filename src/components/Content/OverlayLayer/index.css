@@ -1,0 +1,23 @@
+.main-content .loader {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    font-size: 18px;
+    letter-spacing: 2;
+    font-weight: bold;
+    color: #666;
+    z-index: 2;
+    opacity: 1;
+}
+
+.main-content .overlay-layer {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    z-index: 5;
+}
+
+.loader .fa-spinner {
+    font-size: 50px;
+    color: #CCC;
+}

@@ -4,13 +4,12 @@ import Fullscreen from "react-full-screen";
 import GLController from "../../graphics/GLController";
 import Utils from "../../graphics/AppUtils";
 import { GestureTypeList, GestureType } from "../../constants/Gesture";
-import UpdateOverlay from "./UpdateOverlay";
+import OverlayLayer from "./OverlayLayer";
 import EventEmitter from "../../graphics/lib/EventEmitter";
 import { EventName } from "../../constants/Events";
-import ViewButtonsPanel from "./ViewButtonsPanel";
+import "./index.css";
 
 const MouseWheel = require("mouse-wheel");
-
 const Hammer = require("hammerjs");
 
 class Content extends React.Component {
@@ -75,15 +74,6 @@ class Content extends React.Component {
     });
   };
 
-  displayLoaderOnNeed() {
-    const displayMsg = "Wait.. We are building it...";
-    return (
-      <div className="loader">
-        {this.state.loading ? <span> {displayMsg} </span> : null}
-      </div>
-    );
-  }
-
   resizeHandler() {
     // console.log(this.canvasWrapper.clientWidth, this.canvasWrapper.clientHeight);
     if (this.glController) {
@@ -103,6 +93,10 @@ class Content extends React.Component {
     this.setState({ isFullscreenMode: invertedMode });
   }
 
+  onFullscreenChange = isFullscreen => {
+    if (isFullscreen) Utils.lockScreenOrientationAsLandscape();
+  };
+
   render() {
     return (
       <div
@@ -111,28 +105,19 @@ class Content extends React.Component {
       >
         <Fullscreen
           enabled={this.state.isFullscreenMode}
-          onChange={isFullscreenMode => {
-            if (isFullscreenMode) Utils.lockScreenOrientationAsLandscape();
-          }}
-          ref={elm => {
-            this.canvasContainer = elm;
-          }}
+          onChange={this.onFullscreenChange}
         >
           <div
             className="canvas-wrapper"
-            ref={elm => {
-              this.canvasWrapper = elm;
+            ref={r => {
+              this.canvasWrapper = r;
             }}
-          >
-            {this.displayLoaderOnNeed()}
-          </div>
-          <ViewButtonsPanel />
+          />
+        <div className="obj-settings">
+          <i className="fa fa-cog" />
+        </div>
+          <OverlayLayer />
         </Fullscreen>
-        <UpdateOverlay
-          ref={r => {
-            this.updateOverlay = r;
-          }}
-        />
       </div>
     );
   }

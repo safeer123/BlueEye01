@@ -1,0 +1,31 @@
+body, html{
+    height: 100%;
+    overflow: hidden;
+    font-family: "Open Sans";
+}
+canvas {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+#root{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.main-footer{
+    background-color: #064a62;
+    width: 100%;
+    height: 0px;
+    color: #DDD;
+}
+
+.wrapper {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+i.fa {
+    cursor: pointer;
+}

@@ -1,25 +1,17 @@
 import React from "react";
+import "./index.css";
 
 export default class CustomPopover extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      position: { y: 50 }
-    };
+    this.state = {};
   }
 
   render() {
     if (!this.props.visible) return null;
 
     return (
-      <div
-        className="custom-popover"
-        style={{
-          ...this.props.style,
-          right: 0,
-          top: this.state.position.y
-        }}
-      >
+      <div className="custom-popover">
         <div>
           {this.props.displayItemList.map(displayItem => {
             let { text, key } = displayItem;

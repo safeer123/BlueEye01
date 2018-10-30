@@ -75,6 +75,7 @@ export default class ViewHolder extends GraphicsLayer {
   setCurrentViewByIndex(index) {
     this.setCurrentView(this.viewList[index]);
     this.currentViewIndex = index;
+    EventEmitter.emit(EventName.SetCurrentView, index);
   }
 
   setCurrentView(view) {

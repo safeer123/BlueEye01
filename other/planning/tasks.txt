@@ -280,7 +280,11 @@ DONE ---> Test this is working along with radius of light
 DONE ---> Fix: Display out font is very big now
 ===========================================
 
-bring list of views in the reducer
+Debug: Keyboard actions not working
+
+move loader to the Common folder and use it inside content/index.js
+
+bring current view in the reducer
 	- first emit event from viewHolder and set it
 	
 Consume list of views in the view buttons panel
