@@ -278,14 +278,22 @@ DONE ---> Quadratic attenuation of the light source
 DONE ---> Test this is working along with radius of light
 
 DONE ---> Fix: Display out font is very big now
+DONE ---> Show current view
+DONE ---> Debug: Keyboard actions not working
 ===========================================
+Fix: Css for display out
 
-Debug: Keyboard actions not working
+Fix: Duplicate display out msg for cam theta phi
+	- duplicates added up on fullscreen/out
+	
+Remove swipe based view switching
+enable all controls in non-fullscreen mode
+
+use settings control to enable disable displayout feature
+
+bring settings dropdown showing possible controls
 
 move loader to the Common folder and use it inside content/index.js
-
-bring current view in the reducer
-	- first emit event from viewHolder and set it
 	
 Consume list of views in the view buttons panel
 Handle selection of the view
