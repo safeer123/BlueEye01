@@ -45,7 +45,7 @@ class UpdateMsg extends React.Component {
     this.setState({ overlayState });
     setTimeout(() => {
       const expTime = this.state.overlayState.expiryTime;
-      if (new Date() > expiryTime) {
+      if (new Date() > expTime) {
         this.setState({
           overlayState: {
             visible: false,

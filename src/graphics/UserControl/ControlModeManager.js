@@ -44,8 +44,7 @@ export default class ControlModeManager {
       return displayOutList;
     }
 
-    this.handleSecondaryKey(keyName);
-    return null;
+    return this.handleSecondaryKey(keyName);
   }
 
   onKeyUp(keyName) {
@@ -57,7 +56,7 @@ export default class ControlModeManager {
   }
 
   onGesture(gestureType, e) {
-    this.handleSecondaryKey(gestureType, e);
+    return this.handleSecondaryKey(gestureType, e);
   }
 
   handleSecondaryKey(key, value) {
@@ -82,6 +81,6 @@ export default class ControlModeManager {
   }
 
   onAxisValueChanged(axisName, value) {
-    this.handleSecondaryKey(axisName, value);
+    return this.handleSecondaryKey(axisName, value);
   }
 }

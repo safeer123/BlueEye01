@@ -23,8 +23,7 @@ export default class KeyboardControl {
     const { controlModeMngr } = this;
     GamepadControl.onButtonDown(e => {
       // console.log("GP Button Down: ", e);
-      const displayOutList = controlModeMngr.onKeyDown(e.key);
-      this.sceneUpdater(displayOutList);
+      this.displayOut(controlModeMngr.onKeyDown(e.key));
     });
     GamepadControl.onButtonUp(e => {
       // console.log("GP Button Up: ", e);
@@ -33,7 +32,7 @@ export default class KeyboardControl {
     GamepadControl.onAxisValueChanged(e => {
       // console.log("GP Axis: ", e);
       const { axisName, value } = e;
-      controlModeMngr.onAxisValueChanged(axisName, value);
+      this.displayOut(controlModeMngr.onAxisValueChanged(axisName, value));
     });
   }
 
@@ -65,8 +64,7 @@ export default class KeyboardControl {
       // console.log(`KeyDown: ${keyName}`);
 
       // handleControlModes
-      const displayOutList = controlModeMngr.onKeyDown(keyName);
-      this.sceneUpdater(displayOutList);
+      this.displayOut(controlModeMngr.onKeyDown(keyName));
     });
 
     document.addEventListener("keyup", event => {
@@ -95,7 +93,7 @@ export default class KeyboardControl {
 
   handleGesture(gestureType, e) {
     const { controlModeMngr } = this;
-    controlModeMngr.onGesture(gestureType, e);
+    this.displayOut(controlModeMngr.onGesture(gestureType, e));
   }
 
   displayDeviceOrientation() {
@@ -106,7 +104,7 @@ export default class KeyboardControl {
           const displayOutList = Object.entries(obj).map(
             a => `${a[0]}: ${a[1].toFixed(0)}`
           );
-          this.sceneUpdater(displayOutList);
+          this.displayOut(displayOutList);
         }
       }
     });
