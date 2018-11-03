@@ -280,26 +280,30 @@ DONE ---> Test this is working along with radius of light
 DONE ---> Fix: Display out font is very big now
 DONE ---> Show current view
 DONE ---> Debug: Keyboard actions not working
-===========================================
-Fix: Css for display out
-
-Fix: Duplicate display out msg for cam theta phi
+DONE ---> Fix: Css for display out
+DONE ---> Fix: Duplicate display out msg for cam theta phi
 	- duplicates added up on fullscreen/out
-	
-Remove swipe based view switching
-enable all controls in non-fullscreen mode
+DONE ---> Consume list of views in the view buttons panel
+DONE ---> Handle selection of the view
+DONE ---> When user changes view throught other means update it as well
+
+DONE ---> fix: displayOut duration logic breaks
+DONE ---> Remove swipe based view switching
+DONE ---> enable all controls in non-fullscreen mode
+DONE ---> fix: mousewheel not working
+DONE ---> Move gesture handling to userControl folder
+DONE ---> fullscreen switch should happen through controlModeHandler
+===========================================
+
+Fix: Maximum Light count reached
+
+all displayOut values should have decimals upto 2 digits
 
 use settings control to enable disable displayout feature
 
 bring settings dropdown showing possible controls
 
 move loader to the Common folder and use it inside content/index.js
-	
-Consume list of views in the view buttons panel
-Handle selection of the view
-When user changes view throught other means update it as well
-
-fix: displayOut duration logic breaks
 
 implement support for multiple light sources
 
