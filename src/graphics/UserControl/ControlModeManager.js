@@ -25,6 +25,7 @@ export default class ControlModeManager {
 
   isSecondaryKey = key => key in SecondaryKeys;
   isPrimaryKey = key => key in MasterPrimaryKeys || key in PrimaryKeys;
+  isMasterPrimaryKey = key => key in MasterPrimaryKeys;
 
   onKeyDown(keyName) {
     if (this.isPrimaryKey(keyName)) {
@@ -49,8 +50,10 @@ export default class ControlModeManager {
 
   handlePrimaryKey(keyName) {
     const { controlModes } = this;
-    if (keyName in controlModes) {
-      this.currentModeKey = keyName;
+    if (keyName in controlModes && this.isPrimaryKey(keyName)) {
+      if (!this.isMasterPrimaryKey(keyName)) {
+        this.currentModeKey = keyName;
+      }
       // Execute a main function if exists
       const displayOutList = [];
       controlModes[keyName].forEach(mode => {
