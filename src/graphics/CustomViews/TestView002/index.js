@@ -2,7 +2,6 @@ import renderConfigNoLight from "../../Geometry/Objects3D/renderConfig";
 import renderConfigLight from "../../Geometry/Objects3D/renderConfigLight";
 import renderConfig2D from "../../Geometry/Objects2D/renderConfig";
 import ViewHolder from "../../SceneBuilder/ViewHolder";
-// import { GestureType } from "../../../constants/Gesture";
 
 import SingleNodeView from "./SingleNodeView";
 import TwoEyesView from "./TwoEyesView";
@@ -17,6 +16,7 @@ export default class TestView001 extends ViewHolder {
   }
 
   createScene() {
+    this.userControl.clearControlModes();
     // This should be How we rebuild the scene
     if (this.currentView) {
       this.currentView.stop();

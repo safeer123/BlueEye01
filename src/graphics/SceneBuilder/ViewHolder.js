@@ -1,6 +1,7 @@
 import GraphicsLayer from "../lib/GraphicsLayer";
 import UserControl from "../UserControl";
 import { EventName } from "../../constants/Events";
+import { MasterPrimaryKeys } from "../UserControl/constants";
 import EventEmitter from "../lib/EventEmitter";
 
 // ViewHolder (Smart Graphics Layer)
@@ -10,8 +11,9 @@ export default class ViewHolder extends GraphicsLayer {
   // Construct canvas and webgl context
   constructor(wrapperElem) {
     super(wrapperElem);
-    this.userControl = new UserControl(this.displayOutHandler);
+    this.userControl = new UserControl(wrapperElem, this.displayOutHandler);
     this.registerViewSwitchControl();
+    this.registerFullscreenControl();
     // Derived class should set viewList
     this.viewList = [];
     if (this.getViewList) {
@@ -50,7 +52,21 @@ export default class ViewHolder extends GraphicsLayer {
       modeName: "Switch Views",
       main
     };
-    userControl.registerControlMode("Controlv", keyControlObject);
+    userControl.registerControlMode(
+      MasterPrimaryKeys.Controlv,
+      keyControlObject
+    );
+  }
+
+  registerFullscreenControl() {
+    const { userControl } = this;
+    const main = () => EventEmitter.emit(EventName.FullscreenSwitch);
+    const controlObject = {
+      modeName: "Fullscreen Control",
+      main
+    };
+    userControl.registerControlMode(MasterPrimaryKeys.Controlf, controlObject);
+    userControl.registerControlMode(MasterPrimaryKeys.doubletap, controlObject);
   }
 
   displayOutHandler = displayOutList => {

@@ -1,8 +1,28 @@
-import { GestureType } from "../../constants/Gesture";
+// Gesture type definition
+const GestureType = {
+  Swipe: "swipe",
+  Press: "press",
+  // Tap: "tap",
+  Pan: "pan",
+  DoubleTap: "doubletap",
+  Pinch: "pinch",
+  Wheel: "wheel"
+};
+
+const GestureTypeList = [
+  GestureType.Press,
+  GestureType.Swipe,
+  // GestureType.Tap,
+  GestureType.DoubleTap,
+  GestureType.Pan,
+  GestureType.Pinch
+];
 
 const MasterPrimaryKeys = {
   Controlv: "Controlv",
-  Controla: "Controla"
+  Controla: "Controla",
+  Controlf: "Controlf",
+  doubletap: GestureType.DoubleTap
 };
 
 const PrimaryKeys = {
@@ -56,4 +76,10 @@ const SecondaryKeys = {
   wheel: GestureType.Wheel
 };
 
-export { MasterPrimaryKeys, PrimaryKeys, SecondaryKeys };
+export {
+  MasterPrimaryKeys,
+  PrimaryKeys,
+  SecondaryKeys,
+  GestureType,
+  GestureTypeList
+};

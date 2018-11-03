@@ -2,7 +2,6 @@ import renderConfigNoLight from "../../Geometry/Objects3D/renderConfig";
 import renderConfigLight from "../../Geometry/Objects3D/renderConfigLight";
 import renderConfig2D from "../../Geometry/Objects2D/renderConfig";
 import ViewHolder from "../../SceneBuilder/ViewHolder";
-// import { GestureType } from "../../../constants/Gesture";
 
 import SplitScreenView from "./SplitScreenView";
 import SingleNodeView from "./SingleNodeView";

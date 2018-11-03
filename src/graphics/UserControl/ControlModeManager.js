@@ -27,8 +27,29 @@ export default class ControlModeManager {
   isPrimaryKey = key => key in MasterPrimaryKeys || key in PrimaryKeys;
 
   onKeyDown(keyName) {
+    if (this.isPrimaryKey(keyName)) {
+      return this.handlePrimaryKey(keyName);
+    }
+    return this.handleSecondaryKey(keyName);
+  }
+
+  onKeyUp(keyName) {
+    // console.log(keyName);
+    if (this.isPrimaryKey(keyName)) {
+      this.currentModeKey = "default";
+    }
+  }
+
+  onGesture(gestureType, e) {
+    if (this.isPrimaryKey(gestureType)) {
+      return this.handlePrimaryKey(gestureType);
+    }
+    return this.handleSecondaryKey(gestureType, e);
+  }
+
+  handlePrimaryKey(keyName) {
     const { controlModes } = this;
-    if (this.isPrimaryKey(keyName) && keyName in controlModes) {
+    if (keyName in controlModes) {
       this.currentModeKey = keyName;
       // Execute a main function if exists
       const displayOutList = [];
@@ -41,22 +62,7 @@ export default class ControlModeManager {
           }
         }
       });
-      return displayOutList;
     }
-
-    return this.handleSecondaryKey(keyName);
-  }
-
-  onKeyUp(keyName) {
-    // console.log(keyName);
-    const { controlModes } = this;
-    if (this.isPrimaryKey(keyName)) {
-      this.currentModeKey = "default";
-    }
-  }
-
-  onGesture(gestureType, e) {
-    return this.handleSecondaryKey(gestureType, e);
   }
 
   handleSecondaryKey(key, value) {

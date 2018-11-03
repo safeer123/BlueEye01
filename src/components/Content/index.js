@@ -3,14 +3,10 @@ import { connect } from "react-redux";
 import Fullscreen from "react-full-screen";
 import GLController from "../../graphics/GLController";
 import Utils from "../../graphics/AppUtils";
-import { GestureTypeList, GestureType } from "../../constants/Gesture";
 import OverlayLayer from "./OverlayLayer";
 import EventEmitter from "../../graphics/lib/EventEmitter";
 import { EventName } from "../../constants/Events";
 import "./index.css";
-
-const MouseWheel = require("mouse-wheel");
-const Hammer = require("hammerjs");
 
 class Content extends React.Component {
   constructor(props) {
@@ -21,6 +17,9 @@ class Content extends React.Component {
       isFullscreenMode: false
     };
     this.resizeHandler = this.resizeHandler.bind(this);
+    EventEmitter.on(EventName.FullscreenSwitch, () =>
+      this.handleFullscreenSwitch()
+    );
   }
 
   componentDidMount() {
@@ -29,8 +28,6 @@ class Content extends React.Component {
 
     window.addEventListener("resize", this.resizeHandler);
     this.resizeHandler();
-
-    this.setupGestureHandlers();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,36 +39,8 @@ class Content extends React.Component {
     window.removeEventListener("resize", this.resizeHandler);
   }
 
-  setupGestureHandlers = () => {
-    console.log("setup Gesture Handlers...");
-    const hammer = new Hammer(this.canvasWrapper);
-    hammer.get("pan").set({ direction: Hammer.DIRECTION_ALL });
-    hammer.get("pinch").set({
-      enable: true
-    });
-    // Subscribe to a quick start event: press, tap, or doubletap.
-    // These are quick start events.
-    GestureTypeList.forEach(gesture => {
-      hammer.on(gesture, e => {
-        if (gesture === GestureType.DoubleTap) {
-          this.handleFullscreenSwitch();
-        } else if (this.glController && this.state.isFullscreenMode) {
-          this.glController.handleGesture(gesture, e);
-        } else if (
-          !this.state.isFullscreenMode &&
-          gesture === GestureType.Swipe
-        ) {
-          const step = e.direction === Hammer.DIRECTION_LEFT ? 1 : -1;
-          EventEmitter.emit(EventName.SwitchView, { step });
-        }
-      });
-    });
-
-    MouseWheel(this.canvasWrapper, (dx, dy) => {
-      if (this.glController && this.state.isFullscreenMode) {
-        this.glController.handleGesture(GestureType.Wheel, { dx, dy });
-      }
-    });
+  onFullscreenChange = isFullscreen => {
+    if (isFullscreen) Utils.lockScreenOrientationAsLandscape();
   };
 
   resizeHandler() {
@@ -93,10 +62,6 @@ class Content extends React.Component {
     this.setState({ isFullscreenMode: invertedMode });
   }
 
-  onFullscreenChange = isFullscreen => {
-    if (isFullscreen) Utils.lockScreenOrientationAsLandscape();
-  };
-
   render() {
     return (
       <div
@@ -113,9 +78,9 @@ class Content extends React.Component {
               this.canvasWrapper = r;
             }}
           />
-        <div className="obj-settings">
-          <i className="fa fa-cog" />
-        </div>
+          <div className="obj-settings">
+            <i className="fa fa-cog" />
+          </div>
           <OverlayLayer />
         </Fullscreen>
       </div>
