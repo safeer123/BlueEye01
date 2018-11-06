@@ -293,11 +293,20 @@ DONE ---> enable all controls in non-fullscreen mode
 DONE ---> fix: mousewheel not working
 DONE ---> Move gesture handling to userControl folder
 DONE ---> fullscreen switch should happen through controlModeHandler
+DONE --->Fix: gestures and other keys not working after the changes
+DONE --->all displayOut values should have decimals upto 2 digits
+DONE --->3D Walk comes twice in the displayOut popup - resolved
 ===========================================
 
-Fix: Maximum Light count reached
+design dropdown and state for settings page
 
-all displayOut values should have decimals upto 2 digits
+register/unregister user control should be through events
+
+in control mode object pass key within the object
+
+consider only the main method in the control object first
+
+Fix: Maximum Light count reached
 
 use settings control to enable disable displayout feature
 

@@ -62,8 +62,10 @@ export default class Space3DWalker extends OrientationListener {
     const summaryPosition = () => {
       const position = this.getProperty("position");
       return [
-        walkControlName,
-        `(X: ${position[0]}, Y: ${position[1]}, Z: ${position[2]})`
+        `${walkControlName} (${this.Id})`,
+        `(X: ${position[0].toFixed(1)}, 
+          Y: ${position[1].toFixed(1)}, 
+          Z: ${position[2].toFixed(1)})`
       ];
     };
     const orientationControlObject = {

@@ -52,6 +52,11 @@ class WOFactory {
     this.countOfObjects += 1;
     return `${this.countOfObjects}_${type}`;
   }
+
+  reset() {
+    this.countOfObjects = 0;
+    this.lightCount = 0;
+  }
 }
 
 const WOFACTORY = new WOFactory();

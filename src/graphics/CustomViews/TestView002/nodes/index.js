@@ -27,6 +27,8 @@ export default function getNodes(inpObj) {
     userControl
   });
 
+  WOFACTORY.reset();
+
   const platform = WOFACTORY.create(PlatformType, [inObj()]);
 
   const shape1 = WOFACTORY.create(Obj1Type, [inObj()]);

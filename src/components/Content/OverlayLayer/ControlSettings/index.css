@@ -1,0 +1,22 @@
+.overlay-layer .obj-settings {
+    font-size: 25px;
+    color: #AAA;
+    z-index: 10;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 10px;
+}
+
+.obj-settings .dropdown {
+    margin-left: 10px;
+    color: #FFF;
+}
+
+.obj-settings .dropdown button {
+    background-color: #337ab7;
+}
+
+.obj-settings .control-item-select {
+    display: inline-block;
+}

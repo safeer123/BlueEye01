@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import UpdateMsg from "./UpdateMsg";
 import ViewButtonsPanel from "./ViewButtonsPanel";
 import "./index.css";
+import ControlSettings from "./ControlSettings";
 
-class Content extends React.Component {
+class Overlay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -34,6 +35,7 @@ class Content extends React.Component {
   render() {
     return (
       <div className="overlay-layer">
+        <ControlSettings />
         <UpdateMsg />
         <ViewButtonsPanel />
         {this.displayLoader()}
@@ -49,4 +51,4 @@ function mapStateToProps({ activeScenario, scenarioData }) {
   };
 }
 
-export default connect(mapStateToProps)(Content);
+export default connect(mapStateToProps)(Overlay);

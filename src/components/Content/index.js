@@ -78,9 +78,6 @@ class Content extends React.Component {
               this.canvasWrapper = r;
             }}
           />
-          <div className="obj-settings">
-            <i className="fa fa-cog" />
-          </div>
           <OverlayLayer />
         </Fullscreen>
       </div>
