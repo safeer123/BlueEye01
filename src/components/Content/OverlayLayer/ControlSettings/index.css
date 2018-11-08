@@ -5,7 +5,16 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    margin: 10px;
+    margin: 15px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0.8;
+    max-width: 350px;
+}
+
+.obj-settings .container {
+    width: 100%;
+    max-width: 100%;
 }
 
 .obj-settings .dropdown {
@@ -19,4 +28,54 @@
 
 .obj-settings .control-item-select {
     display: inline-block;
+}
+
+.obj-settings .control-items-wrapper {
+    padding: 10px;
+}
+
+.obj-settings .control-title {
+    font-size: 20px;
+    color: #adadad;
+    font-weight: normal;
+}
+
+.obj-settings .control-title hr {
+    margin: 0;
+    padding: 0;
+    border: 1px solid #5d5d5d;
+}
+
+.obj-settings .control-type {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    letter-spacing: 3px;
+}
+
+.obj-settings .control-item {
+    font-size: 15px;
+    padding: 5px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.obj-settings .control-item .control-name {
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.obj-settings .control-item .control-btn {
+    display: inline-block;
+    font-size: 25px;
+    color: #79a7a4;
+    float: right;
+}
+
+.obj-settings .control-item .control-keys {
+    margin-right: 10px;
+    display: inline-block;
+    padding: 5px 9px;
+    font-size: 12px;
+    background-color: rgba(1, 1, 1, 0.7);
+    border-radius: 5px;
 }

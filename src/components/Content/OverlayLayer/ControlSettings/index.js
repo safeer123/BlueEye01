@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Row, Col, Grid, SplitButton, MenuItem } from "react-bootstrap";
-import { objControlList } from "./sampleControls";
+import { objControlList, globalControlList } from "./sampleControls";
+import { getIconClass } from "./constants";
 import "./index.css";
 
 class ControlSettings extends React.Component {
@@ -21,7 +22,11 @@ class ControlSettings extends React.Component {
 
   handleDropdown(e) {
     // console.log(e);
-    this.setState({ selectedControl: objControlList[e] });
+    if (objControlList[e]) {
+      this.setState({ selectedControl: objControlList[e] });
+    } else if (globalControlList[e]) {
+      this.setState({ selectedControl: globalControlList[e] });
+    }
   }
 
   render() {
@@ -35,20 +40,26 @@ class ControlSettings extends React.Component {
               <SplitButton
                 className="control-item-select"
                 bsStyle="primary"
-                title={
-                  selectedControl ? selectedControl.objectId : "Select Control"
-                }
+                title={selectedControl ? selectedControl.id : "Select Control"}
                 id="controls-dropdown"
                 onSelect={e => this.handleDropdown(e)}
               >
-                <MenuItem header>View Controls</MenuItem>
+                <MenuItem header>Global Controls</MenuItem>
+                {Object.values(globalControlList).map(obj => {
+                  const { id } = obj;
+                  return (
+                    <MenuItem key={id} eventKey={id}>
+                      {id}
+                    </MenuItem>
+                  );
+                })}
                 <MenuItem divider />
                 <MenuItem header>Object Controls</MenuItem>
                 {Object.values(objControlList).map(obj => {
-                  const { objectId } = obj;
+                  const { id } = obj;
                   return (
-                    <MenuItem key={objectId} eventKey={objectId}>
-                      {objectId}
+                    <MenuItem key={id} eventKey={id}>
+                      {id}
                     </MenuItem>
                   );
                 })}
@@ -57,12 +68,31 @@ class ControlSettings extends React.Component {
           </Row>
           {selectedControl && (
             <Row>
-              <Col md={12}>
-                <div className="control-title">{selectedControl.objectId}</div>
+              <Col md={12} className="control-items-wrapper">
+                <div className="control-title">
+                  {selectedControl.id}
+                  <hr />
+                </div>
                 <div className="control-type">{selectedControl.type}</div>
                 {selectedControl.controls.map(obj => {
-                  const { controlButton } = obj;
-                  return <div key={controlButton}>{controlButton}</div>;
+                  const { controlButton, name, keys } = obj;
+                  const keysDisplay = keys ? keys.join(", ") : "";
+                  const iconClass = controlButton
+                    ? getIconClass(controlButton)
+                    : "";
+                  return (
+                    <div key={name} className="control-item">
+                      <div className="control-name">{name}</div>
+                      {keys && (
+                        <div className="control-keys">{keysDisplay}</div>
+                      )}
+                      {controlButton && (
+                        <div className="control-btn">
+                          <i className={iconClass} />
+                        </div>
+                      )}
+                    </div>
+                  );
                 })}
               </Col>
             </Row>
