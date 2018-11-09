@@ -306,6 +306,12 @@ ViewHolder should clear registered controls while start up
 ViewHolder should then iterate over scenes and emit event for registering controls
 	- skip this for duplicate WO ids
 
+We assume one ViewHolder will have unique ids across objects in its scenes
+	- If objects in two scenes are same, then there should be duplicate ids
+	- If scenes are different, then ids are different
+
+emitter.listenerCount(eventName) is usefull to check if there are unexpected count listeners
+
 design dropdown and state for settings page
 
 register/unregister user control should be through events
