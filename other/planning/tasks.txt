@@ -293,10 +293,18 @@ DONE ---> enable all controls in non-fullscreen mode
 DONE ---> fix: mousewheel not working
 DONE ---> Move gesture handling to userControl folder
 DONE ---> fullscreen switch should happen through controlModeHandler
-DONE --->Fix: gestures and other keys not working after the changes
-DONE --->all displayOut values should have decimals upto 2 digits
-DONE --->3D Walk comes twice in the displayOut popup - resolved
+DONE ---> Fix: gestures and other keys not working after the changes
+DONE ---> all displayOut values should have decimals upto 2 digits
+DONE ---> 3D Walk comes twice in the displayOut popup - resolved
 ===========================================
+
+Implement KeyboardListener class singleton and receive list of pressed keys
+Gamepad controller should be providing list of pressed keys
+
+Each WO class may have getUserControls method
+ViewHolder should clear registered controls while start up
+ViewHolder should then iterate over scenes and emit event for registering controls
+	- skip this for duplicate WO ids
 
 design dropdown and state for settings page
 

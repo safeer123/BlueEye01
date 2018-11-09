@@ -2,6 +2,7 @@ import ControlModeManager from "./ControlModeManager";
 import DeviceOrientationFeed from "./DeviceOrientation";
 import GamepadControl from "./GamepadController";
 import GestureController from "./GestureController";
+import KeyboardListener from "./KeyboardListener";
 
 import configGP from "./CustomGamepadConfig/VRSHINECON";
 
@@ -75,6 +76,12 @@ export default class UserControl {
 
   keyboardEventSetup() {
     const { controlModeMngr } = this;
+
+    KeyboardListener.setKeyListener(keys => {
+      console.log(keys);
+    });
+
+
     document.addEventListener("keydown", event => {
       event.preventDefault();
       event.stopPropagation();

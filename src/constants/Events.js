@@ -3,7 +3,9 @@ const EventName = {
   SwitchView: "SwitchView",
   SetViewList: "SetViewList",
   SetCurrentView: "SetCurrentView",
-  FullscreenSwitch: "FullscreenSwitch"
+  FullscreenSwitch: "FullscreenSwitch",
+  EnableKeyboardListener: "EnableKeyboardListener",
+  DisableKeyboardListener: "DisableKeyboardListener"
 };
 
 export { EventName };
