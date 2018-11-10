@@ -58,7 +58,7 @@ export default class GlobalLighting extends SceneSetter {
       [SecondaryKeys.ArrowRight]: () => changeDirection(DTHETA),
       summary
     };
-    this.userControl.registerControlMode(PrimaryKeys.s, keyControlObject);
+    // this.userControl.registerControlMode(PrimaryKeys.s, keyControlObject);
   }
 
   defineGeometry() {

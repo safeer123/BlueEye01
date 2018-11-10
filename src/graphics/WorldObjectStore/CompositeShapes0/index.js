@@ -63,6 +63,6 @@ export default class CompositeShape extends WorldObject {
       [SecondaryKeys.ArrowDown]: () => thetaPlus(DTHETA),
       summary
     };
-    this.userControl.registerControlMode(PrimaryKeys.c, keyControlObject);
+    // this.userControl.registerControlMode(PrimaryKeys.c, keyControlObject);
   }
 }

@@ -4,7 +4,8 @@ const btnToIconClass = {
   btnRight: "fa fa-chevron-circle-right",
   btnMinus: "fa fa-minus-circle",
   btnPlus: "fa fa-plus-circle",
-  btnFullscreen: "fa fa-square",
+  btnFullscreenOn: "fa fa-compress",
+  btnFullscreenOff: "fa fa-expand",
   btnPicture: "fa fa-image"
 };
 

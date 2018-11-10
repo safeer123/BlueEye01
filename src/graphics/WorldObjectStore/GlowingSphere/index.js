@@ -69,6 +69,6 @@ export default class GlowingSphere extends WorldObject {
       [SecondaryKeys.ArrowDown]: () => zPlus(-DZ),
       summary
     };
-    this.userControl.registerControlMode(PrimaryKeys.a, keyControlObject);
+    // this.userControl.registerControlMode(PrimaryKeys.a, keyControlObject);
   }
 }

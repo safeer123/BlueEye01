@@ -69,6 +69,6 @@ export default class CamThetaPhi extends Camera {
       },
       summary
     };
-    this.userControl.registerControlMode("default", keyControlObject);
+    // this.userControl.registerControlMode("default", keyControlObject);
   }
 }

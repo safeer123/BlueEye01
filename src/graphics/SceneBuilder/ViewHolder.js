@@ -1,8 +1,8 @@
 import GraphicsLayer from "../lib/GraphicsLayer";
 import UserControl from "../UserControl";
 import { EventName } from "../../constants/Events";
-import { MasterPrimaryKeys } from "../UserControl/constants";
 import EventEmitter from "../lib/EventEmitter";
+import { ControlTypes } from "../../constants";
 
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
@@ -13,7 +13,7 @@ export default class ViewHolder extends GraphicsLayer {
     super(wrapperElem);
     this.userControl = new UserControl(wrapperElem, this.displayOutHandler);
     this.registerViewSwitchControl();
-    this.registerFullscreenControl();
+    this.registerViewControls();
     // Derived class should set viewList
     this.viewList = [];
     if (this.getViewList) {
@@ -52,21 +52,43 @@ export default class ViewHolder extends GraphicsLayer {
       modeName: "Switch Views",
       main
     };
-    userControl.registerControlMode(
+    /* userControl.registerControlMode(
       MasterPrimaryKeys.Controlv,
       keyControlObject
     );
+    */
   }
 
-  registerFullscreenControl() {
-    const { userControl } = this;
-    const main = () => EventEmitter.emit(EventName.FullscreenSwitch);
-    const controlObject = {
-      modeName: "Fullscreen Control",
-      main
+  registerViewControls() {
+    let fullscreenState = false;
+    const fullscreenSwitch = () => {
+      fullscreenState = !fullscreenState;
+      EventEmitter.emit(EventName.FullscreenSwitch);
     };
-    userControl.registerControlMode(MasterPrimaryKeys.Controlf, controlObject);
-    userControl.registerControlMode(MasterPrimaryKeys.doubletap, controlObject);
+    const viewSwitch = () => this.switchView({ step: 1 });
+    const controlObject = {
+      id: "ViewControls",
+      type: ControlTypes.GlobalControl,
+      enabled: true,
+      controls: [
+        {
+          name: "Fullscreen switch",
+          input: ["Control+f"],
+          controlButton: () =>
+            fullscreenState ? "btnFullscreenOn" : "btnFullscreenOff",
+          action: fullscreenSwitch
+        },
+        {
+          name: "Switch views",
+          input: ["Control+v"],
+          controlButton: () => "btnPicture",
+          action: viewSwitch
+        }
+      ]
+    };
+    EventEmitter.emit(EventName.RegisterControls, controlObject);
+    // userControl.registerControlMode(MasterPrimaryKeys.Controlf, controlObject);
+    // userControl.registerControlMode(MasterPrimaryKeys.doubletap, controlObject);
   }
 
   displayOutHandler = displayOutList => {
@@ -108,7 +130,7 @@ export default class ViewHolder extends GraphicsLayer {
           this.createScene();
         }
         // If there is a name for the view, show it
-        if (this.currentView.name) {
+        if (view.name) {
           this.displayOutHandler([`Switched to ${view.name}`]);
         }
       }

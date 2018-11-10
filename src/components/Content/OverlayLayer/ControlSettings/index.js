@@ -1,16 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Row, Col, Grid, SplitButton, MenuItem } from "react-bootstrap";
-import { objControlList, globalControlList } from "./sampleControls";
+import {
+  objControlListForTest,
+  globalControlListForTest
+} from "./sampleControls";
 import { getIconClass } from "./constants";
+import { EventName } from "../../../../constants/Events";
+import { ControlTypes } from "../../../../constants";
+import EventEmitter from "../../../../graphics/lib/EventEmitter";
 import "./index.css";
+
+const UseTestControls = false;
 
 class ControlSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedControl: null
+      selectedControl: null,
+      globalControls: {},
+      objectControls: {}
     };
+    if (UseTestControls) {
+      this.state.globalControls = globalControlListForTest;
+      this.state.objectControls = objControlListForTest;
+    } else {
+      EventEmitter.on(EventName.RegisterControls, this.registerControl);
+      EventEmitter.on(EventName.UnregisterControls, this.unregisterControl);
+      EventEmitter.on(EventName.ClearControls, this.clearControls);
+    }
   }
 
   componentDidMount() {}
@@ -20,17 +38,44 @@ class ControlSettings extends React.Component {
     // console.log(nextProps);
   }
 
+  registerControl = controlObj => {
+    const { id, type } = controlObj;
+    if (type === ControlTypes.GlobalControl) {
+      const globalControls = { ...this.state.globalControls, [id]: controlObj };
+      this.setState({ globalControls });
+    } else if (type === ControlTypes.ObjectControl) {
+      const objectControls = { ...this.state.objectControls, [id]: controlObj };
+      this.setState({ objectControls });
+    }
+  };
+
+  unregisterControl = controlObjId => {};
+
+  clearControls = controlType => {
+    if (controlType === ControlTypes.GlobalControl) {
+      this.setState({ globalControls: {} });
+    } else if (controlType === ControlTypes.ObjectControl) {
+      this.setState({ objectControls: {} });
+    }
+  };
+
+  fireAction = obj => {
+    if (obj.action) obj.action();
+    this.forceUpdate();
+  };
+
   handleDropdown(e) {
     // console.log(e);
-    if (objControlList[e]) {
-      this.setState({ selectedControl: objControlList[e] });
-    } else if (globalControlList[e]) {
-      this.setState({ selectedControl: globalControlList[e] });
+    const { globalControls, objectControls } = this.state;
+    if (objectControls[e]) {
+      this.setState({ selectedControl: objectControls[e] });
+    } else if (globalControls[e]) {
+      this.setState({ selectedControl: globalControls[e] });
     }
   }
 
   render() {
-    const { selectedControl } = this.state;
+    const { selectedControl, globalControls, objectControls } = this.state;
     return (
       <div className="obj-settings">
         <Grid>
@@ -45,7 +90,7 @@ class ControlSettings extends React.Component {
                 onSelect={e => this.handleDropdown(e)}
               >
                 <MenuItem header>Global Controls</MenuItem>
-                {Object.values(globalControlList).map(obj => {
+                {Object.values(globalControls).map(obj => {
                   const { id } = obj;
                   return (
                     <MenuItem key={id} eventKey={id}>
@@ -55,7 +100,7 @@ class ControlSettings extends React.Component {
                 })}
                 <MenuItem divider />
                 <MenuItem header>Object Controls</MenuItem>
-                {Object.values(objControlList).map(obj => {
+                {Object.values(objectControls).map(obj => {
                   const { id } = obj;
                   return (
                     <MenuItem key={id} eventKey={id}>
@@ -75,20 +120,23 @@ class ControlSettings extends React.Component {
                 </div>
                 <div className="control-type">{selectedControl.type}</div>
                 {selectedControl.controls.map(obj => {
-                  const { controlButton, name, keys } = obj;
-                  const keysDisplay = keys ? keys.join(", ") : "";
+                  const { controlButton, name, input } = obj;
+                  const inputDisplay = input ? input.join(", ") : "";
                   const iconClass = controlButton
-                    ? getIconClass(controlButton)
+                    ? getIconClass(controlButton())
                     : "";
                   return (
                     <div key={name} className="control-item">
                       <div className="control-name">{name}</div>
-                      {keys && (
-                        <div className="control-keys">{keysDisplay}</div>
+                      {input && (
+                        <div className="control-keys">{inputDisplay}</div>
                       )}
                       {controlButton && (
                         <div className="control-btn">
-                          <i className={iconClass} />
+                          <i
+                            className={iconClass}
+                            onClick={() => this.fireAction(obj)}
+                          />
                         </div>
                       )}
                     </div>

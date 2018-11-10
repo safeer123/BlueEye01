@@ -79,8 +79,9 @@ export default class UserControl {
 
     KeyboardListener.setKeyListener(keys => {
       console.log(keys);
+      const inputKeys = keys.sort().join("+");
+      controlModeMngr.fireAction(inputKeys);
     });
-
 
     document.addEventListener("keydown", event => {
       event.preventDefault();

@@ -1,9 +1,59 @@
 import { MasterPrimaryKeys, PrimaryKeys, SecondaryKeys } from "./constants";
+import EventEmitter from "../lib/EventEmitter";
+import { EventName } from "../../constants/Events";
+import { ControlTypes } from "../../constants";
 
 export default class ControlModeManager {
   constructor() {
     this.controlModes = {};
     this.currentModeKey = "default";
+
+    this.registeredControls = {
+      [ControlTypes.GlobalControl]: {},
+      [ControlTypes.ObjectControl]: {}
+    };
+    EventEmitter.on(EventName.RegisterControls, this.registerControl);
+    EventEmitter.on(EventName.UnregisterControls, this.unregisterControl);
+    EventEmitter.on(EventName.ClearControls, this.clearControls);
+  }
+
+  registerControl = controlObj => {
+    const { id, type, controls } = controlObj;
+    const controlList = controls.map(c => ({ ...c, id, type }));
+    controlList.forEach(c => {
+      const { input } = c;
+      if (input && input.length > 0) {
+        input.forEach(inputKeys => {
+          const sortedKeys = inputKeys
+            .split("+")
+            .sort()
+            .join("+");
+          const registeredControls = this.registeredControls[type];
+          if (!registeredControls[sortedKeys])
+            registeredControls[sortedKeys] = [];
+          registeredControls[sortedKeys].push(c);
+        });
+      }
+    });
+  };
+
+  unregisterControl = controlObjId => {};
+
+  clearControls = controlType => {
+    this.registeredControls[controlType] = {};
+  };
+
+  fireAction(inputKeys, value) {
+    Object.values(this.registeredControls).forEach(registeredControls => {
+      if (
+        registeredControls[inputKeys] &&
+        registeredControls[inputKeys].length > 0
+      ) {
+        registeredControls[inputKeys].forEach(c => {
+          if (c.action) c.action(value);
+        });
+      }
+    });
   }
 
   // Register a Control Mode

@@ -5,7 +5,10 @@ const EventName = {
   SetCurrentView: "SetCurrentView",
   FullscreenSwitch: "FullscreenSwitch",
   EnableKeyboardListener: "EnableKeyboardListener",
-  DisableKeyboardListener: "DisableKeyboardListener"
+  DisableKeyboardListener: "DisableKeyboardListener",
+  RegisterControls: "RegisterControls",
+  UnregisterControls: "UnregisterControls",
+  ClearControls: "ClearControls"
 };
 
 export { EventName };
