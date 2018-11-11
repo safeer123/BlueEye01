@@ -1,17 +1,14 @@
-const btnToIconClass = {
-  btn0: "fa fa-circle",
-  btnLeft: "fa fa-chevron-circle-left",
-  btnRight: "fa fa-chevron-circle-right",
-  btnMinus: "fa fa-minus-circle",
-  btnPlus: "fa fa-plus-circle",
-  btnFullscreenOn: "fa fa-compress",
-  btnFullscreenOff: "fa fa-expand",
-  btnPicture: "fa fa-image"
+const shortHand = {
+  Control: "Ctrl",
+  doubletap: "dbtap"
 };
 
-const defaultIconClass = "far fa-dot-circle";
+const shortenKeys = keyString => {
+  let outString = keyString;
+  Object.keys(shortHand).forEach(btnName => {
+    outString = outString.replace(btnName, shortHand[btnName]);
+  });
+  return outString;
+};
 
-const getIconClass = btn =>
-  btn in btnToIconClass ? btnToIconClass[btn] : defaultIconClass;
-
-export { getIconClass };
+export { shortenKeys };

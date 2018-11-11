@@ -64,7 +64,6 @@ export default function getNodes(inpObj) {
   ]);
   camThetaPhi.setProperty("target_position", [0, 0, 0]);
   camThetaPhi.setProperty("radius", 30);
-  camThetaPhi.enableDefaultUserControls();
   light01.addChildren([camThetaPhi]);
 
   const oneEye = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
@@ -72,14 +71,12 @@ export default function getNodes(inpObj) {
   oneEye.setProperty("radius", 150);
   oneEye.setProperty("base_phi", Math.PI);
   // oneEye.listenToOrientationChange();
-  oneEye.enableDefaultUserControls();
 
   const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
   twoEyes.setProperty("position", [-10, 5, 0]);
   twoEyes.setProperty("radius", 150);
   twoEyes.setProperty("base_phi", Math.PI);
   twoEyes.listenToOrientationChange();
-  twoEyes.enableDefaultUserControls();
   // Animation
   const initScene = () => {
     setTimeout(() => {

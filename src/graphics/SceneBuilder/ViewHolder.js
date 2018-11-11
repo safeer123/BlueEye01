@@ -3,6 +3,7 @@ import UserControl from "../UserControl";
 import { EventName } from "../../constants/Events";
 import EventEmitter from "../lib/EventEmitter";
 import { ControlTypes } from "../../constants";
+import BTN from "./../../constants/Buttons";
 
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
@@ -12,7 +13,6 @@ export default class ViewHolder extends GraphicsLayer {
   constructor(wrapperElem) {
     super(wrapperElem);
     this.userControl = new UserControl(wrapperElem, this.displayOutHandler);
-    this.registerViewSwitchControl();
     this.registerViewControls();
     // Derived class should set viewList
     this.viewList = [];
@@ -45,20 +45,6 @@ export default class ViewHolder extends GraphicsLayer {
     }
   };
 
-  registerViewSwitchControl() {
-    const { userControl } = this;
-    const main = () => this.switchView({ step: 1 });
-    const keyControlObject = {
-      modeName: "Switch Views",
-      main
-    };
-    /* userControl.registerControlMode(
-      MasterPrimaryKeys.Controlv,
-      keyControlObject
-    );
-    */
-  }
-
   registerViewControls() {
     let fullscreenState = false;
     const fullscreenSwitch = () => {
@@ -73,22 +59,20 @@ export default class ViewHolder extends GraphicsLayer {
       controls: [
         {
           name: "Fullscreen switch",
-          input: ["Control+f"],
+          input: ["Control+f", "doubletap"],
           controlButton: () =>
-            fullscreenState ? "btnFullscreenOn" : "btnFullscreenOff",
+            fullscreenState ? BTN.FullscreenOn : BTN.FullscreenOff,
           action: fullscreenSwitch
         },
         {
           name: "Switch views",
           input: ["Control+v"],
-          controlButton: () => "btnPicture",
+          controlButton: () => BTN.Picture,
           action: viewSwitch
         }
       ]
     };
     EventEmitter.emit(EventName.RegisterControls, controlObject);
-    // userControl.registerControlMode(MasterPrimaryKeys.Controlf, controlObject);
-    // userControl.registerControlMode(MasterPrimaryKeys.doubletap, controlObject);
   }
 
   displayOutHandler = displayOutList => {
@@ -130,9 +114,11 @@ export default class ViewHolder extends GraphicsLayer {
           this.createScene();
         }
         // If there is a name for the view, show it
+        /*
         if (view.name) {
           this.displayOutHandler([`Switched to ${view.name}`]);
         }
+        */
       }
     }
   }

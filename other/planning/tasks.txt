@@ -306,6 +306,7 @@ DONE ---> canvasView should clear registered controls while start up
 DONE ---> canvasView should then iterate over scenes and emit event for registering controls
 ===========================================
 
+Fix: power button stops working once changing view
 Implement Gesture handling as per new workflow of user control class
 Gamepad controller should be providing list of pressed keys
 
@@ -313,8 +314,9 @@ implement more tower lights and pass the control key as a method
 
 implement summary displayOut in controlModeMananger
 
-Implement unregisterControl
+while switch view control settings dropdown should close
 
+Implement unregisterControl
 
 We assume one ViewHolder will have unique ids across objects in its scenes
 	- If objects in two scenes are same, then there should be duplicate ids

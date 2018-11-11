@@ -5,10 +5,10 @@ import {
   objControlListForTest,
   globalControlListForTest
 } from "./sampleControls";
-import { getIconClass } from "./constants";
 import { EventName } from "../../../../constants/Events";
 import { ControlTypes } from "../../../../constants";
 import EventEmitter from "../../../../graphics/lib/EventEmitter";
+import { shortenKeys } from "./constants";
 import "./index.css";
 
 const UseTestControls = false;
@@ -90,10 +90,11 @@ class ControlSettings extends React.Component {
                 onSelect={e => this.handleDropdown(e)}
               >
                 <MenuItem header>Global Controls</MenuItem>
-                {Object.values(globalControls).map(obj => {
+                {Object.values(globalControls).map((obj, i) => {
                   const { id } = obj;
+                  const elemKey = `${id}_${i}`;
                   return (
-                    <MenuItem key={id} eventKey={id}>
+                    <MenuItem key={elemKey} eventKey={id}>
                       {id}
                     </MenuItem>
                   );
@@ -119,14 +120,15 @@ class ControlSettings extends React.Component {
                   <hr />
                 </div>
                 <div className="control-type">{selectedControl.type}</div>
-                {selectedControl.controls.map(obj => {
+                {selectedControl.controls.map((obj, i) => {
                   const { controlButton, name, input } = obj;
-                  const inputDisplay = input ? input.join(", ") : "";
-                  const iconClass = controlButton
-                    ? getIconClass(controlButton())
+                  const inputDisplay = input
+                    ? shortenKeys(input.join(", "))
                     : "";
+                  const elemKey = `${name}_${i}`;
+                  const iconClass = controlButton ? controlButton() : "";
                   return (
-                    <div key={name} className="control-item">
+                    <div key={elemKey} className="control-item">
                       <div className="control-name">{name}</div>
                       {input && (
                         <div className="control-keys">{inputDisplay}</div>

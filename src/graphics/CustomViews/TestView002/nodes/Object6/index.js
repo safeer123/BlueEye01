@@ -3,6 +3,7 @@ import OBJ0 from "../../../../Geometry/Objects3D/objects";
 import WOFACTORY from "../../../../WorldObjectStore/Factory";
 import config from "./config";
 import GlowingHemiSphereType from "../GlowingHemisphere";
+import BTN from "./../../../../../constants/Buttons";
 
 const LightTowerType = "LightTowerType";
 
@@ -35,7 +36,7 @@ class LightTower extends WorldObject {
         {
           name: "Power",
           input: ["1"],
-          controlButton: () => "btn0",
+          controlButton: () => BTN.Circle,
           action: this.powerSwitch
         }
       ]

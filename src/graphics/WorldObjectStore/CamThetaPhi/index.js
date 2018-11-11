@@ -2,7 +2,7 @@ import { addVectors, Matrix4 } from "../../lib/m4";
 import config from "./config";
 import Camera from "../AbstractCamera";
 import Utils from "../../AppUtils";
-import { SecondaryKeys } from "../../UserControl/constants";
+import BTN from "./../../../constants/Buttons";
 
 export default class CamThetaPhi extends Camera {
   constructor(inObj, configList = []) {
@@ -27,9 +27,10 @@ export default class CamThetaPhi extends Camera {
       const mtx4 = new Matrix4().zRotate(0.5 * Math.PI - theta).yRotate(-phi);
       return mtx4.apply(upVec);
     });
+    this.setControls();
   }
 
-  enableDefaultUserControls() {
+  setControls() {
     const modeName = "Camera-θφ";
     const DPHI = 0.01;
     const DTHETA = 0.01;
@@ -51,24 +52,63 @@ export default class CamThetaPhi extends Camera {
       const thetaInDeg = Utils.radToDeg(this.getProperty("theta"));
       return [modeName, `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`];
     };
-    const keyControlObject = {
-      modeName,
-      [SecondaryKeys.ArrowLeft]: () => phiPlus(-DPHI),
-      [SecondaryKeys.ArrowRight]: () => phiPlus(DPHI),
-      [SecondaryKeys.ArrowUp]: () => thetaPlus(-DTHETA),
-      [SecondaryKeys.ArrowDown]: () => thetaPlus(DTHETA),
-      [SecondaryKeys.pan]: e => {
-        phiPlus(DPHI * e.velocityX);
-        thetaPlus(-DTHETA * e.velocityY);
-      },
-      [SecondaryKeys.pinch]: e => {
-        radiusPlus(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);
-      },
-      [SecondaryKeys.wheel]: e => {
-        radiusPlus(STEPDIST * (e.dy > 0 ? 1 : -1) * 1);
-      },
-      summary
+    this.controlObject = {
+      enabled: true,
+      controls: [
+        {
+          name: "φ- Rotation",
+          input: ["ArrowLeft"],
+          controlButton: () => BTN.Left,
+          action: () => phiPlus(-DPHI),
+          summary
+        },
+        {
+          name: "φ+ Rotation",
+          input: ["ArrowRight"],
+          controlButton: () => BTN.Right,
+          action: () => phiPlus(DPHI),
+          summary
+        },
+        {
+          name: "θ- Rotation",
+          input: ["ArrowUp"],
+          controlButton: () => BTN.Up,
+          action: () => thetaPlus(-DPHI),
+          summary
+        },
+        {
+          name: "θ+ Rotation",
+          input: ["ArrowDown"],
+          controlButton: () => BTN.Down,
+          action: () => thetaPlus(DPHI),
+          summary
+        },
+        {
+          name: "θφ Rotation",
+          input: ["pan"],
+          action: e => {
+            phiPlus(DPHI * e.velocityX);
+            thetaPlus(-DTHETA * e.velocityY);
+          },
+          summary
+        },
+        {
+          name: "distance (mouse)",
+          input: ["wheel"],
+          action: e => {
+            radiusPlus(STEPDIST * (e.dy > 0 ? 1 : -1) * 1);
+          },
+          summary
+        },
+        {
+          name: "distance (touch)",
+          input: ["pinch"],
+          action: e => {
+            radiusPlus(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);
+          },
+          summary
+        }
+      ]
     };
-    // this.userControl.registerControlMode("default", keyControlObject);
   }
 }

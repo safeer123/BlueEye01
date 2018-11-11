@@ -63,7 +63,6 @@ export default function getNodes(inpObj) {
   twoEyes.setProperty("position", [0, 0, -40]);
   twoEyes.setProperty("radius", 40);
   twoEyes.setProperty("base_phi", 0.5 * Math.PI);
-  twoEyes.enableDefaultUserControls();
 
   // Animation
   let theta = 0;

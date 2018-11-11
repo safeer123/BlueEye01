@@ -1,3 +1,5 @@
+import BTN from "./../../../../constants/Buttons";
+
 const objControlListForTest = {
   "12_Camera_Normal": {
     id: "12_Camera_Normal",
@@ -7,21 +9,21 @@ const objControlListForTest = {
       {
         name: "ON-OFF",
         input: ["a"],
-        controlButton: () => "btn0",
+        controlButton: () => BTN.Circle,
         action: () => console.log("do1 for 12_Camera_Normal"),
         summary: () => ["12_Camera_Normal", "Test (1.2, 2.6, 5.7)"]
       },
       {
         name: "Angle Phi minus",
         input: ["a+ArrowLeft"],
-        controlButton: () => "btnLeft",
+        controlButton: () => BTN.Left,
         action: () => console.log("do2 for 12_Camera_Normal"),
         summary: () => ["12_Camera_Normal", "Test (1.2, 2.6, 5.7)"]
       },
       {
         name: "Angle Phi plus",
         input: ["a+ArrowRight"],
-        controlButton: () => "btnRight",
+        controlButton: () => BTN.Right,
         action: () => console.log("do3 for 12_Camera_Normal"),
         summary: () => ["12_Camera_Normal", "Test (1.2, 2.6, 5.7)"]
       }
@@ -35,21 +37,21 @@ const objControlListForTest = {
       {
         name: "ON-OFF",
         input: ["1"],
-        controlButton: () => "btn0",
+        controlButton: () => BTN.Circle,
         action: () => console.log("do1 for 13_TowerLight"),
         summary: () => ["12_Camera_Normal", "Test (1.2, 2.6, 5.7)"]
       },
       {
         name: "Brightness minus",
         input: ["1+ArrowLeft"],
-        controlButton: () => "btnMinus",
+        controlButton: () => BTN.Minus,
         action: () => console.log("do2 for 13_TowerLight"),
         summary: () => ["12_Camera_Normal", "Test (1.2, 2.6, 5.7)"]
       },
       {
         name: "Brightness plus",
         input: ["1+ArrowRight"],
-        controlButton: () => "btnPlus",
+        controlButton: () => BTN.Plus,
         action: () => console.log("do3 for 13_TowerLight"),
         summary: () => ["12_Camera_Normal", "Test (1.2, 2.6, 5.7)"]
       }
@@ -63,7 +65,7 @@ const objControlListForTest = {
       {
         name: "ON-OFF",
         input: ["2"],
-        controlButton: () => "btn0",
+        controlButton: () => BTN.Circle,
         action: () => console.log("do1 for 14_TowerLight"),
         summary: () => [
           "14_TowerLight",
@@ -74,7 +76,7 @@ const objControlListForTest = {
       {
         name: "Brightness minus",
         input: ["2+ArrowLeft"],
-        controlButton: () => "btnMinus",
+        controlButton: () => BTN.Minus,
         action: () => console.log("do2 for 14_TowerLight"),
         summary: () => [
           "14_TowerLight",
@@ -85,7 +87,7 @@ const objControlListForTest = {
       {
         name: "Brightness plus",
         input: ["2+ArrowRight"],
-        controlButton: () => "btnPlus",
+        controlButton: () => BTN.Plus,
         action: () => console.log("do3 for 14_TowerLight"),
         summary: () => [
           "14_TowerLight",
@@ -106,14 +108,14 @@ const globalControlListForTest = {
       {
         name: "Fullscreen switch",
         input: ["Control+f"],
-        controlButton: () => "btnFullscreenOn",
+        controlButton: () => BTN.FullscreenOn,
         action: () => console.log("do1 for Fullscreen"),
         summary: () => ["abc", "xyz"]
       },
       {
         name: "Switch views",
         input: ["Control+v"],
-        controlButton: () => "btnPicture",
+        controlButton: () => BTN.Picture,
         action: () => console.log("do2 for SwitchView"),
         summary: () => ["abc", "xyz"]
       }
