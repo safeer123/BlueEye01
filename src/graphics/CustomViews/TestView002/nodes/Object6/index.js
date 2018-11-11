@@ -1,7 +1,6 @@
 import WorldObject from "../../../../WorldObject";
 import OBJ0 from "../../../../Geometry/Objects3D/objects";
 import WOFACTORY from "../../../../WorldObjectStore/Factory";
-import NodeTypes from "../../../../WorldObjectStore/constants/NodeTypes";
 import config from "./config";
 import GlowingHemiSphereType from "../GlowingHemisphere";
 
@@ -15,6 +14,11 @@ class LightTower extends WorldObject {
     const glowingObj = WOFACTORY.create(GlowingHemiSphereType, [inObj]);
     this.addChildren([glowingObj]);
     glowingObj.model().translate(0, 5, 0);
+    this.powerSwitch = () => {
+      const isON = glowingObj.getProperty("isON");
+      glowingObj.setProperty("isON", !isON);
+    };
+    this.setControls();
   }
 
   defineGeometry() {
@@ -22,6 +26,20 @@ class LightTower extends WorldObject {
     // cylinder3D.model().translate(0, 2.5, 0);
     this.geometryList = [cylinder3D];
     return this.geometryList;
+  }
+
+  setControls() {
+    this.controlObject = {
+      enabled: true,
+      controls: [
+        {
+          name: "Power",
+          input: ["1"],
+          controlButton: () => "btn0",
+          action: this.powerSwitch
+        }
+      ]
+    };
   }
 }
 

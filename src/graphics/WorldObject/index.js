@@ -166,4 +166,10 @@ export default class WorldObject extends Node {
     // return a list of geometry objects to render
     return [];
   }
+
+  // By default controlObject is undefined
+  // Derived WOs should define create this object
+  getUserControls() {
+    return this.controlObject;
+  }
 }

@@ -16,7 +16,6 @@ export default class TestView001 extends ViewHolder {
   }
 
   createScene() {
-    this.userControl.clearControlModes();
     // This should be How we rebuild the scene
     if (this.currentView) {
       this.currentView.stop();

@@ -1,6 +1,4 @@
 const config = {
-  LightColor: [1.0, 1.0, 1.0],
-
   PropertyList: [
     {
       name: "light_position",
@@ -11,6 +9,16 @@ const config = {
       name: "light_color",
       type: "vec3",
       value: [1.0, 1.0, 1.0]
+    },
+    {
+      name: "color_on",
+      type: "vec3",
+      value: [1.0, 1.0, 1.0]
+    },
+    {
+      name: "color_off",
+      type: "vec3",
+      value: [0.0, 0.0, 0.0]
     }
   ]
 };

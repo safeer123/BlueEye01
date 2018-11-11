@@ -12,6 +12,10 @@ export default class ControlModeManager {
       [ControlTypes.GlobalControl]: {},
       [ControlTypes.ObjectControl]: {}
     };
+    this.controlsById = {
+      [ControlTypes.GlobalControl]: {},
+      [ControlTypes.ObjectControl]: {}
+    };
     EventEmitter.on(EventName.RegisterControls, this.registerControl);
     EventEmitter.on(EventName.UnregisterControls, this.unregisterControl);
     EventEmitter.on(EventName.ClearControls, this.clearControls);
@@ -19,28 +23,36 @@ export default class ControlModeManager {
 
   registerControl = controlObj => {
     const { id, type, controls } = controlObj;
-    const controlList = controls.map(c => ({ ...c, id, type }));
-    controlList.forEach(c => {
-      const { input } = c;
-      if (input && input.length > 0) {
-        input.forEach(inputKeys => {
-          const sortedKeys = inputKeys
-            .split("+")
-            .sort()
-            .join("+");
-          const registeredControls = this.registeredControls[type];
-          if (!registeredControls[sortedKeys])
-            registeredControls[sortedKeys] = [];
-          registeredControls[sortedKeys].push(c);
-        });
-      }
-    });
+
+    // We have already registered controls for this object
+    if (this.controlsById[type][id]) return;
+
+    this.controlsById[type][id] = controlObj;
+    if (controls && controls.length > 0) {
+      const controlList = controls.map(c => ({ ...c, id, type }));
+      controlList.forEach(c => {
+        const { input } = c;
+        if (input && input.length > 0) {
+          input.forEach(inputKeys => {
+            const sortedKeys = inputKeys
+              .split("+")
+              .sort()
+              .join("+");
+            const registeredControls = this.registeredControls[type];
+            if (!registeredControls[sortedKeys])
+              registeredControls[sortedKeys] = [];
+            registeredControls[sortedKeys].push(c);
+          });
+        }
+      });
+    }
   };
 
   unregisterControl = controlObjId => {};
 
   clearControls = controlType => {
     this.registeredControls[controlType] = {};
+    this.controlsById[controlType] = {};
   };
 
   fireAction(inputKeys, value) {

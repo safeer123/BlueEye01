@@ -16,7 +16,7 @@ class GlowingHemiSphere extends WorldObject {
     ]);
     this.addChildren([lightSource]);
 
-    lightSource.setPropertyGetter("light_color", () => config.LightColor);
+    lightSource.setPropertyGetter("color_on", () => config.LightColor);
     lightSource.setPropertyGetter("isActive", () => this.getProperty("isON"));
 
     this.setPropertyGetter("emissive_color", () => {

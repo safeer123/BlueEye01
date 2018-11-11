@@ -1,5 +1,8 @@
 import SceneSetter from "../WorldObjectStore/SceneSetter";
 import SceneSetterTypes from "../WorldObjectStore/constants/SceneSetterTypes";
+import EventEmitter from "../lib/EventEmitter";
+import { EventName } from "../../constants/Events";
+import { ControlTypes } from "../../constants";
 
 /** *****************************
 Define Scene class
@@ -51,6 +54,31 @@ export default class Scene {
     };
 
     this.nodeList.forEach(node => processNode(node));
+  }
+
+  registerControls() {
+    const registerNodeControls = node => {
+      // register controls here
+      if (node.getUserControls) {
+        const controlObj = node.getUserControls();
+        if (controlObj) {
+          const controlObject = {
+            ...node.getUserControls(),
+            type: ControlTypes.ObjectControl,
+            id: node.Id
+          };
+          EventEmitter.emit(EventName.RegisterControls, controlObject);
+        }
+      }
+
+      // process nodes down the tree
+      const { children } = node;
+      if (children.length > 0) {
+        children.forEach(childNode => registerNodeControls(childNode));
+      }
+    };
+
+    this.nodeList.forEach(node => registerNodeControls(node));
   }
 
   getRelevantSceneSetters() {

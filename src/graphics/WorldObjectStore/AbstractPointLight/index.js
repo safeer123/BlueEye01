@@ -9,7 +9,15 @@ export default class AbstractPointLight extends SceneSetter {
     super(inObj, [config, ...configList]);
     this.setSceneSetterType(SceneSetterTypes.LIGHT_SCENE_SETTER);
 
-    this.setPropertyGetter("light_color", () => config.LightColor);
+    // light_color is the color that shines other objects
+    // Light source supposedly emits this color of light
+    this.setPropertyGetter(
+      "light_color",
+      () =>
+        this.getProperty("isActive")
+          ? this.getProperty("color_on")
+          : this.getProperty("color_off")
+    );
 
     this.setPropertyGetter("model_matrix", () => {
       const translation = this.getProperty("light_position");
