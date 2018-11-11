@@ -78,32 +78,12 @@ export default class UserControl {
     const { controlModeMngr } = this;
 
     KeyboardListener.setKeyListener(keys => {
-      console.log(keys);
-      const inputKeys = keys.sort().join("+");
-      controlModeMngr.fireAction(inputKeys);
-    });
-
-    document.addEventListener("keydown", event => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const keyName = this.getKeyName(event);
-      // console.log(`KeyDown: ${keyName}`);
-
-      // handleControlModes
-      this.displayOut(controlModeMngr.onKeyDown(keyName));
-    });
-
-    document.addEventListener("keyup", event => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const keyName = this.getKeyName(event);
-      // console.log(`KeyUp: ${keyName}`);
-
-      controlModeMngr.onKeyUp(keyName);
+      // console.log(keys);
+      controlModeMngr.fireAction(this.keysToString(keys));
     });
   }
+
+  keysToString = keys => keys.sort().join("+");
 
   gamepadControllerSetup() {
     GamepadControl.onConnected(e => this.displayOut(["Connected", e.name]));
@@ -132,7 +112,9 @@ export default class UserControl {
     this.gestureControl = new GestureController(domElement);
     this.gestureControl.onGestureInput((gestureType, e) => {
       const { controlModeMngr } = this;
-      this.displayOut(controlModeMngr.onGesture(gestureType, e));
+      const keyboardKeys = KeyboardListener.getPressedKeys();
+      const keys = [...keyboardKeys, gestureType];
+      controlModeMngr.fireAction(this.keysToString(keys), e);
     });
   }
 }
