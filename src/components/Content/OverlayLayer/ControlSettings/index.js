@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Row, Col, Grid, SplitButton, MenuItem } from "react-bootstrap";
 import {
   objControlListForTest,
@@ -8,7 +7,7 @@ import {
 import { EventName } from "../../../../constants/Events";
 import { ControlTypes } from "../../../../constants";
 import EventEmitter from "../../../../graphics/lib/EventEmitter";
-import { shortenKeys } from "./constants";
+import ControlGroup from "./ControlGroup";
 import "./index.css";
 
 const UseTestControls = false;
@@ -79,11 +78,6 @@ class ControlSettings extends React.Component {
     }, 0);
   };
 
-  fireAction = obj => {
-    if (obj.action) obj.action();
-    this.forceUpdate();
-  };
-
   handleDropdown(e) {
     // console.log(e);
     const { globalControls, objectControls } = this.state;
@@ -94,6 +88,18 @@ class ControlSettings extends React.Component {
     } else {
       this.setState({ selectedControl: null });
     }
+  }
+
+  getMenuItems(controlObjList) {
+    return controlObjList.map((obj, i) => {
+      const { id } = obj;
+      const elemKey = `${id}_${i}`;
+      return (
+        <MenuItem key={elemKey} eventKey={id}>
+          {this.idToLabel(id)}
+        </MenuItem>
+      );
+    });
   }
 
   idToLabel = id => id.replace(new RegExp("_", "g"), " ");
@@ -118,64 +124,15 @@ class ControlSettings extends React.Component {
                 onSelect={e => this.handleDropdown(e)}
               >
                 <MenuItem header>Global Controls</MenuItem>
-                {Object.values(globalControls).map((obj, i) => {
-                  const { id } = obj;
-                  const elemKey = `${id}_${i}`;
-                  const label = id.replace("_", " ");
-                  return (
-                    <MenuItem key={elemKey} eventKey={id}>
-                      {label}
-                    </MenuItem>
-                  );
-                })}
+                {this.getMenuItems(Object.values(globalControls))}
                 <MenuItem divider />
                 <MenuItem header>Object Controls</MenuItem>
-                {Object.values(objectControls).map((obj, i) => {
-                  const { id } = obj;
-                  const elemKey = `${id}_${i}`;
-                  return (
-                    <MenuItem key={elemKey} eventKey={id}>
-                      {this.idToLabel(id)}
-                    </MenuItem>
-                  );
-                })}
+                {this.getMenuItems(Object.values(objectControls))}
               </SplitButton>
             </Col>
           </Row>
           {selectedControl && (
-            <Row>
-              <Col md={12} className="control-items-wrapper">
-                <div className="control-title">
-                  {this.idToLabel(selectedControl.id)}
-                  <hr />
-                </div>
-                <div className="control-type">{selectedControl.type}</div>
-                {selectedControl.controls.map((obj, i) => {
-                  const { controlButton, name, input } = obj;
-                  const inputDisplay = input
-                    ? shortenKeys(input.join(", "))
-                    : "";
-                  const elemKey = `${name}_${i}`;
-                  const iconClass = controlButton ? controlButton() : "";
-                  return (
-                    <div key={elemKey} className="control-item">
-                      <div className="control-name">{name}</div>
-                      {input && (
-                        <div className="control-keys">{inputDisplay}</div>
-                      )}
-                      {controlButton && (
-                        <div className="control-btn">
-                          <i
-                            className={iconClass}
-                            onClick={() => this.fireAction(obj)}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </Col>
-            </Row>
+            <ControlGroup selectedControl={selectedControl} />
           )}
         </Grid>
       </div>
@@ -183,11 +140,4 @@ class ControlSettings extends React.Component {
   }
 }
 
-function mapStateToProps({ activeScenario, scenarioData }) {
-  return {
-    activeScenario,
-    scenarioData
-  };
-}
-
-export default connect(mapStateToProps)(ControlSettings);
+export default ControlSettings;

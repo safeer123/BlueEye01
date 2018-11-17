@@ -306,15 +306,20 @@ DONE ---> canvasView should clear registered controls while start up
 DONE ---> canvasView should then iterate over scenes and emit event for registering controls
 ===========================================
 
+
 Fix: power button stops working once changing view
 Implement Gesture handling as per new workflow of user control class
 Gamepad controller should be providing list of pressed keys
+
+Abstract out selected control as ControlGroup pass props
+Tower Light has power ON and power OFF switch
+Tower Light has color switch blue-green-red-white
 
 implement more tower lights and pass the control key as a method
 
 implement summary displayOut in controlModeMananger
 
-while switch view control settings dropdown should close
+while switch view control settings dropdown should close - no need to close
 
 Implement unregisterControl
 
