@@ -34,7 +34,7 @@ class Overlay extends React.Component {
 
   render() {
     return (
-      <div className="overlay-layer">
+      <div className="overlay-layer unselectable">
         <ControlSettings />
         <UpdateMsg />
         <ViewButtonsPanel />

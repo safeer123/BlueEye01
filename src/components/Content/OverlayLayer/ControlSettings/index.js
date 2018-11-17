@@ -28,6 +28,7 @@ class ControlSettings extends React.Component {
       EventEmitter.on(EventName.RegisterControls, this.registerControl);
       EventEmitter.on(EventName.UnregisterControls, this.unregisterControl);
       EventEmitter.on(EventName.ClearControls, this.clearControls);
+      EventEmitter.on(EventName.ViewChanged, () => this.viewChanged());
     }
   }
 
@@ -38,25 +39,44 @@ class ControlSettings extends React.Component {
     // console.log(nextProps);
   }
 
-  registerControl = controlObj => {
-    const { id, type } = controlObj;
-    if (type === ControlTypes.GlobalControl) {
-      const globalControls = { ...this.state.globalControls, [id]: controlObj };
-      this.setState({ globalControls });
-    } else if (type === ControlTypes.ObjectControl) {
-      const objectControls = { ...this.state.objectControls, [id]: controlObj };
-      this.setState({ objectControls });
+  viewChanged() {
+    const { selectedControl } = this.state;
+    if (selectedControl) {
+      setTimeout(() => {
+        this.handleDropdown(selectedControl.id);
+      }, 10);
     }
+  }
+
+  registerControl = controlObj => {
+    setTimeout(() => {
+      const { id, type } = controlObj;
+      if (type === ControlTypes.GlobalControl) {
+        const globalControls = {
+          ...this.state.globalControls,
+          [id]: controlObj
+        };
+        this.setState({ globalControls });
+      } else if (type === ControlTypes.ObjectControl) {
+        const objectControls = {
+          ...this.state.objectControls,
+          [id]: controlObj
+        };
+        this.setState({ objectControls });
+      }
+    }, 0);
   };
 
   unregisterControl = controlObjId => {};
 
   clearControls = controlType => {
-    if (controlType === ControlTypes.GlobalControl) {
-      this.setState({ globalControls: {} });
-    } else if (controlType === ControlTypes.ObjectControl) {
-      this.setState({ objectControls: {} });
-    }
+    setTimeout(() => {
+      if (controlType === ControlTypes.GlobalControl) {
+        this.setState({ globalControls: {} });
+      } else if (controlType === ControlTypes.ObjectControl) {
+        this.setState({ objectControls: {} });
+      }
+    }, 0);
   };
 
   fireAction = obj => {
@@ -71,8 +91,12 @@ class ControlSettings extends React.Component {
       this.setState({ selectedControl: objectControls[e] });
     } else if (globalControls[e]) {
       this.setState({ selectedControl: globalControls[e] });
+    } else {
+      this.setState({ selectedControl: null });
     }
   }
+
+  idToLabel = id => id.replace(new RegExp("_", "g"), " ");
 
   render() {
     const { selectedControl, globalControls, objectControls } = this.state;
@@ -85,7 +109,11 @@ class ControlSettings extends React.Component {
               <SplitButton
                 className="control-item-select"
                 bsStyle="primary"
-                title={selectedControl ? selectedControl.id : "Select Control"}
+                title={
+                  selectedControl
+                    ? this.idToLabel(selectedControl.id)
+                    : "Select Control"
+                }
                 id="controls-dropdown"
                 onSelect={e => this.handleDropdown(e)}
               >
@@ -93,19 +121,21 @@ class ControlSettings extends React.Component {
                 {Object.values(globalControls).map((obj, i) => {
                   const { id } = obj;
                   const elemKey = `${id}_${i}`;
+                  const label = id.replace("_", " ");
                   return (
                     <MenuItem key={elemKey} eventKey={id}>
-                      {id}
+                      {label}
                     </MenuItem>
                   );
                 })}
                 <MenuItem divider />
                 <MenuItem header>Object Controls</MenuItem>
-                {Object.values(objectControls).map(obj => {
+                {Object.values(objectControls).map((obj, i) => {
                   const { id } = obj;
+                  const elemKey = `${id}_${i}`;
                   return (
-                    <MenuItem key={id} eventKey={id}>
-                      {id}
+                    <MenuItem key={elemKey} eventKey={id}>
+                      {this.idToLabel(id)}
                     </MenuItem>
                   );
                 })}
@@ -116,7 +146,7 @@ class ControlSettings extends React.Component {
             <Row>
               <Col md={12} className="control-items-wrapper">
                 <div className="control-title">
-                  {selectedControl.id}
+                  {this.idToLabel(selectedControl.id)}
                   <hr />
                 </div>
                 <div className="control-type">{selectedControl.type}</div>

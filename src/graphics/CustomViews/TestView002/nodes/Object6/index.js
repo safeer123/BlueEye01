@@ -5,20 +5,16 @@ import config from "./config";
 import GlowingHemiSphereType from "../GlowingHemisphere";
 import BTN from "./../../../../../constants/Buttons";
 
-const LightTowerType = "LightTowerType";
+const LightTowerType = "LIGHT_TOWER";
 
 class LightTower extends WorldObject {
   constructor(inObj) {
     super(inObj, [config]);
     this.model().translate(60, 0, 0);
 
-    const glowingObj = WOFACTORY.create(GlowingHemiSphereType, [inObj]);
-    this.addChildren([glowingObj]);
-    glowingObj.model().translate(0, 5, 0);
-    this.powerSwitch = () => {
-      const isON = glowingObj.getProperty("isON");
-      glowingObj.setProperty("isON", !isON);
-    };
+    this.glowingObj = WOFACTORY.create(GlowingHemiSphereType, [inObj]);
+    this.addChildren([this.glowingObj]);
+    this.glowingObj.model().translate(0, 5, 0);
     this.setControls();
   }
 
@@ -30,6 +26,10 @@ class LightTower extends WorldObject {
   }
 
   setControls() {
+    const powerSwitch = () => {
+      const isON = this.glowingObj.getProperty("isON");
+      this.glowingObj.setProperty("isON", !isON);
+    };
     this.controlObject = {
       enabled: true,
       controls: [
@@ -37,7 +37,7 @@ class LightTower extends WorldObject {
           name: "Power",
           input: ["1"],
           controlButton: () => BTN.Circle,
-          action: this.powerSwitch
+          action: () => powerSwitch()
         }
       ]
     };

@@ -1,8 +1,8 @@
 const EventName = {
   DisplayOutRequest: "DisplayOutRequest",
   SwitchView: "SwitchView",
+  ViewChanged: "ViewChanged",
   SetViewList: "SetViewList",
-  SetCurrentView: "SetCurrentView",
   FullscreenSwitch: "FullscreenSwitch",
   EnableKeyboardListener: "EnableKeyboardListener",
   DisableKeyboardListener: "DisableKeyboardListener",

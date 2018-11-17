@@ -53,7 +53,7 @@ export default class ViewHolder extends GraphicsLayer {
     };
     const viewSwitch = () => this.switchView({ step: 1 });
     const controlObject = {
-      id: "ViewControls",
+      id: "VIEW_CONTROLS",
       type: ControlTypes.GlobalControl,
       enabled: true,
       controls: [
@@ -97,7 +97,7 @@ export default class ViewHolder extends GraphicsLayer {
   setCurrentViewByIndex(index) {
     this.setCurrentView(this.viewList[index]);
     this.currentViewIndex = index;
-    EventEmitter.emit(EventName.SetCurrentView, index);
+    EventEmitter.emit(EventName.ViewChanged, index);
   }
 
   setCurrentView(view) {

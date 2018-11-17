@@ -14,7 +14,7 @@ class ViewButtonsPanel extends React.Component {
     };
 
     EventEmitter.on(EventName.SetViewList, this.handleViewList.bind(this));
-    EventEmitter.on(EventName.SetCurrentView, index =>
+    EventEmitter.on(EventName.ViewChanged, index =>
       this.setState({ selectedViewIndex: index })
     );
   }

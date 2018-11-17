@@ -100,8 +100,8 @@ const objControlListForTest = {
 };
 
 const globalControlListForTest = {
-  ViewControls: {
-    id: "ViewControls",
+  VIEW_CONTROLS: {
+    id: "VIEW_CONTROLS",
     type: "GlobalControl",
     enabled: true,
     controls: [
