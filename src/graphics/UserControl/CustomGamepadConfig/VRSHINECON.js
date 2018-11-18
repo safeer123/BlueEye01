@@ -17,7 +17,7 @@ const Axes = {
 };
 
 const mapping = {
-  gpid: "VRSHINECON",
+  gpid: "VR SHINECON_S10-AUTO",
   buttonMapping: {
     0: Buttons.a,
     1: Buttons.b,
