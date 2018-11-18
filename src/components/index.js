@@ -5,7 +5,8 @@ import "font-awesome/css/font-awesome.min.css";
 import Footer from "./Footer";
 import Content from "./Content";
 
-import "./index.css";
+import "./css/index.css";
+import "./css/buttonStyles.css";
 
 const App = props => (
   <div className="wrapper">

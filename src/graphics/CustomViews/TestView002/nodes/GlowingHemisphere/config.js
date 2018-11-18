@@ -1,10 +1,14 @@
 const config = {
-  LightColor: [1.0, 1.0, 1.0],
   PropertyList: [
     {
       name: "isON",
       type: "bool",
       value: true
+    },
+    {
+      name: "color",
+      type: "vec3",
+      value: [1.0, 1.0, 1.0]
     }
   ]
 };

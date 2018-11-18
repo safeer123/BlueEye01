@@ -63,6 +63,7 @@ export default class ControlModeManager {
       ) {
         registeredControls[inputKeys].forEach(c => {
           if (c.action) c.action(value);
+          EventEmitter.emit(EventName.ControlObjectModified, c.id);
         });
       }
     });

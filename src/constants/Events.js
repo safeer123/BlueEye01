@@ -8,7 +8,8 @@ const EventName = {
   DisableKeyboardListener: "DisableKeyboardListener",
   RegisterControls: "RegisterControls",
   UnregisterControls: "UnregisterControls",
-  ClearControls: "ClearControls"
+  ClearControls: "ClearControls",
+  ControlObjectModified: "ControlObjectModified"
 };
 
 export { EventName };

@@ -30,14 +30,32 @@ class LightTower extends WorldObject {
       const isON = this.glowingObj.getProperty("isON");
       this.glowingObj.setProperty("isON", !isON);
     };
+    const colorList = [[1, 1, 1], [1, 0.3, 0.3], [0.3, 1, 0.3], [0.3, 0.3, 1]];
+    let colorIndex = 0;
+    const colorSwitch = () => {
+      colorIndex = (colorIndex + 1) % colorList.length;
+      this.glowingObj.setProperty("color", colorList[colorIndex]);
+    };
     this.controlObject = {
       enabled: true,
       controls: [
         {
           name: "Power",
           input: ["1"],
-          controlButton: () => BTN.Circle,
+          controlButton: () =>
+            this.glowingObj.getProperty("isON") ? BTN.PowerON : BTN.PowerOFF,
           action: () => powerSwitch()
+        },
+        {
+          name: "Light Color",
+          input: ["c+1"],
+          controlButton: () => {
+            if (colorIndex === 0) return BTN.CircleWhite;
+            else if (colorIndex === 1) return BTN.CircleRed;
+            else if (colorIndex === 2) return BTN.CircleGreen;
+            else if (colorIndex === 3) return BTN.CircleBlue;
+          },
+          action: () => colorSwitch()
         }
       ]
     };

@@ -9,6 +9,7 @@ class ControlGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    EventEmitter.on(EventName.ControlObjectModified, this.onControlModified);
   }
 
   componentDidMount() {}
@@ -17,6 +18,13 @@ class ControlGroup extends React.Component {
     // console.log("Component: componentWillReceiveProps------");
     // console.log(nextProps);
   }
+
+  onControlModified = id => {
+    const { selectedControl } = this.props;
+    if (selectedControl && selectedControl.id === id) {
+      this.forceUpdate();
+    }
+  };
 
   fireAction = obj => {
     if (obj.action) obj.action();
