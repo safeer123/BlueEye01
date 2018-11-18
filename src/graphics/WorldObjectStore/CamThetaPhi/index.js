@@ -52,63 +52,61 @@ export default class CamThetaPhi extends Camera {
       const thetaInDeg = Utils.radToDeg(this.getProperty("theta"));
       return [modeName, `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`];
     };
-    this.controlObject = {
-      enabled: true,
-      controls: [
-        {
-          name: "φ- Rotation",
-          input: ["ArrowLeft"],
-          controlButton: () => BTN.Left,
-          action: () => phiPlus(-DPHI),
-          summary
+    const controls = [
+      {
+        name: "φ- Rotation",
+        input: ["ArrowLeft"],
+        controlButton: () => BTN.Left,
+        action: () => phiPlus(-DPHI),
+        summary
+      },
+      {
+        name: "φ+ Rotation",
+        input: ["ArrowRight"],
+        controlButton: () => BTN.Right,
+        action: () => phiPlus(DPHI),
+        summary
+      },
+      {
+        name: "θ- Rotation",
+        input: ["ArrowUp"],
+        controlButton: () => BTN.Up,
+        action: () => thetaPlus(-DPHI),
+        summary
+      },
+      {
+        name: "θ+ Rotation",
+        input: ["ArrowDown"],
+        controlButton: () => BTN.Down,
+        action: () => thetaPlus(DPHI),
+        summary
+      },
+      {
+        name: "θφ Rotation",
+        input: ["pan"],
+        action: e => {
+          phiPlus(DPHI * e.velocityX);
+          thetaPlus(-DTHETA * e.velocityY);
         },
-        {
-          name: "φ+ Rotation",
-          input: ["ArrowRight"],
-          controlButton: () => BTN.Right,
-          action: () => phiPlus(DPHI),
-          summary
+        summary
+      },
+      {
+        name: "distance (mouse)",
+        input: ["wheel"],
+        action: e => {
+          radiusPlus(STEPDIST * (e.dy > 0 ? 1 : -1) * 1);
         },
-        {
-          name: "θ- Rotation",
-          input: ["ArrowUp"],
-          controlButton: () => BTN.Up,
-          action: () => thetaPlus(-DPHI),
-          summary
+        summary
+      },
+      {
+        name: "distance (touch)",
+        input: ["pinch"],
+        action: e => {
+          radiusPlus(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);
         },
-        {
-          name: "θ+ Rotation",
-          input: ["ArrowDown"],
-          controlButton: () => BTN.Down,
-          action: () => thetaPlus(DPHI),
-          summary
-        },
-        {
-          name: "θφ Rotation",
-          input: ["pan"],
-          action: e => {
-            phiPlus(DPHI * e.velocityX);
-            thetaPlus(-DTHETA * e.velocityY);
-          },
-          summary
-        },
-        {
-          name: "distance (mouse)",
-          input: ["wheel"],
-          action: e => {
-            radiusPlus(STEPDIST * (e.dy > 0 ? 1 : -1) * 1);
-          },
-          summary
-        },
-        {
-          name: "distance (touch)",
-          input: ["pinch"],
-          action: e => {
-            radiusPlus(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);
-          },
-          summary
-        }
-      ]
-    };
+        summary
+      }
+    ];
+    this.addControls(controls);
   }
 }

@@ -17,18 +17,19 @@ const Axes = {
 };
 
 const mapping = {
-  gpid: "VRSHINECON",
+  gpid: "Gamepad  (Vendor: ffff Product: 0000)",
   buttonMapping: {
     0: Buttons.a,
     1: Buttons.b,
     2: Buttons.x,
-    3: Buttons.y,
-    4: Buttons.SELECT,
+    3: Buttons.x,
+    4: Buttons.y,
     5: Buttons.ESC,
     6: Buttons.A,
     7: Buttons.B,
     8: Buttons.X,
-    9: Buttons.Y
+    9: Buttons.Y,
+    10: Buttons.SELECT
   },
   axesMapping: {
     0: Axes.AxisX,

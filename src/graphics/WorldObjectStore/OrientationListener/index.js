@@ -77,17 +77,21 @@ export default class OrientationListener extends WorldObject {
         .yRotate(-phi);
       return mtx4.apply(upVec);
     });
+
+    // Register a control that provides device orientation change
+    this.setupOrientationFeed();
   }
 
-  listenToOrientationChange() {
+  setupOrientationFeed() {
     const initialPhi = this.getProperty("base_phi");
     this.setProperty("phi", initialPhi);
     let phiAtStart;
+    let displayOutList = [];
 
     const toPhiInDeg = (gamma, alpha) =>
       360 - (gamma > 0 ? alpha + 180 : alpha) % 360;
 
-    const handleChange = e => {
+    const onOrientationChange = e => {
       const { alpha, beta, gamma } = e;
       if (!alpha || !beta || !gamma) return;
 
@@ -119,7 +123,7 @@ export default class OrientationListener extends WorldObject {
         this.setProperty("omega", omega);
       }
       /*
-      this.displayAngleUpdates(
+      displayOutList = this.displayAngleUpdates(
         alpha,
         beta,
         gamma,
@@ -129,18 +133,24 @@ export default class OrientationListener extends WorldObject {
       );
       */
     };
-    const listenerObj = {
-      name: "TwoEyesListener",
-      cb: handleChange
-    };
-    this.userControl.listenToDeviceOrientation(this.Id, listenerObj);
+
+    this.addControls([
+      {
+        name: "OrientationFeed",
+        action: onOrientationChange,
+        summary: () => displayOutList
+      }
+    ]);
   }
 
-  stopListeningToOrientationChange() {
-    this.userControl.stopListeningToOrientationChange(this.Id);
-  }
-
-  displayAngleUpdates(alpha, beta, gamma, phi, relativePhi, relativeTheta) {
+  displayAngleUpdates = (
+    alpha,
+    beta,
+    gamma,
+    phi,
+    relativePhi,
+    relativeTheta
+  ) => {
     const displayOutList = [
       `(α:${parseFloat(alpha).toFixed(1)},
         β:${parseFloat(beta).toFixed(1)},
@@ -149,8 +159,8 @@ export default class OrientationListener extends WorldObject {
       `relativePhi: ${relativePhi.toFixed(2)}`,
       `relativeTheta: ${relativeTheta.toFixed(2)}`
     ];
-    this.userControl.displayOut(displayOutList);
-  }
+    return displayOutList;
+  };
 }
 
 // Gamma negative: beta 0 to 180

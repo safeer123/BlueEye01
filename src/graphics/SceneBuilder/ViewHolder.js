@@ -103,7 +103,6 @@ export default class ViewHolder extends GraphicsLayer {
   setCurrentView(view) {
     if (this.currentView) {
       this.currentView.stop();
-      this.userControl.clearControlModes();
     }
     if (this.createCanvasView) {
       this.currentView = this.createCanvasView(view.canvasViewClass);

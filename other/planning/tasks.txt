@@ -314,6 +314,15 @@ DONE ---> Tower Light has power ON and power OFF switch
 DONE ---> Tower Light has color switch blue-green-red-white
 ===========================================
 
+Implement device orientation as single input in control list
+
+Remove following deprecated types 
+	MasterPrimaryKeys,
+	PrimaryKeys,
+	SecondaryKeys,
+	listenToDeviceOrientation
+	stopListeningToOrientationChange
+
 Gamepad controller should be providing list of pressed keys
 
 implement more tower lights and pass the control key as a method

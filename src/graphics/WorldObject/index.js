@@ -167,6 +167,24 @@ export default class WorldObject extends Node {
     return [];
   }
 
+  addControls(controlList, enabled) {
+    if (!this.controlObject) {
+      this.controlObject = {
+        enabled: true,
+        controls: []
+      };
+    }
+
+    this.controlObject.controls = [
+      ...this.controlObject.controls,
+      ...controlList
+    ];
+
+    if (typeof enabled !== "undefined") {
+      this.controlObject.enabled = enabled;
+    }
+  }
+
   // By default controlObject is undefined
   // Derived WOs should define create this object
   getUserControls() {

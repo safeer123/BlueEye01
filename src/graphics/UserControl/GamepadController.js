@@ -4,7 +4,7 @@ const AxisError = 0.005;
 class GamepadController {
   constructor() {
     this.connectedGamepads = [];
-    this.gpConfig = null;
+    this.gpConfig = {};
 
     // Previous state of buttons and axes
     this.prevState = {};
@@ -33,7 +33,8 @@ class GamepadController {
   getGpConfig(id) {
     // For now just retun the existing configuration
     // Ideally we should compare id and return the correct config if we have
-    return this.gpConfig;
+    if (this.gpConfig[id]) return this.gpConfig[id];
+    return null;
   }
 
   isGoodAxisValue = val => Math.abs(val) > AxisError;
@@ -109,7 +110,8 @@ class GamepadController {
   }
 
   registerGamepadConfig(config) {
-    this.gpConfig = config;
+    if (config && config.mapping && config.mapping.gpid)
+      this.gpConfig[config.mapping.gpid] = config;
   }
 
   onButtonDown(cb) {

@@ -1,12 +1,10 @@
-export default class DeviceOrientationFeed {
+// Singleton class
+class DeviceOrientationFeed {
   constructor() {
     if (window.DeviceOrientationEvent) {
       // Our browser supports DeviceOrientation
       console.log("Browser supports Device Orientation");
-      window.addEventListener(
-        "deviceorientation",
-        this.deviceOrientationListener.bind(this)
-      );
+      window.addEventListener("deviceorientation", this.onOrientationChange);
     } else {
       console.log("Sorry, your browser doesn't support Device Orientation");
     }
@@ -15,25 +13,19 @@ export default class DeviceOrientationFeed {
   }
 
   // Axes on device
-  deviceOrientationListener(event) {
-    Object.values(this.listenerList).forEach(listener => {
-      listener.cb({
+  onOrientationChange = event => {
+    if (this.listener) {
+      this.listener({
         alpha: event.alpha,
         beta: event.beta,
         gamma: event.gamma
       });
-    });
-  }
+    }
+  };
 
-  addListener(id, l) {
-    this.listenerList[id] = l;
-  }
-
-  removeListener(id) {
-    delete this.listenerList[id];
-  }
-
-  clearListeners() {
-    this.listenerList = [];
+  addListener(l) {
+    this.listener = l;
   }
 }
+
+export default new DeviceOrientationFeed();

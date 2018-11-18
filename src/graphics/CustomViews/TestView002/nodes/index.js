@@ -70,13 +70,11 @@ export default function getNodes(inpObj) {
   oneEye.setProperty("position", [70, 5, 0]);
   oneEye.setProperty("radius", 150);
   oneEye.setProperty("base_phi", Math.PI);
-  // oneEye.listenToOrientationChange();
 
   const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
   twoEyes.setProperty("position", [-10, 5, 0]);
   twoEyes.setProperty("radius", 150);
   twoEyes.setProperty("base_phi", Math.PI);
-  twoEyes.listenToOrientationChange();
   // Animation
   const initScene = () => {
     setTimeout(() => {

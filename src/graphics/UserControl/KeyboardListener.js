@@ -47,7 +47,7 @@ class KeyboardListener {
   };
 
   getPressedKeys() {
-    return this.pressedKeys;
+    return [...this.pressedKeys];
   }
 }
 

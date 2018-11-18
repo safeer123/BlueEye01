@@ -3,6 +3,7 @@ import DeviceOrientationFeed from "./DeviceOrientation";
 import GamepadControl from "./GamepadController";
 import GestureController from "./GestureController";
 import KeyboardListener from "./KeyboardListener";
+import GamepadKeyListener from "./GamepadKeyListener";
 
 import configGP from "./CustomGamepadConfig/VRSHINECON";
 
@@ -10,49 +11,15 @@ export default class UserControl {
   constructor(canvasWrapper, sceneUpdater) {
     this.sceneUpdater = sceneUpdater;
     this.controlModeMngr = new ControlModeManager();
-    this.orientationFeed = new DeviceOrientationFeed();
 
-    // ----- Use below line for reading device orientation
-    // this.displayDeviceOrientation();
-
+    // Listen to device orientation changes
+    this.deviceOrientationFeedSetup();
     // Listen to keyboard events
     this.keyboardEventSetup();
     // Listen to Gamepad controller events
     this.gamepadControllerSetup();
     // Listen to Gesture input events
     this.gestureInputSetup(canvasWrapper);
-  }
-
-  listenToDeviceOrientation(id, listenerObj) {
-    this.orientationFeed.addListener(id, listenerObj);
-  }
-
-  stopListeningToDeviceOrientation(id) {
-    this.orientationFeed.removeListener(id);
-  }
-
-  registerControlMode(key, controlModeObj) {
-    const { controlModeMngr } = this;
-    controlModeMngr.createControlMode(key, controlModeObj);
-  }
-
-  clearControlModes() {
-    const { controlModeMngr } = this;
-    controlModeMngr.clearControlModes();
-  }
-
-  displayDeviceOrientation() {
-    this.orientationFeed.addListener({
-      name: "MyName",
-      cb: obj => {
-        if (obj) {
-          const displayOutList = Object.entries(obj).map(
-            a => `${a[0]}: ${a[1].toFixed(0)}`
-          );
-          this.displayOut(displayOutList);
-        }
-      }
-    });
   }
 
   displayOut(displayOutList) {
@@ -64,26 +31,22 @@ export default class UserControl {
     GamepadControl.loop();
   }
 
-  getKeyName = event => {
-    let keyName = event.key;
-
-    if (event.altKey) keyName = `Alt${keyName}`;
-    if (event.ctrlKey) keyName = `Control${keyName}`;
-    if (event.shiftKey) keyName = `Shift${keyName}`;
-
-    return keyName;
-  };
+  deviceOrientationFeedSetup() {
+    const { controlModeMngr } = this;
+    DeviceOrientationFeed.addListener(e => {
+      controlModeMngr.fireAction("orientation", e);
+    });
+  }
 
   keyboardEventSetup() {
     const { controlModeMngr } = this;
 
-    KeyboardListener.setKeyListener(keys => {
+    KeyboardListener.setKeyListener(ks => {
+      const keys = this.getAllPressedKeys();
       // console.log(keys);
       controlModeMngr.fireAction(this.keysToString(keys));
     });
   }
-
-  keysToString = keys => keys.sort().join("+");
 
   gamepadControllerSetup() {
     GamepadControl.onConnected(e => this.displayOut(["Connected", e.name]));
@@ -93,28 +56,37 @@ export default class UserControl {
     GamepadControl.registerGamepadConfig(configGP);
 
     const { controlModeMngr } = this;
-    GamepadControl.onButtonDown(e => {
-      // console.log("GP Button Down: ", e);
-      this.displayOut(controlModeMngr.onKeyDown(e.key));
+    GamepadKeyListener.setKeyListener(ks => {
+      const keys = this.getAllPressedKeys();
+      // console.log(keys);
+      controlModeMngr.fireAction(this.keysToString(keys));
     });
-    GamepadControl.onButtonUp(e => {
-      // console.log("GP Button Up: ", e);
-      controlModeMngr.onKeyUp(e.key);
-    });
+
     GamepadControl.onAxisValueChanged(e => {
       // console.log("GP Axis: ", e);
       const { axisName, value } = e;
-      this.displayOut(controlModeMngr.onAxisValueChanged(axisName, value));
+      const keys = [...this.getAllPressedKeys(), axisName];
+      // console.log(keys);
+      controlModeMngr.fireAction(this.keysToString(keys), value);
     });
   }
 
-  gestureInputSetup(domElement) {
+  gestureInputSetup = domElement => {
     this.gestureControl = new GestureController(domElement);
     this.gestureControl.onGestureInput((gestureType, e) => {
       const { controlModeMngr } = this;
-      const keyboardKeys = KeyboardListener.getPressedKeys();
+      const keyboardKeys = this.getAllPressedKeys();
       const keys = [...keyboardKeys, gestureType];
+      // console.log(keys);
       controlModeMngr.fireAction(this.keysToString(keys), e);
     });
-  }
+  };
+
+  keysToString = keys => keys.sort().join("+");
+
+  getAllPressedKeys = () => {
+    const keys1 = KeyboardListener.getPressedKeys();
+    const keys2 = GamepadKeyListener.getPressedKeys();
+    return [...keys1, ...keys2];
+  };
 }
