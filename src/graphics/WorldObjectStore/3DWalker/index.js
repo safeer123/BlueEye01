@@ -11,11 +11,12 @@ import { PrimaryKeys, SecondaryKeys } from "../../UserControl/constants";
 export default class Space3DWalker extends OrientationListener {
   constructor(inObj, configList = []) {
     super(inObj, [config, ...configList]);
+    this.setControls();
   }
 
-  enableDefaultUserControls() {
-    const orientationControlName = "3DWalker Look-at";
-    const walkControlName = "3DWalker Walk";
+  setControls() {
+    const orientationControlName = "Look-At direction";
+    const walkControlName = "3D Walk";
 
     const DPHI = 0.03;
     const DTHETA = 0.03;
@@ -54,25 +55,23 @@ export default class Space3DWalker extends OrientationListener {
       */
       this.setProperty("position", newPosition);
     };
-    const summaryAngles = () => {
+    const summary = () => {
+      const position = this.getProperty("position");
       const phiInDeg = Utils.radToDeg(this.getProperty("base_phi"));
       const thetaInDeg = Utils.radToDeg(this.getProperty("base_theta"));
-      return [orientationControlName, `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`];
-    };
-    const summaryPosition = () => {
-      const position = this.getProperty("position");
       return [
-        `${walkControlName} (${this.Id})`,
+        `${this.Id}`,
         `(X: ${position[0].toFixed(1)}, 
           Y: ${position[1].toFixed(1)}, 
-          Z: ${position[2].toFixed(1)})`
+          Z: ${position[2].toFixed(1)})`,
+          `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`
       ];
     };
     const orientationControlObject = {
       modeName: orientationControlName,
       [SecondaryKeys.AxisX]: v => phiPlus(DPHI * v),
       [SecondaryKeys.AxisY]: v => thetaPlus(DTHETA * v),
-      summary: summaryAngles
+      summary
     };
     const walkControlObject = {
       modeName: walkControlName,
@@ -88,7 +87,7 @@ export default class Space3DWalker extends OrientationListener {
       [SecondaryKeys.wheel]: e => {
         walk(STEPDIST * (e.dy > 0 ? -1 : 1) * 1);
       },
-      summary: summaryPosition
+      summary
     };
     /* this.userControl.registerControlMode(
       PrimaryKeys.y,
@@ -96,5 +95,51 @@ export default class Space3DWalker extends OrientationListener {
     );
     */
     // this.userControl.registerControlMode("default", walkControlObject);
+
+    const controls = [
+      {
+        name: walkControlName,
+        action: v => walk(-STEPDIST * v),
+        input: ["AxisY"],
+        summary,
+        showSummary: false
+      },
+      {
+        name: walkControlName,
+        action: v => (Math.abs(v) > 0.3 ? phiPlus(DPHI * v) : 0),
+        input: ["AxisX"],
+        summary,
+        showSummary: false
+      },
+      {
+        name: walkControlName,
+        action: e => {
+          phiPlus(-DPHI * e.velocityX);
+          thetaPlus(-DTHETA * e.velocityY);
+        },
+        input: ["pan"],
+        summary,
+        showSummary: false
+      },
+      {
+        name: walkControlName,
+        action: e => {
+          walk(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);
+        },
+        input: ["pinch"],
+        summary,
+        showSummary: false
+      },
+      {
+        name: walkControlName,
+        action: e => {
+          walk(STEPDIST * (e.dy > 0 ? -1 : 1) * 1);
+        },
+        input: ["wheel"],
+        summary,
+        showSummary: false
+      }
+    ];
+    this.addControls(controls);
   }
 }
