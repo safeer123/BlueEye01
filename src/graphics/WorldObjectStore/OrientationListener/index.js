@@ -138,6 +138,7 @@ export default class OrientationListener extends WorldObject {
       {
         name: "OrientationFeed",
         action: onOrientationChange,
+        input: ["orientation"],
         summary: () => displayOutList
       }
     ]);
