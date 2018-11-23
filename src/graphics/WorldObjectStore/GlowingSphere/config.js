@@ -1,6 +1,4 @@
 const config = {
-  LightColor: [1.0, 1.0, 1.0],
-
   PropertyList: [
     {
       name: "translation",

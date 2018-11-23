@@ -44,6 +44,7 @@ export default class UserControl {
     KeyboardListener.setKeyListener(ks => {
       const keys = this.getAllPressedKeys();
       // console.log(keys);
+      // this.displayOut([this.keysToString(keys)]);
       controlModeMngr.fireAction(this.keysToString(keys));
     });
   }

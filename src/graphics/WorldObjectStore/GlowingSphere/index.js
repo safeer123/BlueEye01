@@ -3,7 +3,7 @@ import OBJ0 from "../../Geometry/Objects3D/objects";
 import WOFACTORY from "../Factory";
 import NodeTypes from "../constants/NodeTypes";
 import WorldObject from "../../WorldObject";
-import { PrimaryKeys, SecondaryKeys } from "../../UserControl/constants";
+import BTN from "../../../constants/Buttons";
 
 export default class GlowingSphere extends WorldObject {
   constructor(inObj, configList = []) {
@@ -15,7 +15,6 @@ export default class GlowingSphere extends WorldObject {
     ]);
     this.addChildren([lightSource]);
 
-    lightSource.setPropertyGetter("light_color", () => config.LightColor);
     lightSource.setPropertyGetter("isActive", () => this.getProperty("isON"));
 
     this.setPropertyGetter("model_matrix", () => {
@@ -25,12 +24,10 @@ export default class GlowingSphere extends WorldObject {
       return this.model().matrix();
     });
 
-    this.setPropertyGetter("emissive_color", () => {
-      if (lightSource.getProperty("isActive")) {
-        return lightSource.getProperty("light_color");
-      }
-      return [0, 0, 0];
-    });
+    this.setPropertyGetter("emissive_color", () =>
+      lightSource.getProperty("light_color")
+    );
+    this.setControls();
   }
 
   defineGeometry() {
@@ -39,36 +36,20 @@ export default class GlowingSphere extends WorldObject {
     return [shape];
   }
 
-  enableDefaultUserControls() {
-    const modeName = "GlowingSphere Position";
-    const DX = 0.5;
-    const DZ = 0.5;
-    const xPlus = dx => {
-      const translation = this.getProperty("translation");
-      translation[0] += dx;
-      this.setProperty("translation", translation);
+  setControls() {
+    const powerSwitch = () => {
+      const isON = this.getProperty("isON");
+      this.setProperty("isON", !isON);
     };
-    const zPlus = dz => {
-      const translation = this.getProperty("translation");
-      translation[2] += dz;
-      this.setProperty("translation", translation);
-    };
-    const summary = () => {
-      const translation = this.getProperty("translation");
-      return [
-        `${modeName}:`,
-        `(X: ${translation[0].toFixed(2)}, Z: ${translation[2].toFixed(2)})`
-      ];
-    };
-    const keyControlObject = {
-      modeName,
-      main: () => [modeName],
-      [SecondaryKeys.ArrowLeft]: () => xPlus(-DX),
-      [SecondaryKeys.ArrowRight]: () => xPlus(DX),
-      [SecondaryKeys.ArrowUp]: () => zPlus(DZ),
-      [SecondaryKeys.ArrowDown]: () => zPlus(-DZ),
-      summary
-    };
-    // this.userControl.registerControlMode(PrimaryKeys.a, keyControlObject);
+    const controls = [
+      {
+        name: "Power",
+        input: ["0"],
+        controlButton: () =>
+          this.getProperty("isON") ? BTN.PowerON : BTN.PowerOFF,
+        action: () => powerSwitch()
+      }
+    ];
+    this.addControls(controls);
   }
 }

@@ -39,14 +39,14 @@ class LightTower extends WorldObject {
     const controls = [
       {
         name: "Power",
-        input: ["1"],
+        input: ["1", "a"],
         controlButton: () =>
           this.glowingObj.getProperty("isON") ? BTN.PowerON : BTN.PowerOFF,
         action: () => powerSwitch()
       },
       {
         name: "Light Color",
-        input: ["c+1"],
+        input: ["c+1", "b"],
         controlButton: () => {
           if (colorIndex === 0) return BTN.CircleWhite;
           else if (colorIndex === 1) return BTN.CircleRed;

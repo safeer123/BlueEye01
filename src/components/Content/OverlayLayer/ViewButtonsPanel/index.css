@@ -24,6 +24,7 @@
     font-size: 15px;
     background: rgba(1,1,1,0.3);
     width: fit-content;
+    width: -moz-fit-content;
     margin: auto;
     padding: 3px 20px;
 }

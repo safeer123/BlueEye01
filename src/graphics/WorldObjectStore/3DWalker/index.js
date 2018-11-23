@@ -89,12 +89,6 @@ export default class Space3DWalker extends OrientationListener {
       },
       summary
     };
-    /* this.userControl.registerControlMode(
-      PrimaryKeys.y,
-      orientationControlObject
-    );
-    */
-    // this.userControl.registerControlMode("default", walkControlObject);
 
     const controls = [
       {

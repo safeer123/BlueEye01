@@ -36,33 +36,4 @@ export default class CompositeShape extends WorldObject {
 
     return [this.ball1, this.ball2, this.box1];
   }
-
-  enableDefaultUserControls() {
-    const modeName = "Composite Shapes Rotation";
-    const DPHI = 0.01;
-    const DTHETA = 0.01;
-    const phiPlus = dPhi => {
-      const phi = (this.getProperty("phi") + dPhi) % (2 * Math.PI);
-      this.setProperty("phi", phi);
-    };
-    const thetaPlus = dTheta => {
-      const theta = (this.getProperty("theta") + dTheta) % (2 * Math.PI);
-      this.setProperty("theta", theta);
-    };
-    const summary = () => {
-      const theta = Utils.radToDeg(this.getProperty("theta"));
-      const phi = Utils.radToDeg(this.getProperty("phi"));
-      return [`${modeName}`, `(φ: ${phi}°, θ: ${theta})°`];
-    };
-    const keyControlObject = {
-      modeName,
-      main: () => [modeName],
-      [SecondaryKeys.ArrowLeft]: () => phiPlus(-DPHI),
-      [SecondaryKeys.ArrowRight]: () => phiPlus(DPHI),
-      [SecondaryKeys.ArrowUp]: () => thetaPlus(-DTHETA),
-      [SecondaryKeys.ArrowDown]: () => thetaPlus(DTHETA),
-      summary
-    };
-    // this.userControl.registerControlMode(PrimaryKeys.c, keyControlObject);
-  }
 }

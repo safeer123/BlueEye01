@@ -5,7 +5,7 @@ import config from "./config";
 import Utils from "../../AppUtils";
 import OBJ2D from "../../Geometry/Objects2D/objects";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
-import { PrimaryKeys, SecondaryKeys } from "../../UserControl/constants";
+import BTN from "../../../constants/Buttons";
 
 export default class GlobalLighting extends SceneSetter {
   constructor(inObj, configList = []) {
@@ -39,26 +39,7 @@ export default class GlobalLighting extends SceneSetter {
     });
 
     this.addSceneSettingProps(["sun_direction", "sun_light_color"]);
-  }
-
-  enableDefaultUserControls() {
-    const modeName = "Sun Direction";
-    const DTHETA = 0.01;
-    const changeDirection = dt => {
-      const newTheta = this.getProperty("theta") + dt;
-      this.setProperty("theta", newTheta);
-    };
-    const summary = () => {
-      const sunAngle = Utils.radToDeg(this.getProperty("theta"));
-      return [`Sun Orientation: (θ: ${sunAngle}°)`];
-    };
-    const keyControlObject = {
-      modeName,
-      [SecondaryKeys.ArrowLeft]: () => changeDirection(-DTHETA),
-      [SecondaryKeys.ArrowRight]: () => changeDirection(DTHETA),
-      summary
-    };
-    // this.userControl.registerControlMode(PrimaryKeys.s, keyControlObject);
+    this.setControls();
   }
 
   defineGeometry() {
@@ -81,5 +62,34 @@ export default class GlobalLighting extends SceneSetter {
     objRenderer.setUniformGetter(SHADER_VARS.u_sunLightColor, () =>
       this.getProperty("sun_light_color")
     );
+  }
+
+  setControls() {
+    const DTHETA = 0.01;
+    const changeDirection = dt => {
+      const newTheta = this.getProperty("theta") + dt;
+      this.setProperty("theta", newTheta);
+    };
+    const summary = () => {
+      const sunAngle = Utils.radToDeg(this.getProperty("theta"));
+      return [`Sun Orientation: (θ: ${sunAngle}°)`];
+    };
+    const controls = [
+      {
+        name: "Sun: θ Minus",
+        input: ["s+ArrowLeft"],
+        controlButton: () => BTN.Left,
+        action: () => changeDirection(-DTHETA),
+        summary
+      },
+      {
+        name: "Sun: θ Plus",
+        input: ["s+ArrowRight"],
+        controlButton: () => BTN.Right,
+        action: () => changeDirection(DTHETA),
+        summary
+      }
+    ];
+    this.addControls(controls);
   }
 }

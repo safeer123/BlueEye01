@@ -3,6 +3,7 @@ import EventEmitter from "../lib/EventEmitter";
 import GamepadControl from "./GamepadController";
 import configGP1 from "./CustomGamepadConfig/VRSHINECON";
 import configGP2 from "./CustomGamepadConfig/vrshinecon_desktop";
+import configGP3 from "./CustomGamepadConfig/VRSHINECON_android";
 
 // TestMode: Displays what is the index mapped to the button key in gamepad
 const TestMode = false;
@@ -23,6 +24,7 @@ class GamepadKeyListener {
 
     GamepadControl.registerGamepadConfig(configGP1);
     GamepadControl.registerGamepadConfig(configGP2);
+    GamepadControl.registerGamepadConfig(configGP3);
 
     GamepadControl.onButtonDown(this.onKeyDown);
     GamepadControl.onButtonUp(this.onKeyUp);

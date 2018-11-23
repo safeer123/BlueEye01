@@ -314,6 +314,24 @@ DONE ---> Tower Light has power ON and power OFF switch
 DONE ---> Tower Light has color switch blue-green-red-white
 ===========================================
 
+addControls - rewrite the controls workflow and commit all controls
+
+ControlSettings is draggable - use DraggableExample in downloads folder
+
+SpeechRecognition testing - get source code and play around
+implement in existing app and display out results
+
+For VR View we should have a 3D-VR Text display - 2 identical texts rendered on top
+
+Find out objects in the view
+Provide Speech suggestions at run time
+"Turn on speech suggestions" is one command :)
+
+
+fix: gamepadconnected event is not triggered in chrome on mobile
+ Use online tester applications to verify
+ Somehow keys are triggered in KeyboardListener as Undefined - strange !!
+
 Implement device orientation as single input in control list
 
 Remove following deprecated types 
