@@ -21,3 +21,16 @@
     font-size: 50px;
     color: #CCC;
 }
+
+.overlay-layer .speak-btn {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    font-size: 25px;
+    z-index: 10;
+    color: #313530;
+}
+
+.overlay-layer .speaking {
+    color: #3d801b;
+}

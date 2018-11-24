@@ -4,6 +4,7 @@ import GamepadControl from "./GamepadController";
 import GestureController from "./GestureController";
 import KeyboardListener from "./KeyboardListener";
 import GamepadKeyListener from "./GamepadKeyListener";
+import SpeechProcessor from "./SpeechProcessor";
 
 import configGP from "./CustomGamepadConfig/VRSHINECON";
 

@@ -9,7 +9,9 @@ const EventName = {
   RegisterControls: "RegisterControls",
   UnregisterControls: "UnregisterControls",
   ClearControls: "ClearControls",
-  ControlObjectModified: "ControlObjectModified"
+  ControlObjectModified: "ControlObjectModified",
+  UserTalking: "UserTalking",
+  SpeakingEnded: "SpeakingEnded"
 };
 
 export { EventName };

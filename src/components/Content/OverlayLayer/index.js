@@ -4,6 +4,7 @@ import UpdateMsg from "./UpdateMsg";
 import ViewButtonsPanel from "./ViewButtonsPanel";
 import "./index.css";
 import ControlSettings from "./ControlSettings";
+import SpeakButton from "./SpeakButton";
 
 class Overlay extends React.Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class Overlay extends React.Component {
         <ControlSettings />
         <UpdateMsg />
         <ViewButtonsPanel />
+        <SpeakButton />
         {this.displayLoader()}
       </div>
     );
