@@ -4,10 +4,8 @@
     position: absolute;
     right: 10px;
     top: 10px;
-    background-color: #1463ad;
-    color: #FFF;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-    border: 0px solid #888;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: rgb(214, 214, 214);
     border-radius: 3px;
     z-index: 2;
     pointer-events: none;

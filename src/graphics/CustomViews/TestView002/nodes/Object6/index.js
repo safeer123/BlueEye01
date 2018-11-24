@@ -40,8 +40,7 @@ class LightTower extends WorldObject {
       {
         name: "Power",
         input: ["1", "a"],
-        controlButton: () =>
-          this.glowingObj.getProperty("isON") ? BTN.PowerON : BTN.PowerOFF,
+        controlButton: () => BTN.Power(this.glowingObj.getProperty("isON")),
         action: () => powerSwitch()
       },
       {

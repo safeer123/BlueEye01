@@ -60,8 +60,7 @@ export default class ViewHolder extends GraphicsLayer {
         {
           name: "Fullscreen switch",
           input: ["Control+f", "doubletap"],
-          controlButton: () =>
-            fullscreenState ? BTN.FullscreenOn : BTN.FullscreenOff,
+          controlButton: () => BTN.Fullscreen(fullscreenState),
           action: fullscreenSwitch
         },
         {

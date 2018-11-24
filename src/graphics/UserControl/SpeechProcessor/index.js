@@ -1,10 +1,12 @@
 import EventEmitter from "../../lib/EventEmitter";
 import { EventName } from "../../../constants/Events";
 
-const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechGrammarList =
+  window.SpeechGrammarList || window.webkitSpeechGrammarList;
 const SpeechRecognitionEvent =
-  SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+  window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
 
 class SpeechProcessor {
   constructor() {
@@ -63,10 +65,12 @@ class SpeechProcessor {
   };
 
   onNoMatch = event => {
+    EventEmitter.emit(EventName.SpeakingEnded);
     console.log("No match for the voice...");
   };
 
   onError = event => {
+    EventEmitter.emit(EventName.SpeakingEnded);
     const error = `Error occurred in recognition: ${event.error}`;
     this.displayOut([error]);
   };

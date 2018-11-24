@@ -45,8 +45,7 @@ export default class GlowingSphere extends WorldObject {
       {
         name: "Power",
         input: ["0"],
-        controlButton: () =>
-          this.getProperty("isON") ? BTN.PowerON : BTN.PowerOFF,
+        controlButton: () => BTN.Power(this.getProperty("isON")),
         action: () => powerSwitch()
       }
     ];

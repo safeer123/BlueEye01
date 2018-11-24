@@ -1,23 +1,33 @@
 import React from "react";
-import { connect } from "react-redux";
 import UpdateMsg from "./UpdateMsg";
 import ViewButtonsPanel from "./ViewButtonsPanel";
 import "./index.css";
 import ControlSettings from "./ControlSettings";
 import SpeakButton from "./SpeakButton";
+import HideLayerButton from "./HideLayerButton";
+import EventEmitter from "../../../graphics/lib/EventEmitter";
+import { EventName } from "../../../constants/Events";
 
 class Overlay extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      show: true
+    };
+
+    EventEmitter.on(
+      EventName.SwitchControlLayerVisibility,
+      this.switchVisibility
+    );
   }
 
-  componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {
-    // console.log("Component: componentWillReceiveProps------");
-    // console.log(nextProps);
-  }
+  switchVisibility = obj => {
+    if (obj && obj.show) {
+      this.setState({ show: obj.show });
+    } else {
+      this.setState({ show: !this.state.show });
+    }
+  };
 
   displayLoader() {
     const displayMsg = "Building it...";
@@ -34,23 +44,18 @@ class Overlay extends React.Component {
   }
 
   render() {
+    const { show } = this.state;
     return (
       <div className="overlay-layer unselectable">
-        <ControlSettings />
+        <HideLayerButton active={show} />
+        <ControlSettings show={show} />
         <UpdateMsg />
-        <ViewButtonsPanel />
-        <SpeakButton />
+        <ViewButtonsPanel show={show} />
+        {show && <SpeakButton />}
         {this.displayLoader()}
       </div>
     );
   }
 }
 
-function mapStateToProps({ activeScenario, scenarioData }) {
-  return {
-    activeScenario,
-    scenarioData
-  };
-}
-
-export default connect(mapStateToProps)(Overlay);
+export default Overlay;

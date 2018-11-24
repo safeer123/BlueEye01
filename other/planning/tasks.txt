@@ -316,16 +316,27 @@ DONE ---> Tower Light has color switch blue-green-red-white
 
 addControls - rewrite the controls workflow and commit all controls
 
-ControlSettings is draggable - use DraggableExample in downloads folder
-
 SpeechRecognition testing - get source code and play around
 implement in existing app and display out results
+
+ControlSettings is draggable - use DraggableExample in downloads folder
+COntrolSettings - Close Button for removing the selected object
+COntrolSettings - Add a + button to create more controlSettings
+COntrolSettings - We can create 10 Settings at a time
+COntrolSettings - Close button is disabled/removed when the count is 1
 
 For VR View we should have a 3D-VR Text display - 2 identical texts rendered on top
 
 Find out objects in the view
 Provide Speech suggestions at run time
 "Turn on speech suggestions" is one command :)
+
+GlowingLight power button not working in scene001
+
+Fix: eslint: Visible, non-interactive elements with click handlers must have at least one keyboard listener.
+	- Wherever onClick is added
+	
+Remove redux connect in components where we dont use it
 
 
 fix: gamepadconnected event is not triggered in chrome on mobile

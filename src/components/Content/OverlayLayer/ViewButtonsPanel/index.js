@@ -19,12 +19,6 @@ class ViewButtonsPanel extends React.Component {
     );
   }
 
-  componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {}
-
-  componentWillUnmount() {}
-
   handleViewList(viewList) {
     this.setState({ viewList });
   }
@@ -38,10 +32,12 @@ class ViewButtonsPanel extends React.Component {
 
   render() {
     const { viewList, selectedViewIndex } = this.state;
+    const { show } = this.props;
+    const hidden = show ? "" : "hidden";
     if (viewList.length === 0) return null;
     const viewName = viewList[selectedViewIndex].name;
     return (
-      <div className="view-buttons-panel-wrapper">
+      <div className={`view-buttons-panel-wrapper ${hidden}`}>
         <div className="view-buttons-panel">
           <span className="view-name-title">{viewName}</span>
           <ToggleButtonGroup

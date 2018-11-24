@@ -11,7 +11,8 @@ const EventName = {
   ClearControls: "ClearControls",
   ControlObjectModified: "ControlObjectModified",
   UserTalking: "UserTalking",
-  SpeakingEnded: "SpeakingEnded"
+  SpeakingEnded: "SpeakingEnded",
+  SwitchControlLayerVisibility: "SwitchControlLayerVisibility"
 };
 
 export { EventName };

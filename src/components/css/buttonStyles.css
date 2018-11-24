@@ -1,9 +1,21 @@
+i {
+    color: #c9c9c9;
+}
+
 i.btnON {
     color: #56e856;
 }
 
 i.btnOFF {
-    color: #f34f4f;
+    color: #87bdb8;
+}
+
+i.btnActive {
+    color: #b7cab7;
+}
+
+i.btnInactive {
+    color: #868888;
 }
 
 i.btn-white {

@@ -8,6 +8,7 @@ import { EventName } from "../../../../constants/Events";
 import { ControlTypes } from "../../../../constants";
 import EventEmitter from "../../../../graphics/lib/EventEmitter";
 import ControlGroup from "./ControlGroup";
+import BTN from "../../../../constants/Buttons";
 import "./index.css";
 
 const UseTestControls = false;
@@ -29,13 +30,6 @@ class ControlSettings extends React.Component {
       EventEmitter.on(EventName.ClearControls, this.clearControls);
       EventEmitter.on(EventName.ViewChanged, () => this.viewChanged());
     }
-  }
-
-  componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {
-    // console.log("Component: componentWillReceiveProps------");
-    // console.log(nextProps);
   }
 
   viewChanged() {
@@ -106,12 +100,15 @@ class ControlSettings extends React.Component {
 
   render() {
     const { selectedControl, globalControls, objectControls } = this.state;
+    const { show } = this.props;
+    const hidden = show ? "" : "hidden";
+    const settingsBTN = BTN.Settings(true);
     return (
-      <div className="obj-settings">
+      <div className={`obj-settings ${hidden}`}>
         <Grid>
           <Row>
             <Col md={12}>
-              <i className="fa fa-cog" />
+              <i className={settingsBTN} />
               <SplitButton
                 className="control-item-select"
                 bsStyle="primary"

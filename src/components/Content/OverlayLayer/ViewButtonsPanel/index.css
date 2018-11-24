@@ -4,6 +4,7 @@
     position: absolute;
     bottom: 10px;
     z-index: 5;
+    pointer-events: visiblefill;
 }
 .view-buttons-panel {
     font-size: 15px;

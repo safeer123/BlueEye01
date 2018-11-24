@@ -9,7 +9,7 @@ const objControlListForTest = {
       {
         name: "ON-OFF",
         input: ["a"],
-        controlButton: () => BTN.Circle,
+        controlButton: () => BTN.Circle(true),
         action: () => console.log("do1 for 12_Camera_Normal"),
         summary: () => ["12_Camera_Normal", "Test (1.2, 2.6, 5.7)"]
       },
@@ -37,7 +37,7 @@ const objControlListForTest = {
       {
         name: "ON-OFF",
         input: ["1"],
-        controlButton: () => BTN.Circle,
+        controlButton: () => BTN.Circle(true),
         action: () => console.log("do1 for 13_TowerLight"),
         summary: () => ["12_Camera_Normal", "Test (1.2, 2.6, 5.7)"]
       },
@@ -65,7 +65,7 @@ const objControlListForTest = {
       {
         name: "ON-OFF",
         input: ["2"],
-        controlButton: () => BTN.Circle,
+        controlButton: () => BTN.Circle(true),
         action: () => console.log("do1 for 14_TowerLight"),
         summary: () => [
           "14_TowerLight",
@@ -108,7 +108,7 @@ const globalControlListForTest = {
       {
         name: "Fullscreen switch",
         input: ["Control+f"],
-        controlButton: () => BTN.FullscreenOn,
+        controlButton: () => BTN.Fullscreen(true),
         action: () => console.log("do1 for Fullscreen"),
         summary: () => ["abc", "xyz"]
       },

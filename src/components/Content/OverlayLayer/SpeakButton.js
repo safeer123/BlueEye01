@@ -2,6 +2,7 @@ import React from "react";
 import "./index.css";
 import EventEmitter from "../../../graphics/lib/EventEmitter";
 import { EventName } from "../../../constants/Events";
+import BTN from "../../../constants/Buttons";
 
 class SpeakButton extends React.Component {
   constructor(props) {
@@ -23,10 +24,10 @@ class SpeakButton extends React.Component {
 
   render() {
     const { active } = this.state;
-    const activeClass = active ? "speaking" : "";
+    const microphoneBTN = BTN.Microphone(active);
     return (
-      <div className={`speak-btn ${activeClass}`}>
-        <i className="fa fa-microphone" onClick={this.speakNow} />
+      <div className="speak-btn">
+        <i className={microphoneBTN} onClick={this.speakNow} />
       </div>
     );
   }
