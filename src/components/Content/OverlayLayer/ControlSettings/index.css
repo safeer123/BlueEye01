@@ -5,7 +5,7 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    margin: 15px;
+    margin: 2.5%;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.2);
     opacity: 0.8;
@@ -31,46 +31,73 @@
     display: inline-block;
 }
 
-.obj-settings .control-items-wrapper {
+.overlay-layer .control-items-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 95%;
+    margin: 100px 2.5%;
+    height: calc(100% - 200px);
+    color: #AAA;
+    z-index: 9;
+    overflow: hidden;
+}
+
+.control-items-container .control-items-wrapper {
+    display: inline-block;
     padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0.8;
+    max-width: 350px;
+    pointer-events: visiblefill;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    vertical-align: top;
 }
 
-.obj-settings .control-title {
-    font-size: 20px;
+.control-items-wrapper .control-header {
+    padding-bottom: 15px;
+    font-size: 22px;
+    min-height: 25px;
+}
+
+.control-items-wrapper .control-title {
+    font-size: 15px;
     color: #adadad;
-    font-weight: normal;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
-.obj-settings .control-title hr {
+.control-items-wrapper .control-title hr {
     margin: 0;
     padding: 0;
     border: 1px solid #5d5d5d;
 }
 
-.obj-settings .control-type {
+.control-items-wrapper .control-type {
     font-size: 12px;
     color: #888;
     text-align: right;
     letter-spacing: 3px;
 }
 
-.obj-settings .control-item {
+.control-items-wrapper .control-item {
     font-size: 15px;
     padding: 5px 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.obj-settings .control-item .control-name {
+.control-items-wrapper .control-item .control-name {
     display: inline-block;
     padding-right: 10px;
 }
 
-.obj-settings .control-item .control-btn {
+.control-items-wrapper .control-item .control-btn {
     font-size: 25px;
     float: right;
 }
 
-.obj-settings .control-item .control-keys {
+.control-items-wrapper .control-item .control-keys {
     margin-right: 10px;
     display: inline-block;
     padding: 5px 9px;

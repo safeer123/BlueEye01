@@ -12,7 +12,8 @@ const EventName = {
   ControlObjectModified: "ControlObjectModified",
   UserTalking: "UserTalking",
   SpeakingEnded: "SpeakingEnded",
-  SwitchControlLayerVisibility: "SwitchControlLayerVisibility"
+  SwitchControlLayerVisibility: "SwitchControlLayerVisibility",
+  ToggleControlEnableFlag: "ToggleControlEnableFlag"
 };
 
 export { EventName };

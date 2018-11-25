@@ -17,7 +17,7 @@ class ControlSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedControl: null,
+      selectedControls: [],
       globalControls: {},
       objectControls: {}
     };
@@ -29,16 +29,68 @@ class ControlSettings extends React.Component {
       EventEmitter.on(EventName.UnregisterControls, this.unregisterControl);
       EventEmitter.on(EventName.ClearControls, this.clearControls);
       EventEmitter.on(EventName.ViewChanged, () => this.viewChanged());
+      EventEmitter.on(EventName.ToggleControlEnableFlag, this.toggleEnable);
     }
   }
 
-  viewChanged() {
-    const { selectedControl } = this.state;
-    if (selectedControl) {
-      setTimeout(() => {
-        this.handleDropdown(selectedControl.id);
-      }, 10);
+  unregisterControl = controlObjId => {};
+
+  clearControls = controlType => {
+    setTimeout(() => {
+      if (controlType === ControlTypes.GlobalControl) {
+        this.setState({ globalControls: {} });
+      } else if (controlType === ControlTypes.ObjectControl) {
+        this.setState({ objectControls: {} });
+      }
+    }, 0);
+  };
+
+  toggleEnable = ({ id, flag }) => {
+    if (id) {
+      const { globalControls, objectControls } = this.state;
+      const controlObj = globalControls[id]
+        ? globalControls[id]
+        : objectControls[id];
+      if (controlObj) {
+        if (typeof flag !== "undefined") {
+          controlObj.enabled = flag;
+        } else {
+          controlObj.enabled = !controlObj.enabled;
+        }
+        EventEmitter.emit(EventName.ControlObjectModified, controlObj.id);
+      }
     }
+  };
+
+  duplicateControlSelected(id) {
+    return this.state.selectedControls.some(c => c.id === id);
+  }
+
+  handleDropdown(id) {
+    // console.log(id);
+    if (this.duplicateControlSelected(id)) return;
+    const { globalControls, objectControls } = this.state;
+    if (objectControls[id]) {
+      this.setState({
+        selectedControls: [...this.state.selectedControls, objectControls[id]]
+      });
+    } else if (globalControls[id]) {
+      this.setState({
+        selectedControls: [...this.state.selectedControls, globalControls[id]]
+      });
+    }
+  }
+
+  getMenuItems(controlObjList) {
+    return controlObjList.map((obj, i) => {
+      const { id } = obj;
+      const elemKey = `${id}_${i}`;
+      return (
+        <MenuItem key={elemKey} eventKey={id}>
+          {this.idToLabel(id)}
+        </MenuItem>
+      );
+    });
   }
 
   registerControl = controlObj => {
@@ -60,79 +112,66 @@ class ControlSettings extends React.Component {
     }, 0);
   };
 
-  unregisterControl = controlObjId => {};
-
-  clearControls = controlType => {
-    setTimeout(() => {
-      if (controlType === ControlTypes.GlobalControl) {
-        this.setState({ globalControls: {} });
-      } else if (controlType === ControlTypes.ObjectControl) {
-        this.setState({ objectControls: {} });
-      }
-    }, 0);
-  };
-
-  handleDropdown(e) {
-    // console.log(e);
-    const { globalControls, objectControls } = this.state;
-    if (objectControls[e]) {
-      this.setState({ selectedControl: objectControls[e] });
-    } else if (globalControls[e]) {
-      this.setState({ selectedControl: globalControls[e] });
-    } else {
-      this.setState({ selectedControl: null });
+  viewChanged() {
+    const { selectedControls } = this.state;
+    if (selectedControls.length > 0) {
+      this.setState({ selectedControls: [] });
+      setTimeout(() => {
+        selectedControls.forEach(control => {
+          this.handleDropdown(control.id);
+        });
+      }, 20);
     }
   }
 
-  getMenuItems(controlObjList) {
-    return controlObjList.map((obj, i) => {
-      const { id } = obj;
-      const elemKey = `${id}_${i}`;
-      return (
-        <MenuItem key={elemKey} eventKey={id}>
-          {this.idToLabel(id)}
-        </MenuItem>
-      );
-    });
+  handleClose(selectedControl) {
+    const { selectedControls } = this.state;
+    const index = selectedControls.indexOf(selectedControl);
+    if (index > -1) {
+      selectedControls.splice(index, 1);
+      this.setState({ selectedControls });
+    }
   }
 
   idToLabel = id => id.replace(new RegExp("_", "g"), " ");
 
   render() {
-    const { selectedControl, globalControls, objectControls } = this.state;
+    const { selectedControls, globalControls, objectControls } = this.state;
     const { show } = this.props;
     const hidden = show ? "" : "hidden";
     const settingsBTN = BTN.Settings(true);
     return (
-      <div className={`obj-settings ${hidden}`}>
-        <Grid>
-          <Row>
-            <Col md={12}>
-              <i className={settingsBTN} />
-              <SplitButton
-                className="control-item-select"
-                bsStyle="primary"
-                title={
-                  selectedControl
-                    ? this.idToLabel(selectedControl.id)
-                    : "Select Control"
-                }
-                id="controls-dropdown"
-                onSelect={e => this.handleDropdown(e)}
-              >
-                <MenuItem header>Global Controls</MenuItem>
-                {this.getMenuItems(Object.values(globalControls))}
-                <MenuItem divider />
-                <MenuItem header>Object Controls</MenuItem>
-                {this.getMenuItems(Object.values(objectControls))}
-              </SplitButton>
-            </Col>
-          </Row>
-          {selectedControl && (
-            <ControlGroup selectedControl={selectedControl} />
+      <React.Fragment>
+        <div className={`obj-settings ${hidden}`}>
+          <div>
+            <i className={settingsBTN} />
+            <SplitButton
+              className="control-item-select"
+              bsStyle="primary"
+              title="Select Control"
+              id="controls-dropdown"
+              onSelect={e => this.handleDropdown(e)}
+            >
+              <MenuItem header>Global Controls</MenuItem>
+              {this.getMenuItems(Object.values(globalControls))}
+              <MenuItem divider />
+              <MenuItem header>Object Controls</MenuItem>
+              {this.getMenuItems(Object.values(objectControls))}
+            </SplitButton>
+          </div>
+        </div>
+        {selectedControls &&
+          selectedControls.length > 0 && (
+            <div className={`control-items-container ${hidden}`}>
+              {selectedControls.map(selectedControl => (
+                <ControlGroup
+                  selectedControl={selectedControl}
+                  handleClose={() => this.handleClose(selectedControl)}
+                />
+              ))}
+            </div>
           )}
-        </Grid>
-      </div>
+      </React.Fragment>
     );
   }
 }

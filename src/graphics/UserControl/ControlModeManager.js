@@ -26,12 +26,16 @@ export default class ControlModeManager {
   registerControl = controlObj => {
     const { id, type, controls } = controlObj;
 
+    const isEnabled = () => {
+      return controlObj && controlObj.enabled;
+    };
+
     // We have already registered controls for this object
     if (this.controlsById[type][id]) return;
 
     this.controlsById[type][id] = controlObj;
     if (controls && controls.length > 0) {
-      const controlList = controls.map(c => ({ ...c, id, type }));
+      const controlList = controls.map(c => ({ ...c, id, type, isEnabled }));
       controlList.forEach(c => {
         const { input } = c;
         if (input && input.length > 0) {
@@ -65,8 +69,10 @@ export default class ControlModeManager {
         registeredControls[inputKeys].length > 0
       ) {
         registeredControls[inputKeys].forEach(c => {
-          if (c.action) c.action(value);
-          EventEmitter.emit(EventName.ControlObjectModified, c.id);
+          if (c.isEnabled()) {
+            if (c.action) c.action(value);
+            EventEmitter.emit(EventName.ControlObjectModified, c.id);
+          }
         });
       }
     });

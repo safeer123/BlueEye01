@@ -11,6 +11,7 @@ const BTN = {
   Minus: "fa fa-minus-circle",
   Plus: "fa fa-plus-circle",
   Picture: "fa fa-image",
+  Close: "fa fa-times",
 
   Settings: ON => (ON ? "fa fa-cog btnActive" : "fa fa-cog btnInactive"),
   Fullscreen: ON =>
@@ -18,7 +19,8 @@ const BTN = {
   Power: ON => (ON ? "fa fa-power-off btnON" : "fa fa-power-off btnOFF"),
   Circle: ON => (ON ? "fa fa-circle btnON" : "fa fa-circle btnOFF"),
   Microphone: ON => (ON ? "fa fa-microphone btnON" : "fa fa-microphone btnOFF"),
-  Visibility: ON => (ON ? "fa fa-eye btnON" : "fa fa-eye-slash btnOFF")
+  Visibility: ON => (ON ? "fa fa-eye btnON" : "fa fa-eye-slash btnOFF"),
+  Toggle: ON => (ON ? "fa fa-toggle-on btnON" : "fa fa-toggle-off btnOFF")
 };
 
 export default BTN;

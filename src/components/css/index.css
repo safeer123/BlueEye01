@@ -38,3 +38,8 @@ i.fa {
     -ms-user-select: none;
     user-select: none;
 }
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

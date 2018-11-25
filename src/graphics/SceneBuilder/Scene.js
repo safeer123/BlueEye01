@@ -62,12 +62,9 @@ export default class Scene {
       if (node.getUserControls) {
         const controlObj = node.getUserControls();
         if (controlObj) {
-          const controlObject = {
-            ...node.getUserControls(),
-            type: ControlTypes.ObjectControl,
-            id: node.Id
-          };
-          EventEmitter.emit(EventName.RegisterControls, controlObject);
+          controlObj.type = ControlTypes.ObjectControl;
+          controlObj.id = node.Id;
+          EventEmitter.emit(EventName.RegisterControls, controlObj);
         }
       }
 
