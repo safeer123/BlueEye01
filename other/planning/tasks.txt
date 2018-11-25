@@ -312,24 +312,25 @@ DONE ---> Implement Gesture handling as per new workflow of user control class
 DONE ---> Abstract out selected control as ControlGroup pass props
 DONE ---> Tower Light has power ON and power OFF switch
 DONE ---> Tower Light has color switch blue-green-red-white
+
+DONE ---> addControls - rewrite the controls workflow and commit all controls
+DONE ---> SpeechRecognition testing - get source code and play around
+DONE ---> implement in existing app and display out results
+DONE ---> ControlSettings - We can have multiple control boxes open at same time
+DONE ---> ControlSettings - Close Button for removing the selected object
+DONE ---> ControlSettings is draggable - use DraggableExample in downloads folder
+	- we wont be making it drggable for now
+DONE ---> ControlSettings - Toggle button for enable disable controls against one id
 ===========================================
-
-addControls - rewrite the controls workflow and commit all controls
-
-SpeechRecognition testing - get source code and play around
-implement in existing app and display out results
-
-ControlSettings is draggable - use DraggableExample in downloads folder
-COntrolSettings - Close Button for removing the selected object
-COntrolSettings - Add a + button to create more controlSettings
-COntrolSettings - We can create 10 Settings at a time
-COntrolSettings - Close button is disabled/removed when the count is 1
 
 For VR View we should have a 3D-VR Text display - 2 identical texts rendered on top
 
 Find out objects in the view
 Provide Speech suggestions at run time
 "Turn on speech suggestions" is one command :)
+
+Implement custom scrollbar for the control-items-container box
+	- right now pointer-events:none will disable default scrolling
 
 GlowingLight power button not working in scene001
 
