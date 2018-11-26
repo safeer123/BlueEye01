@@ -49,7 +49,7 @@ class ControlGroup extends React.Component {
     const { enabled } = selectedControl;
     const closeBTN = BTN.Close;
     const toggleBTN = BTN.Toggle(enabled);
-    const disabledClass = enabled ? "": "disabled";
+    const disabledClass = enabled ? "" : "disabled";
     return (
       <div className="control-items-wrapper">
         <div className="control-header">
@@ -61,26 +61,29 @@ class ControlGroup extends React.Component {
           <hr />
         </div>
         <div className="control-type">{selectedControl.type}</div>
-        {selectedControl.controls.map((obj, i) => {
-          const { controlButton, name, input } = obj;
-          const inputDisplay = input ? shortenKeys(input.join(", ")) : "";
-          const elemKey = `${name}_${i}`;
-          const iconClass = controlButton ? controlButton() : "";
-          return (
-            <div key={elemKey} className="control-item">
-              <div className="control-name">{name}</div>
-              {input && <div className="control-keys">{inputDisplay}</div>}
-              {controlButton && (
-                <div className={`control-btn ${disabledClass}`}>
-                  <i
-                    className={iconClass}
-                    onClick={() => this.fireAction(obj, enabled)}
-                  />
-                </div>
-              )}
-            </div>
-          );
-        })}
+
+        <div className="controls-content">
+          {selectedControl.controls.map((obj, i) => {
+            const { controlButton, name, input } = obj;
+            const inputDisplay = input ? shortenKeys(input.join(", ")) : "";
+            const elemKey = `${name}_${i}`;
+            const iconClass = controlButton ? controlButton() : "";
+            return (
+              <div key={elemKey} className="control-item">
+                <div className="control-name">{name}</div>
+                {input && <div className="control-keys">{inputDisplay}</div>}
+                {controlButton && (
+                  <div className={`control-btn ${disabledClass}`}>
+                    <i
+                      className={iconClass}
+                      onClick={() => this.fireAction(obj, enabled)}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }

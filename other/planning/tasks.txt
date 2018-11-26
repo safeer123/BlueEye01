@@ -323,6 +323,9 @@ DONE ---> ControlSettings is draggable - use DraggableExample in downloads folde
 DONE ---> ControlSettings - Toggle button for enable disable controls against one id
 ===========================================
 
+Control items panel - horizintal scroll support for overflow in x
+Control Box - Vertical scroll if max height exceeded
+
 For VR View we should have a 3D-VR Text display - 2 identical texts rendered on top
 
 Find out objects in the view

@@ -121,6 +121,10 @@ export default class ViewHolder extends GraphicsLayer {
     }
   }
 
+  createScene() {
+    EventEmitter.emit(EventName.ViewChanged, this.currentViewIndex);
+  }
+
   /* *** Methods expected from concrete implementation *******
   createCanvasView(CustomCanvasView) { 
     return new CustomCanvasView();

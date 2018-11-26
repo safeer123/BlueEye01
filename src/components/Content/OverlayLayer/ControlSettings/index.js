@@ -17,6 +17,7 @@ class ControlSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      settingsEnabled: false,
       selectedControls: [],
       globalControls: {},
       objectControls: {}
@@ -133,34 +134,46 @@ class ControlSettings extends React.Component {
     }
   }
 
+  toggleSettings = () => {
+    this.setState({ settingsEnabled: !this.state.settingsEnabled });
+  };
+
   idToLabel = id => id.replace(new RegExp("_", "g"), " ");
 
   render() {
-    const { selectedControls, globalControls, objectControls } = this.state;
+    const {
+      settingsEnabled,
+      selectedControls,
+      globalControls,
+      objectControls
+    } = this.state;
     const { show } = this.props;
     const hidden = show ? "" : "hidden";
-    const settingsBTN = BTN.Settings(true);
+    const settingsBTN = BTN.Settings(settingsEnabled);
     return (
-      <React.Fragment>
+      <div className="controls-wrapper">
         <div className={`obj-settings ${hidden}`}>
           <div>
-            <i className={settingsBTN} />
-            <SplitButton
-              className="control-item-select"
-              bsStyle="primary"
-              title="Select Control"
-              id="controls-dropdown"
-              onSelect={e => this.handleDropdown(e)}
-            >
-              <MenuItem header>Global Controls</MenuItem>
-              {this.getMenuItems(Object.values(globalControls))}
-              <MenuItem divider />
-              <MenuItem header>Object Controls</MenuItem>
-              {this.getMenuItems(Object.values(objectControls))}
-            </SplitButton>
+            <i className={settingsBTN} onClick={() => this.toggleSettings()} />
+            {settingsEnabled && (
+              <SplitButton
+                className="control-item-select"
+                bsStyle="primary"
+                title="Select Control"
+                id="controls-dropdown"
+                onSelect={e => this.handleDropdown(e)}
+              >
+                <MenuItem header>Global Controls</MenuItem>
+                {this.getMenuItems(Object.values(globalControls))}
+                <MenuItem divider />
+                <MenuItem header>Object Controls</MenuItem>
+                {this.getMenuItems(Object.values(objectControls))}
+              </SplitButton>
+            )}
           </div>
         </div>
-        {selectedControls &&
+        {settingsEnabled &&
+          selectedControls &&
           selectedControls.length > 0 && (
             <div className={`control-items-container ${hidden}`}>
               {selectedControls.map(selectedControl => (
@@ -171,7 +184,7 @@ class ControlSettings extends React.Component {
               ))}
             </div>
           )}
-      </React.Fragment>
+      </div>
     );
   }
 }
