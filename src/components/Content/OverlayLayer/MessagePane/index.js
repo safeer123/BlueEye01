@@ -67,12 +67,12 @@ class MessagePane extends React.Component {
     if (pairMode) {
       return (
         <React.Fragment>
-          {this.customPopover("msg-left")}
-          {this.customPopover("msg-right")}
+          <div className="half-area">{this.customPopover("msg-center")}</div>
+          <div className="half-area">{this.customPopover("msg-center")}</div>
         </React.Fragment>
       );
     }
-    return this.customPopover();
+    return this.customPopover("msg-default");
   }
 }
 

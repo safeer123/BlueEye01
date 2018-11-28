@@ -1,9 +1,6 @@
 .custom-popover {
     font-size: 16px;
     line-height: 0.8;
-    position: absolute;
-    right: 10px;
-    top: 10px;
     background-color: rgba(0, 0, 0, 0.3);
     color: rgb(214, 214, 214);
     border-radius: 3px;

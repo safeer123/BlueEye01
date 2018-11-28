@@ -67,7 +67,7 @@ class SpeechProcessor {
   displayOut = displayOutList => {
     EventEmitter.emit(EventName.DisplayOutRequest, {
       displayOutList,
-      duration: 2
+      duration: 2000
     });
   };
 
@@ -91,7 +91,7 @@ class SpeechProcessor {
   };
 
   onNoMatch = event => {
-    this.displayOut(["No match for the voice..."]);
+    // this.displayOut(["No match for the voice..."]);
   };
 
   onError = event => {
