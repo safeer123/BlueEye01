@@ -1,9 +1,12 @@
+import NoSleep from "nosleep.js";
 import GraphicsLayer from "../lib/GraphicsLayer";
 import UserControl from "../UserControl";
 import { EventName } from "../../constants/Events";
 import EventEmitter from "../lib/EventEmitter";
 import { ControlTypes } from "../../constants";
 import BTN from "./../../constants/Buttons";
+
+const noSleep = new NoSleep();
 
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
@@ -50,6 +53,11 @@ export default class ViewHolder extends GraphicsLayer {
     const fullscreenSwitch = () => {
       fullscreenState = !fullscreenState;
       EventEmitter.emit(EventName.FullscreenSwitch);
+      if (fullscreenState) {
+        noSleep.enable();
+      } else {
+        noSleep.disable();
+      }
     };
     const viewSwitch = () => this.switchView({ step: 1 });
     const controlObject = {
