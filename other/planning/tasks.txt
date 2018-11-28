@@ -326,6 +326,15 @@ DONE ---> ControlSettings - Toggle button for enable disable controls against on
 Control items panel - horizintal scroll support for overflow in x
 Control Box - Vertical scroll if max height exceeded
 
+Speech Recognition
+	- Microphone is for Enabling entire speechRecognition service
+	- Microphone grey inactive - can be toggled
+	- We can activate it from global settings as well
+	- Microphone red/green active - red(not speaking) green(while speaking)
+	- Voice commands has "hot word" list in priority order - then the command
+	- Create a config structure for this
+	- using hot words create buckets and branching
+
 For VR View we should have a 3D-VR Text display - 2 identical texts rendered on top
 
 Find out objects in the view

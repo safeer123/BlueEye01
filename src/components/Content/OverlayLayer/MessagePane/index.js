@@ -1,13 +1,15 @@
 import React from "react";
-import CustomPopover from "../../Common/CustomPopover";
-import EventEmitter from "../../../graphics/lib/EventEmitter";
-import { EventName } from "../../../constants/Events";
+import CustomPopover from "../../../Common/CustomPopover";
+import EventEmitter from "../../../../graphics/lib/EventEmitter";
+import { EventName } from "../../../../constants/Events";
+import "./index.css";
 
-class UpdateMsg extends React.Component {
+class MessagePane extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      pairMode: true,
       overlayState: {
         visible: false,
         expiryTime: new Date(),
@@ -21,12 +23,6 @@ class UpdateMsg extends React.Component {
         this.stateUpdateHandler(displayOutList, duration)
     );
   }
-
-  componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {}
-
-  componentWillUnmount() {}
 
   // State update handler
   stateUpdateHandler(displayOutList, duration = 2) {
@@ -57,14 +53,27 @@ class UpdateMsg extends React.Component {
     }, (duration + 1) * 1000);
   }
 
+  customPopover = (className = "") => (
+    <CustomPopover
+      visible={this.state.overlayState.visible}
+      displayItemList={this.state.overlayState.displayItemList}
+      className={className}
+    />
+  );
+
   render() {
-    return (
-      <CustomPopover
-        visible={this.state.overlayState.visible}
-        displayItemList={this.state.overlayState.displayItemList}
-      />
-    );
+    const { pairMode } = this.state;
+
+    if (pairMode) {
+      return (
+        <React.Fragment>
+          {this.customPopover("msg-left")}
+          {this.customPopover("msg-right")}
+        </React.Fragment>
+      );
+    }
+    return this.customPopover();
   }
 }
 
-export default UpdateMsg;
+export default MessagePane;

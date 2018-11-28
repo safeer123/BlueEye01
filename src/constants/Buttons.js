@@ -18,9 +18,13 @@ const BTN = {
     ON ? "fa fa-compress btnActive" : "fa fa-expand btnInactive",
   Power: ON => (ON ? "fa fa-power-off btnON" : "fa fa-power-off btnOFF"),
   Circle: ON => (ON ? "fa fa-circle btnON" : "fa fa-circle btnOFF"),
-  Microphone: ON => (ON ? "fa fa-microphone btnON" : "fa fa-microphone btnOFF"),
   Visibility: ON => (ON ? "fa fa-eye btnON" : "fa fa-eye-slash btnOFF"),
-  Toggle: ON => (ON ? "fa fa-toggle-on btnON" : "fa fa-toggle-off btnOFF")
+  Toggle: ON => (ON ? "fa fa-toggle-on btnON" : "fa fa-toggle-off btnOFF"),
+  Microphone: {
+    active: "fa fa-microphone btnON",
+    idle: "fa fa-microphone btn-red",
+    disabled: "fa fa-microphone btnOFF"
+  },
 };
 
 export default BTN;

@@ -9,9 +9,9 @@ export default class CustomPopover extends React.Component {
 
   render() {
     if (!this.props.visible) return null;
-
+    const className = this.props.className ? this.props.className : "";
     return (
-      <div className="custom-popover">
+      <div className={`custom-popover ${className}`}>
         <div>
           {this.props.displayItemList.map(displayItem => {
             let { text, key } = displayItem;

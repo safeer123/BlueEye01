@@ -8,26 +8,37 @@ class SpeakButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      enabled: false,
       active: false
     };
-    EventEmitter.on(EventName.SpeakingEnded, () => this.speakingEnded());
+    EventEmitter.on(EventName.SoundStart, () => this.talking(true));
+    EventEmitter.on(EventName.SoundEnd, () => this.talking(false));
   }
 
-  speakingEnded = () => {
-    this.setState({ active: false });
+  talking = flag => {
+    if (this.state.enabled) {
+      this.setState({ active: flag });
+    }
   };
 
-  speakNow = () => {
-    this.setState({ active: true });
-    EventEmitter.emit(EventName.UserTalking);
+  toggleSpeechDetection = () => {
+    const newValue = !this.state.enabled;
+    this.setState({ enabled: newValue });
+    if (!newValue) {
+      this.setState({ active: false });
+    }
+    EventEmitter.emit(EventName.ToggleSpeechDetection, newValue);
   };
 
   render() {
-    const { active } = this.state;
-    const microphoneBTN = BTN.Microphone(active);
+    const { enabled, active } = this.state;
+    let microphoneBTN = BTN.Microphone.disabled;
+    if (enabled) {
+      microphoneBTN = active ? BTN.Microphone.active : BTN.Microphone.idle;
+    }
     return (
       <div className="speak-btn">
-        <i className={microphoneBTN} onClick={this.speakNow} />
+        <i className={microphoneBTN} onClick={this.toggleSpeechDetection} />
       </div>
     );
   }

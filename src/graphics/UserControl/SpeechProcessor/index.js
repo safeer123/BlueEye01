@@ -10,27 +10,58 @@ const SpeechRecognitionEvent =
 
 class SpeechProcessor {
   constructor() {
-    this.recognition = new SpeechRecognition();
+    // Enable flag
+    this.enabled = false;
 
-    const speechRecognitionList = new SpeechGrammarList();
-    // speechRecognitionList.addFromString(grammar, 1);
-    this.recognition.grammars = speechRecognitionList;
+    if (SpeechRecognition && SpeechGrammarList) {
+      this.recognition = new SpeechRecognition();
 
-    // recognition.continuous = false;
-    this.recognition.lang = "en-US";
-    this.recognition.interimResults = false;
-    this.recognition.maxAlternatives = 1;
+      const speechRecognitionList = new SpeechGrammarList();
+      // speechRecognitionList.addFromString(grammar, 1);
+      this.recognition.grammars = speechRecognitionList;
 
-    EventEmitter.on(EventName.UserTalking, this.userTalking);
+      this.recognition.continuous = true;
+      this.recognition.lang = "en-US";
+      this.recognition.interimResults = false;
+      this.recognition.maxAlternatives = 1;
 
-    this.recognition.onresult = this.onResult;
-    this.recognition.onspeechend = this.onSpeechEnd;
-    this.recognition.onnomatch = this.onNoMatch;
-    this.recognition.onerror = this.onError;
+      EventEmitter.on(EventName.ToggleSpeechDetection, this.startDetection);
+
+      this.recognition.onresult = this.onResult;
+      this.recognition.onspeechend = this.onSpeechEnd;
+      this.recognition.onnomatch = this.onNoMatch;
+      this.recognition.onerror = this.onError;
+      this.recognition.onspeechstart = this.onSpeechStart;
+      this.recognition.onspeechend = this.onSpeechEnd;
+      this.recognition.onend = this.onEnd;
+    }
   }
 
-  userTalking = () => {
-    this.recognition.start();
+  onSpeechStart = () => {
+    EventEmitter.emit(EventName.SoundStart);
+  };
+
+  onSpeechEnd = () => {
+    EventEmitter.emit(EventName.SoundEnd);
+  };
+
+  startDetection = flag => {
+    if (flag) {
+      this.recognition.start();
+      this.enabled = true;
+    } else {
+      this.recognition.abort();
+      this.enabled = false;
+    }
+  };
+
+  onEnd = () => {
+    if (this.enabled) {
+      this.displayOut(["Restarting..."]);
+      this.startDetection(true);
+    } else {
+      this.displayOut(["Speech detection turned off"]);
+    }
   };
 
   displayOut = displayOutList => {
@@ -59,18 +90,11 @@ class SpeechProcessor {
     this.displayOut([`** ${output} ** (${confidence}%)`]);
   };
 
-  onSpeechEnd = () => {
-    EventEmitter.emit(EventName.SpeakingEnded);
-    this.recognition.stop();
-  };
-
   onNoMatch = event => {
-    EventEmitter.emit(EventName.SpeakingEnded);
-    console.log("No match for the voice...");
+    this.displayOut(["No match for the voice..."]);
   };
 
   onError = event => {
-    EventEmitter.emit(EventName.SpeakingEnded);
     const error = `Error occurred in recognition: ${event.error}`;
     this.displayOut([error]);
   };

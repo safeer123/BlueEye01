@@ -1,5 +1,5 @@
 import React from "react";
-import UpdateMsg from "./UpdateMsg";
+import MessagePane from "./MessagePane";
 import ViewButtonsPanel from "./ViewButtonsPanel";
 import "./index.css";
 import ControlSettings from "./ControlSettings";
@@ -49,7 +49,7 @@ class Overlay extends React.Component {
       <div className="overlay-layer unselectable">
         <HideLayerButton active={show} />
         <ControlSettings show={show} />
-        <UpdateMsg />
+        <MessagePane />
         <ViewButtonsPanel show={show} />
         {show && <SpeakButton />}
         {this.displayLoader()}

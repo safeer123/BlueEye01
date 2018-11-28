@@ -10,8 +10,9 @@ const EventName = {
   UnregisterControls: "UnregisterControls",
   ClearControls: "ClearControls",
   ControlObjectModified: "ControlObjectModified",
-  UserTalking: "UserTalking",
-  SpeakingEnded: "SpeakingEnded",
+  SoundStart: "SoundStart",
+  SoundEnd: "SoundEnd",
+  ToggleSpeechDetection: "ToggleSpeechDetection",
   SwitchControlLayerVisibility: "SwitchControlLayerVisibility",
   ToggleControlEnableFlag: "ToggleControlEnableFlag"
 };

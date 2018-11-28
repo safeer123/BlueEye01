@@ -1,0 +1,11 @@
+.msg-left, .msg-right {
+    top: 20%;
+}
+
+.msg-left {
+    right: calc(50% + 10px);
+}
+
+.msg-right {
+    right: 10px;
+}
