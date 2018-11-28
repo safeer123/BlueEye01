@@ -57,7 +57,7 @@ class SpeechProcessor {
 
   onEnd = () => {
     if (this.enabled) {
-      this.displayOut(["Restarting..."]);
+      // this.displayOut(["Restarting..."]);
       this.startDetection(true);
     } else {
       this.displayOut(["Speech detection turned off"]);
