@@ -10,6 +10,7 @@ class MessagePane extends React.Component {
 
     this.state = {
       pairMode: true,
+      padding: 50,
       overlayState: {
         visible: false,
         expiryTime: new Date(),
@@ -62,13 +63,17 @@ class MessagePane extends React.Component {
   );
 
   render() {
-    const { pairMode } = this.state;
+    const { pairMode, padding } = this.state;
 
     if (pairMode) {
       return (
         <React.Fragment>
-          <div className="half-area">{this.customPopover("msg-center")}</div>
-          <div className="half-area">{this.customPopover("msg-center")}</div>
+          <div className="half-area" style={{ paddingLeft: `${padding}px` }}>
+            {this.customPopover("msg-center")}
+          </div>
+          <div className="half-area" style={{ paddingRight: `${padding}px` }}>
+            {this.customPopover("msg-center")}
+          </div>
         </React.Fragment>
       );
     }
