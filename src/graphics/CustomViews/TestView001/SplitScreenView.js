@@ -1,12 +1,10 @@
-import getNodes from "./nodes";
 import Scene from "./../../SceneBuilder/Scene";
 import SplitScreenCanvasView from "../../SceneBuilder/CustomCanvasViews/SplitScreenCanvasView";
 
 // SplitScreenView Layer
 export default class SplitScreenView extends SplitScreenCanvasView {
-  constructor(canvas, preRender, inObj) {
+  constructor(canvas, preRender) {
     super(canvas, preRender);
-    this.inObj = inObj;
     this.canvas = canvas;
     this.viewUpdater = this.getSceneUpdater();
   }
@@ -15,9 +13,8 @@ export default class SplitScreenView extends SplitScreenCanvasView {
     if (this.viewUpdater) this.viewUpdater();
   };
 
-  rebuildNodes() {
-    const { nodes, camLeft, camRight, initScene } = getNodes(this.inObj);
-
+  setNodeObj(nodeObj) {
+    const { nodes, camLeft, camRight, initScene } = nodeObj;
     this.nodes = nodes;
     this.camLeft = camLeft;
     this.camRight = camRight;
@@ -25,9 +22,6 @@ export default class SplitScreenView extends SplitScreenCanvasView {
   }
 
   createScene() {
-    // Reconstruct nodes every time this methode is called
-    this.rebuildNodes();
-
     // Define left scene and right scene
     const leftScene = new Scene("LEFT_SCENE", this.updater);
     leftScene.setNodeList(this.nodes);

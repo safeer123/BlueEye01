@@ -12,13 +12,12 @@ import LightTowerType from "./Object6";
 
 // Scene0 Layer
 export default function getNodes(inpObj) {
-  const { gl, programs, renderConfigLight, userControl } = inpObj;
+  const { gl, programs, renderConfigLight } = inpObj;
 
   const inObj = (config = renderConfigLight) => ({
     gl,
     programs,
-    renderConfig: config,
-    userControl
+    renderConfig: config
   });
 
   WOFACTORY.reset();

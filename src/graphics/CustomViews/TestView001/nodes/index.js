@@ -6,26 +6,17 @@ const pupillaryDistance = 2;
 
 // Scene0 Layer
 export default function getNodes(inpObj) {
-  const {
-    gl,
-    programs,
-    renderConfigLight,
-    renderConfig2D,
-    userControl
-  } = inpObj;
+  const { gl, programs, renderConfigLight } = inpObj;
 
   const inObj = (config = renderConfigLight) => ({
     gl,
     programs,
-    renderConfig: config,
-    userControl
+    renderConfig: config
   });
 
   const shapes = WOFACTORY.create(NodeTypes.COMPOSITE_CUSTOM_SHAPES, [inObj()]);
 
-  const globalLightObj = WOFACTORY.create(NodeTypes.GLOBAL_LIGHTING, [
-    inObj(renderConfig2D)
-  ]);
+  const globalLightObj = WOFACTORY.create(NodeTypes.GLOBAL_LIGHTING, [inObj()]);
 
   const lightObj0 = WOFACTORY.create(NodeTypes.GLOWING_SPHERE, [inObj()]);
   lightObj0.setProperty("isON", true);
