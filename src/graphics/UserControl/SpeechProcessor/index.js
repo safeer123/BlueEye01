@@ -67,7 +67,7 @@ class SpeechProcessor {
   displayOut = displayOutList => {
     EventEmitter.emit(EventName.DisplayOutRequest, {
       displayOutList,
-      duration: 2000
+      duration: 2
     });
   };
 

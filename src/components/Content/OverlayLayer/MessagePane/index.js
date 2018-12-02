@@ -23,7 +23,17 @@ class MessagePane extends React.Component {
       ({ displayOutList, duration }) =>
         this.stateUpdateHandler(displayOutList, duration)
     );
+
+    EventEmitter.on(EventName.TogglePairMode, this.togglePairMode);
   }
+
+  togglePairMode = obj => {
+    if (obj && obj.mode) {
+      this.setState({ pairMode: obj.mode });
+    } else {
+      this.setState({ pairMode: !this.state.pairMode });
+    }
+  };
 
   // State update handler
   stateUpdateHandler(displayOutList, duration = 2) {

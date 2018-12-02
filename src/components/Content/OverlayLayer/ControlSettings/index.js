@@ -180,6 +180,7 @@ class ControlSettings extends React.Component {
                 <ControlGroup
                   selectedControl={selectedControl}
                   handleClose={() => this.handleClose(selectedControl)}
+                  key={selectedControl.id}
                 />
               ))}
             </div>

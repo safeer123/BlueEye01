@@ -1,5 +1,7 @@
 import Scene from "./../../SceneBuilder/Scene";
 import SplitScreenCanvasView from "../../SceneBuilder/CustomCanvasViews/SplitScreenCanvasView";
+import EventEmitter from "../../lib/EventEmitter";
+import { EventName } from "../../../constants/Events";
 
 // TwoEyesView Layer
 export default class TwoEyesView extends SplitScreenCanvasView {
@@ -13,6 +15,18 @@ export default class TwoEyesView extends SplitScreenCanvasView {
     this.nodes = nodes;
     this.twoEyes = twoEyes;
     this.initScene = initScene;
+  }
+
+  switchPairMode = mode => {
+    EventEmitter.emit(EventName.TogglePairMode, { mode });
+  };
+
+  onEnter() {
+    this.switchPairMode(true);
+  }
+
+  onExit() {
+    this.switchPairMode(false);
   }
 
   createScene() {
