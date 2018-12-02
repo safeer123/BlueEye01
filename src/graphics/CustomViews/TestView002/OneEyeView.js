@@ -9,12 +9,18 @@ export default class OneEyeView extends SingleCanvasView {
     this.inObj = inObj;
     this.canvas = canvas;
     this.viewUpdater = this.getSceneUpdater();
-    this.setName("OneEyeView");
   }
 
   updater = () => {
     if (this.viewUpdater) this.viewUpdater();
   };
+
+  setNodeObj(nodeObj) {
+    const { nodes, oneEye, initScene } = nodeObj;
+    this.nodes = nodes;
+    this.oneEye = oneEye;
+    this.initScene = initScene;
+  }
 
   rebuildNodes() {
     const { nodes, oneEye, initScene } = getNodes(this.inObj);
@@ -26,7 +32,7 @@ export default class OneEyeView extends SingleCanvasView {
 
   createScene() {
     // Reconstruct nodes every time this methode is called
-    this.rebuildNodes();
+    // this.rebuildNodes();
 
     // Define scene
     const scene = new Scene("ONE_EYE_SCENE", this.updater);

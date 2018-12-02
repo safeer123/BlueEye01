@@ -21,7 +21,6 @@ export default class TestView001 extends ViewHolder {
     if (this.currentView) {
       this.currentView.createScene();
       this.currentView.start();
-      super.createScene();
     }
   }
 /* eslint-disable */

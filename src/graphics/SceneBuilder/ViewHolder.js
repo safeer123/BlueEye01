@@ -1,12 +1,9 @@
-import NoSleep from "nosleep.js";
 import GraphicsLayer from "../lib/GraphicsLayer";
 import UserControl from "../UserControl";
 import { EventName } from "../../constants/Events";
 import EventEmitter from "../lib/EventEmitter";
 import { ControlTypes } from "../../constants";
 import BTN from "./../../constants/Buttons";
-
-const noSleep = new NoSleep();
 
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
@@ -16,6 +13,9 @@ export default class ViewHolder extends GraphicsLayer {
   constructor(wrapperElem) {
     super(wrapperElem);
     this.userControl = new UserControl(wrapperElem, this.displayOutHandler);
+  }
+
+  init() {
     this.registerViewControls();
     // Derived class should set viewList
     this.viewList = [];
@@ -27,7 +27,6 @@ export default class ViewHolder extends GraphicsLayer {
 
     if (this.viewList.length > 0) {
       this.setCurrentViewByIndex(0);
-      this.currentViewIndex = 0;
     }
 
     EventEmitter.on(EventName.SwitchView, this.switchView.bind(this));
@@ -53,11 +52,6 @@ export default class ViewHolder extends GraphicsLayer {
     const fullscreenSwitch = () => {
       fullscreenState = !fullscreenState;
       EventEmitter.emit(EventName.FullscreenSwitch);
-      if (fullscreenState) {
-        noSleep.enable();
-      } else {
-        noSleep.disable();
-      }
     };
     const viewSwitch = () => this.switchView({ step: 1 });
     const controlObject = {
@@ -110,6 +104,9 @@ export default class ViewHolder extends GraphicsLayer {
   setCurrentView(view) {
     if (this.currentView) {
       this.currentView.stop();
+      if (this.currentView.onExit) {
+        this.currentView.onExit();
+      }
     }
     if (this.createCanvasView) {
       this.currentView = this.createCanvasView(view.canvasViewClass);
@@ -119,6 +116,7 @@ export default class ViewHolder extends GraphicsLayer {
         if (this.createScene) {
           this.createScene();
         }
+        EventEmitter.emit(EventName.ViewChanged, this.currentViewIndex);
         // If there is a name for the view, show it
         /*
         if (view.name) {
@@ -127,10 +125,6 @@ export default class ViewHolder extends GraphicsLayer {
         */
       }
     }
-  }
-
-  createScene() {
-    EventEmitter.emit(EventName.ViewChanged, this.currentViewIndex);
   }
 
   /* *** Methods expected from concrete implementation *******

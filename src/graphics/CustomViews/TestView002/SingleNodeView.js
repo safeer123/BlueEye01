@@ -8,12 +8,18 @@ export default class SingleNodeView extends SingleCanvasView {
     this.inObj = inObj;
     this.canvas = canvas;
     this.viewUpdater = this.getSceneUpdater();
-    this.setName("SingleNodeView");
   }
 
   updater = () => {
     if (this.viewUpdater) this.viewUpdater();
   };
+
+  setNodeObj(nodeObj) {
+    const { nodes, camThetaPhi, initScene } = nodeObj;
+    this.nodes = nodes;
+    this.camThetaPhi = camThetaPhi;
+    this.initScene = initScene;
+  }
 
   rebuildNodes() {
     this.viewUpdater = this.getSceneUpdater();
@@ -26,7 +32,7 @@ export default class SingleNodeView extends SingleCanvasView {
 
   createScene() {
     // Reconstruct nodes every time this methode is called
-    this.rebuildNodes();
+    // this.rebuildNodes();
 
     // Define scene and right scene
     const scene = new Scene("MAIN_SCENE", this.updater);

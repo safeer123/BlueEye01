@@ -16,6 +16,13 @@ export default class TwoEyesView extends SplitScreenCanvasView {
     if (this.viewUpdater) this.viewUpdater();
   };
 
+  setNodeObj(nodeObj) {
+    const { nodes, twoEyes, initScene } = nodeObj;
+    this.nodes = nodes;
+    this.twoEyes = twoEyes;
+    this.initScene = initScene;
+  }
+
   rebuildNodes() {
     const { nodes, twoEyes, initScene } = getNodes(this.inObj);
 
@@ -26,7 +33,7 @@ export default class TwoEyesView extends SplitScreenCanvasView {
 
   createScene() {
     // Reconstruct nodes every time this methode is called
-    this.rebuildNodes();
+    // this.rebuildNodes();
 
     // Define left scene and right scene
     const leftScene = new Scene("LEFT_EYE_SCENE", this.updater);
