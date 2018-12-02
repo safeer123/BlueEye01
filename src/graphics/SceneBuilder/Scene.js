@@ -11,14 +11,17 @@ Define Scene class
 - render method
 ********************************** */
 export default class Scene {
-  constructor(name, sceneUpdater) {
+  constructor(name) {
     this.name = name;
     this.nodeList = [];
     this.sceneSetters = [];
     this.relevantSceneSetters = null;
     this.activeCameraId = null;
-    this.sceneUpdater = sceneUpdater;
   }
+
+  sceneUpdater = () => {
+    EventEmitter.emit(EventName.UpdateScene);
+  };
 
   setNodeList(nodeList) {
     this.nodeList = nodeList;

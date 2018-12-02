@@ -26,6 +26,8 @@ export default class CanvasView {
     // Will get called in requestAnimationFrame
     // Timestamp is passed
     this.animationLoop = null;
+
+    EventEmitter.on(EventName.UpdateScene, this.updateSceneOnce);
   }
 
   setName(name) {
@@ -43,16 +45,12 @@ export default class CanvasView {
     this.scenes = [];
   }
 
-  sceneUpdater() {
+  updateSceneOnce = () => {
     this.renderOnce = true;
-  }
+  };
 
   registerAnimationLoop(loop) {
     this.animationLoop = loop;
-  }
-
-  getSceneUpdater() {
-    return this.sceneUpdater.bind(this);
   }
 
   registerControls = () => {

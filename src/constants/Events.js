@@ -6,6 +6,7 @@ const EventName = {
   FullscreenSwitch: "FullscreenSwitch",
   EnableKeyboardListener: "EnableKeyboardListener",
   DisableKeyboardListener: "DisableKeyboardListener",
+  UpdateScene: "UpdateScene",
   RegisterControls: "RegisterControls",
   UnregisterControls: "UnregisterControls",
   ClearControls: "ClearControls",
