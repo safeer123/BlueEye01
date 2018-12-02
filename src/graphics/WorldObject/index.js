@@ -10,15 +10,12 @@ export default class WorldObject extends Node {
     super();
     this.setType(NodeTypes.ABSTRACT_WORLD_OBJECT);
 
-    const { gl, programs, renderConfig, userControl } = inObj;
+    const { gl, programs, renderConfig } = inObj;
 
     // (*) ObjectRenderer is created only when there is a valid renderConfig
     if (renderConfig) {
       this.objRenderer = new ObjectRenderer(gl, programs, renderConfig);
     }
-
-    // Set user control for this
-    this.userControl = userControl;
 
     // We combine self configuration with inherited configuration
     // Each one is a configObject having PropertyList/InitList of its own

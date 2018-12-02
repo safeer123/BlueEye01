@@ -1,12 +1,10 @@
-import getNodes from "./nodes";
 import Scene from "./../../SceneBuilder/Scene";
 import SingleCanvasView from "../../SceneBuilder/CustomCanvasViews/SingleCanvasView";
 
 // OneEyeView Layer
 export default class OneEyeView extends SingleCanvasView {
-  constructor(canvas, preRender, inObj) {
+  constructor(canvas, preRender) {
     super(canvas, preRender);
-    this.inObj = inObj;
     this.canvas = canvas;
     this.viewUpdater = this.getSceneUpdater();
   }
@@ -22,18 +20,7 @@ export default class OneEyeView extends SingleCanvasView {
     this.initScene = initScene;
   }
 
-  rebuildNodes() {
-    const { nodes, oneEye, initScene } = getNodes(this.inObj);
-
-    this.nodes = nodes;
-    this.oneEye = oneEye;
-    this.initScene = initScene;
-  }
-
   createScene() {
-    // Reconstruct nodes every time this methode is called
-    // this.rebuildNodes();
-
     // Define scene
     const scene = new Scene("ONE_EYE_SCENE", this.updater);
     scene.setNodeList(this.nodes);

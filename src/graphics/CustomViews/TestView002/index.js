@@ -15,15 +15,13 @@ export default class TestView001 extends ViewHolder {
     super(wrapperElem);
     const {
       gl,
-      shaderFac: { shaderPrograms },
-      userControl
+      shaderFac: { shaderPrograms }
     } = this;
     const inObj = {
       gl,
       programs: shaderPrograms,
       renderConfigLight,
-      renderConfigNoLight,
-      userControl
+      renderConfigNoLight
     };
     this.nodeObj = getNodes(inObj);
     super.init();

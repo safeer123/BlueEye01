@@ -1,11 +1,9 @@
-import getNodes from "./nodes";
 import SingleCanvasView from "../../SceneBuilder/CustomCanvasViews/SingleCanvasView";
 import Scene from "./../../SceneBuilder/Scene";
 
 export default class SingleNodeView extends SingleCanvasView {
-  constructor(canvas, preRender, inObj) {
+  constructor(canvas, preRender) {
     super(canvas, preRender);
-    this.inObj = inObj;
     this.canvas = canvas;
     this.viewUpdater = this.getSceneUpdater();
   }
@@ -21,19 +19,7 @@ export default class SingleNodeView extends SingleCanvasView {
     this.initScene = initScene;
   }
 
-  rebuildNodes() {
-    this.viewUpdater = this.getSceneUpdater();
-    const { nodes, camThetaPhi, initScene } = getNodes(this.inObj);
-
-    this.nodes = nodes;
-    this.camThetaPhi = camThetaPhi;
-    this.initScene = initScene;
-  }
-
   createScene() {
-    // Reconstruct nodes every time this methode is called
-    // this.rebuildNodes();
-
     // Define scene and right scene
     const scene = new Scene("MAIN_SCENE", this.updater);
     scene.setNodeList(this.nodes);
