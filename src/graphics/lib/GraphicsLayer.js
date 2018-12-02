@@ -1,6 +1,8 @@
 import { Canvas2D, Canvas } from "../ShaderFactory/Canvas";
 import Utils from "../AppUtils";
 
+const ClearColor = [0.2, 0.2, 0.2, 3];
+
 // GraphicsLayer Layer
 export default class GraphicsLayer {
   // Construct canvas and webgl context
@@ -13,11 +15,13 @@ export default class GraphicsLayer {
     this.canvas = canvasObj.canvas;
     this.gl = canvasObj.gl;
     this.shaderFac = canvasObj.shaderFac;
+    this.clearColor = ClearColor;
   }
 
   clear() {
     const { gl } = this;
     if (gl) {
+      gl.clearColor(...this.clearColor);
       gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
     }
     if (this.canvas2D) {
