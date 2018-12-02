@@ -32,7 +32,7 @@ export default class AbstractCamera extends SceneSetter {
   }
 
   setupScene(objRenderer) {
-    if (!this.canvasAspect) this.canvasAspect = objRenderer.getCanvasAspect();
+    this.canvasAspect = objRenderer.getCanvasAspect();
     objRenderer.setUniformGetter(SHADER_VARS.u_viewProjection, () =>
       this.getProperty("projection_view_matrix")
     );
@@ -42,7 +42,7 @@ export default class AbstractCamera extends SceneSetter {
   getProjectionViewMatrix() {
     const { fieldOfViewRadians, zNear, zFar } = this.camConfig;
     const viewportObj = this.getProperty("viewport");
-    const aspect = this.canvasAspect * viewportObj.width / viewportObj.height;
+    const aspect = (this.canvasAspect * viewportObj.width) / viewportObj.height;
 
     const projectionMatrix = m4.perspective(
       fieldOfViewRadians,
