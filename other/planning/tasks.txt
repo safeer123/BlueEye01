@@ -321,16 +321,45 @@ DONE ---> ControlSettings - Close Button for removing the selected object
 DONE ---> ControlSettings is draggable - use DraggableExample in downloads folder
 	- we wont be making it drggable for now
 DONE ---> ControlSettings - Toggle button for enable disable controls against one id
+
+DONE ---> Control items panel - horizintal scroll support for overflow in x
+DONE ---> Control Box - Vertical scroll if max height exceeded
+DONE ---> GlobalLighting: Should not have Rectnagle2D geometry
+DONE ---> We dont support 2D objects now - Remove 2D config stuffs
+DONE ---> Set clear color to something decent
+DONE ---> Fix: Resizing the window, losing aspect ratio of the scene
+DONE ---> Remove rebuildNodes() from CanvasView classes
+DONE ---> Remove userCOntrol object from WO - We are using events instead
+DONE ---> TestScene001 should have updates as per the new refactor working TestScene002
+DONE ---> Each scene should be persisted across the views
+	- We can identify this by checking light states after switching views
+DONE ---> REMOVE UPDATERS and USE EVENTS INSTEAD
+DONE ---> onExit and onEnter callbacks in viewholder - against each views defined
+DONE ---> VR CanvasView can emit pair mode view events and
+
 ===========================================
 
-Control items panel - horizintal scroll support for overflow in x
-Control Box - Vertical scroll if max height exceeded
+Anything to do in the start of a canvasView should go inside onExit and onEnter callbacks
 
-Speech Recognition
+
+Set clear color - Where/Who should be setting this ??
+
+Are we calling AbstractCamera:getProjectionViewMatrix() multiple times for each object
+	- It should get called once per render call
+
+Spherical Camera - add a method setTargetObjects list=[objs]
+	- Create a control that switches the target
+
+EventEmitter.setMaxListeners - check whether we have to set this
+
+
+Speech Recognition - Step 1
 	- Microphone is for Enabling entire speechRecognition service
 	- Microphone grey inactive - can be toggled
 	- We can activate it from global settings as well
 	- Microphone red/green active - red(not speaking) green(while speaking)
+
+Speech Recognition - Step 2
 	- Voice commands has "hot word" list in priority order - then the command
 	- Create a config structure for this
 	- using hot words create buckets and branching
