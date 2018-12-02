@@ -1,18 +1,32 @@
 import renderConfigNoLight from "../../Geometry/Objects3D/renderConfig";
 import renderConfigLight from "../../Geometry/Objects3D/renderConfigLight";
-import renderConfig2D from "../../Geometry/Objects2D/renderConfig";
 import ViewHolder from "../../SceneBuilder/ViewHolder";
 
 import SingleNodeView from "./SingleNodeView";
 import TwoEyesView from "./TwoEyesView";
 import OneEyeView from "./OneEyeView";
 
+import getNodes from "./nodes";
+
 // TestView001 ViewHolder (Smart Graphics Layer)
 export default class TestView001 extends ViewHolder {
   // Construct canvas and webgl context
   constructor(wrapperElem) {
     super(wrapperElem);
-    // this.mainScene
+    const {
+      gl,
+      shaderFac: { shaderPrograms },
+      userControl
+    } = this;
+    const inObj = {
+      gl,
+      programs: shaderPrograms,
+      renderConfigLight,
+      renderConfigNoLight,
+      userControl
+    };
+    this.nodeObj = getNodes(inObj);
+    super.init();
   }
 
   createScene() {
@@ -21,7 +35,6 @@ export default class TestView001 extends ViewHolder {
       this.currentView.stop();
       this.currentView.createScene();
       this.currentView.start();
-      super.createScene();
     }
   }
 /* eslint-disable */
@@ -48,22 +61,11 @@ export default class TestView001 extends ViewHolder {
   ];
   }
   /* eslint-enable */
+  preRender = () => this.clear(); // Find a good logic for clearing screen
+
   createCanvasView(CustomCanvasView) {
-    const {
-      gl,
-      shaderFac: { shaderPrograms },
-      userControl,
-      canvas
-    } = this;
-    const inObj = {
-      gl,
-      programs: shaderPrograms,
-      renderConfigLight,
-      renderConfigNoLight,
-      renderConfig2D,
-      userControl
-    };
-    const preRender = () => this.clear(); // Find a good logic for clearing screen
-    return new CustomCanvasView(canvas, preRender, inObj);
+    const canvasView = new CustomCanvasView(this.canvas, this.preRender);
+    canvasView.setNodeObj(this.nodeObj);
+    return canvasView;
   }
 }

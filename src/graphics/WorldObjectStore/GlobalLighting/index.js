@@ -3,7 +3,6 @@ import { SHADER_VARS } from "../../ShaderFactory/constants";
 import SceneSetter from "../SceneSetter";
 import config from "./config";
 import Utils from "../../AppUtils";
-import OBJ2D from "../../Geometry/Objects2D/objects";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
 import BTN from "../../../constants/Buttons";
 
@@ -40,18 +39,6 @@ export default class GlobalLighting extends SceneSetter {
 
     this.addSceneSettingProps(["sun_direction", "sun_light_color"]);
     this.setControls();
-  }
-
-  defineGeometry() {
-    const { drawingBufferWidth, drawingBufferHeight } = this.objRenderer.gl;
-    const bgRect = new OBJ2D.Rectangle2D(
-      0,
-      0,
-      drawingBufferWidth,
-      drawingBufferHeight
-    );
-    bgRect.color = [0.0, 0.0, 0.0, 0.0];
-    return [bgRect];
   }
 
   setupScene(objRenderer) {

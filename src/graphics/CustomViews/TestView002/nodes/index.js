@@ -12,13 +12,7 @@ import LightTowerType from "./Object6";
 
 // Scene0 Layer
 export default function getNodes(inpObj) {
-  const {
-    gl,
-    programs,
-    renderConfigLight,
-    renderConfig2D,
-    userControl
-  } = inpObj;
+  const { gl, programs, renderConfigLight, userControl } = inpObj;
 
   const inObj = (config = renderConfigLight) => ({
     gl,
@@ -49,9 +43,7 @@ export default function getNodes(inpObj) {
   const light01 = WOFACTORY.create(LightTowerType, [inObj()]);
   platform.addChildren([light01]);
 
-  const globalLightObj = WOFACTORY.create(NodeTypes.GLOBAL_LIGHTING, [
-    inObj(renderConfig2D)
-  ]);
+  const globalLightObj = WOFACTORY.create(NodeTypes.GLOBAL_LIGHTING, [inObj()]);
   globalLightObj.setProperty("theta", 0.1 * Math.PI);
 
   const centralLightObj = WOFACTORY.create(NodeTypes.GLOWING_SPHERE, [inObj()]);
