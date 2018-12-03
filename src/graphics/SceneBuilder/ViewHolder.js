@@ -15,12 +15,13 @@ export default class ViewHolder extends GraphicsLayer {
     this.userControl = new UserControl(wrapperElem, this.displayOutHandler);
   }
 
-  init() {
+  init(nodeObj, viewList) {
+    this.nodeObj = nodeObj;
     this.registerViewControls();
     // Derived class should set viewList
     this.viewList = [];
-    if (this.getViewList) {
-      this.viewList = this.getViewList();
+    if (viewList) {
+      this.viewList = viewList;
       this.viewList.sort((a, b) => a.id - b.id);
       EventEmitter.emit(EventName.SetViewList, this.viewList);
     }
@@ -130,18 +131,22 @@ export default class ViewHolder extends GraphicsLayer {
     }
   }
 
-  /* *** Methods expected from concrete implementation *******
-  createCanvasView(CustomCanvasView) { 
-    return new CustomCanvasView();
-  } // Should be overridden by concrete classes
+  preRender = () => this.clear(); // Find a good logic for clearing screen
 
-  getViewList() {
-    return [];
-  } // Should be overridden by concrete classes
+  createCanvasView(CustomCanvasView) {
+    const canvasView = new CustomCanvasView(this.canvas, this.preRender);
+    canvasView.setNodeObj(this.nodeObj);
+    return canvasView;
+  }
 
   createScene() {
-    // Reconstruct the scene and get the current view update with all changes
-    // Should be overridden by concrete classes
+    // This should be How we rebuild the scene
+    if (this.currentView) {
+      this.currentView.stop();
+      if (this.currentView.createScene) {
+        this.currentView.createScene();
+      }
+      this.currentView.start();
+    }
   }
-  */
 }
