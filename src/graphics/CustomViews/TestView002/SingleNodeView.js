@@ -1,10 +1,26 @@
 import SingleCanvasView from "../../SceneBuilder/CustomCanvasViews/SingleCanvasView";
 import Scene from "./../../SceneBuilder/Scene";
+import EventEmitter from "../../lib/EventEmitter";
+import { EventName } from "../../../constants/Events";
 
 export default class SingleNodeView extends SingleCanvasView {
   constructor(canvas, preRender) {
     super(canvas, preRender);
     this.canvas = canvas;
+  }
+
+  onEnter() {
+    EventEmitter.emit(EventName.ToggleControlEnableFlag, {
+      id: this.camThetaPhi.Id,
+      flag: true
+    });
+  }
+
+  onExit() {
+    EventEmitter.emit(EventName.ToggleControlEnableFlag, {
+      id: this.camThetaPhi.Id,
+      flag: false
+    });
   }
 
   setNodeObj(nodeObj) {

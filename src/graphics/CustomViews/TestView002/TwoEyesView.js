@@ -23,10 +23,18 @@ export default class TwoEyesView extends SplitScreenCanvasView {
 
   onEnter() {
     this.switchPairMode(true);
+    EventEmitter.emit(EventName.ToggleControlEnableFlag, {
+      id: this.twoEyes.Id,
+      flag: true
+    });
   }
 
   onExit() {
     this.switchPairMode(false);
+    EventEmitter.emit(EventName.ToggleControlEnableFlag, {
+      id: this.twoEyes.Id,
+      flag: false
+    });
   }
 
   createScene() {

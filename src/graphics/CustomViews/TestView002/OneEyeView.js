@@ -1,11 +1,27 @@
 import Scene from "./../../SceneBuilder/Scene";
 import SingleCanvasView from "../../SceneBuilder/CustomCanvasViews/SingleCanvasView";
+import EventEmitter from "../../lib/EventEmitter";
+import { EventName } from "../../../constants/Events";
 
 // OneEyeView Layer
 export default class OneEyeView extends SingleCanvasView {
   constructor(canvas, preRender) {
     super(canvas, preRender);
     this.canvas = canvas;
+  }
+
+  onEnter() {
+    EventEmitter.emit(EventName.ToggleControlEnableFlag, {
+      id: this.oneEye.Id,
+      flag: true
+    });
+  }
+
+  onExit() {
+    EventEmitter.emit(EventName.ToggleControlEnableFlag, {
+      id: this.oneEye.Id,
+      flag: false
+    });
   }
 
   setNodeObj(nodeObj) {

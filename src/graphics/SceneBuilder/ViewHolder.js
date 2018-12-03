@@ -113,13 +113,15 @@ export default class ViewHolder extends GraphicsLayer {
       this.currentView = this.createCanvasView(view.canvasViewClass);
       if (this.currentView) {
         this.currentView.registerAnimationLoop(this.animationLoop.bind(this));
-        if (this.currentView.onEnter) {
-          this.currentView.onEnter();
-        }
         // Concrete class must define createScene method
         if (this.createScene) {
           this.createScene();
         }
+
+        if (this.currentView.onEnter) {
+          setTimeout(() => this.currentView.onEnter(), 0);
+        }
+
         EventEmitter.emit(EventName.ViewChanged, this.currentViewIndex);
         // If there is a name for the view, show it
         /*

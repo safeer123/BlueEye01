@@ -134,6 +134,6 @@ export default class Space3DWalker extends OrientationListener {
         showSummary: false
       }
     ];
-    this.addControls(controls);
+    this.addControls(controls, false);
   }
 }

@@ -107,6 +107,6 @@ export default class CamThetaPhi extends Camera {
         summary
       }
     ];
-    this.addControls(controls);
+    this.addControls(controls, false);
   }
 }
