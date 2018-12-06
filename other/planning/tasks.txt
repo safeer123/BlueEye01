@@ -336,19 +336,21 @@ DONE ---> Each scene should be persisted across the views
 DONE ---> REMOVE UPDATERS and USE EVENTS INSTEAD
 DONE ---> onExit and onEnter callbacks in viewholder - against each views defined
 DONE ---> VR CanvasView can emit pair mode view events and
-
+DONE ---> Anything to do in the start of a canvasView should go inside onExit and onEnter callbacks
+	- Active camera controls can be enabled/disabled
+DONE ---> Important change:
+	- RebuildProperties logic should be seperated out from render method in WO
+DONE ---> Refactor sceneSetter: render()
+DONE ---> remove sceneSettingProps from sceneSetters
+DONE ---> Fix: We dont want want to register controls on each view switch
+DONE ---> camThetaPhi switchTarget: add button for control
+DONE ---> Are we calling AbstractCamera:getProjectionViewMatrix() multiple times for each object
+	- It should get called once per render call
+DONE ---> Spherical Camera - add a method setTargetObjects list=[objs]
+	- Create a control that switches the target
 ===========================================
 
-Anything to do in the start of a canvasView should go inside onExit and onEnter callbacks
-
-
 Set clear color - Where/Who should be setting this ??
-
-Are we calling AbstractCamera:getProjectionViewMatrix() multiple times for each object
-	- It should get called once per render call
-
-Spherical Camera - add a method setTargetObjects list=[objs]
-	- Create a control that switches the target
 
 EventEmitter.setMaxListeners - check whether we have to set this
 
@@ -363,8 +365,6 @@ Speech Recognition - Step 2
 	- Voice commands has "hot word" list in priority order - then the command
 	- Create a config structure for this
 	- using hot words create buckets and branching
-
-For VR View we should have a 3D-VR Text display - 2 identical texts rendered on top
 
 Find out objects in the view
 Provide Speech suggestions at run time
