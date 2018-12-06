@@ -27,8 +27,6 @@ export default class AbstractPointLight extends SceneSetter {
     });
 
     this.lightIndex = 0;
-
-    this.addSceneSettingProps(["light_color", "world_matrix"]);
   }
 
   setLightIndex(i) {

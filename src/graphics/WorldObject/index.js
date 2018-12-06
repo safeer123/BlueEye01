@@ -117,11 +117,16 @@ export default class WorldObject extends Node {
     }
   }
 
-  setSceneConfig(sceneConfig) {
-    this.setPropertyGetter("viewport", () => sceneConfig.viewport);
+  computeScene(sceneConfig) {
     this.sceneManager = sceneConfig;
+
+    if (this.rebuildProperties) {
+      Object.keys(this.propertyBucket).forEach(p => this.getProperty(p));
+      this.rebuildProperties = false;
+    }
+
     // repeate down the hierarchy
-    this.children.forEach(childNode => childNode.setSceneConfig(sceneConfig));
+    this.children.forEach(childNode => childNode.computeScene(sceneConfig));
   }
 
   render() {
@@ -133,17 +138,10 @@ export default class WorldObject extends Node {
         this.sceneManager.sceneSetters.forEach(sceneSetter => {
           sceneSetter.setupScene(this.objRenderer);
         });
+        const { viewport } = this.sceneManager;
+        this.objRenderer.render(viewport);
       }
-      const viewport = this.getProperty("viewport");
-      this.objRenderer.render(viewport);
     }
-
-    // In order to pass world_matrix to its children we call this method
-    // We should investigate to make this better
-    this.getProperty("world_matrix");
-
-    // By this time we have already rebuilt all properties
-    this.rebuildProperties = false;
 
     // Render all children
     this.children.forEach(childNode => childNode.render());

@@ -15,10 +15,13 @@ export default class ViewHolder extends GraphicsLayer {
     this.userControl = new UserControl(wrapperElem, this.displayOutHandler);
   }
 
+  // Derived class should pass nodeObj and viewList
   init(nodeObj, viewList) {
     this.nodeObj = nodeObj;
+    // Register all controls here
+    this.clearControls();
     this.registerViewControls();
-    // Derived class should set viewList
+    this.registerObjectControls();
     this.viewList = [];
     if (viewList) {
       this.viewList = viewList;
@@ -48,6 +51,11 @@ export default class ViewHolder extends GraphicsLayer {
     }
   };
 
+  clearControls = () => {
+    EventEmitter.emit(EventName.ClearControls, ControlTypes.ObjectControl);
+    EventEmitter.emit(EventName.ClearControls, ControlTypes.GlobalControl);
+  };
+
   registerViewControls() {
     let fullscreenState = false;
     const fullscreenSwitch = () => {
@@ -75,6 +83,31 @@ export default class ViewHolder extends GraphicsLayer {
       ]
     };
     EventEmitter.emit(EventName.RegisterControls, controlObject);
+  }
+
+  registerObjectControls() {
+    const { nodes } = this.nodeObj;
+    if (nodes) {
+      // How to register one node
+      const registerNodeControls = node => {
+        // register controls here
+        if (node.getUserControls) {
+          const controlObj = node.getUserControls();
+          if (controlObj) {
+            controlObj.type = ControlTypes.ObjectControl;
+            controlObj.id = node.Id;
+            EventEmitter.emit(EventName.RegisterControls, controlObj);
+          }
+        }
+        // process nodes down the tree
+        const { children } = node;
+        if (children.length > 0) {
+          children.forEach(childNode => registerNodeControls(childNode));
+        }
+      };
+      // Do this for all nodes
+      nodes.forEach(node => registerNodeControls(node));
+    }
   }
 
   displayOutHandler = displayOutList => {

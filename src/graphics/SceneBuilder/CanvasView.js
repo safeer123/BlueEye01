@@ -1,7 +1,6 @@
 import Utils from "./../AppUtils";
 import EventEmitter from "../lib/EventEmitter";
 import { EventName } from "../../constants/Events";
-import { ControlTypes } from "../../constants";
 
 // Define CanvasView
 // This class holds multiple scene objects
@@ -53,14 +52,6 @@ export default class CanvasView {
     this.animationLoop = loop;
   }
 
-  registerControls = () => {
-    this.scenes.forEach(s => s.scene.registerControls());
-  };
-
-  clearControls = () => {
-    EventEmitter.emit(EventName.ClearControls, ControlTypes.ObjectControl);
-  };
-
   render() {
     const { renderOnce, scenes } = this;
     if (renderOnce) {
@@ -93,13 +84,10 @@ export default class CanvasView {
       this.renderOnce = true;
       Utils.startRenderingLoop(this.renderLoop.bind(this));
       this.loopStarted = true;
-
-      this.registerControls();
     }
   }
 
   stop() {
-    this.clearControls();
     Utils.stopRenderingLoop();
     this.loopStarted = false;
     this.renderOnce = true;

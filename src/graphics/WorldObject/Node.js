@@ -48,10 +48,23 @@ export default class Node {
   // Expects a list of nodes as children
   addChildren(list) {
     this.children.push(...list);
+    this.rebuildProperties = true;
+    this.trySceneUpdate();
   }
 
   clearChildren() {
     this.children = [];
+    this.rebuildProperties = true;
+    this.trySceneUpdate();
+  }
+
+  clearChild(child) {
+    const index = this.children.indexOf(child);
+    if (index !== -1) {
+      this.children.splice(index, 1);
+      this.rebuildProperties = true;
+      this.trySceneUpdate();
+    }
   }
 
   defineProperty(propertyObj) {
@@ -74,11 +87,16 @@ export default class Node {
     }
   }
 
-  setProperty(propertyName, value) {
+  setProperty(propertyName, value, onlyIfValueChanged = false) {
     const propertyObj = this.propertyBucket[propertyName];
     if (!propertyObj) {
       console.error(`WorldObject:setProperty(): ${propertyName} not defined.`);
     }
+
+    if (onlyIfValueChanged && propertyObj.value === value) {
+      return;
+    }
+
     if (propertyObj.min && value < propertyObj.min) {
       propertyObj.value = propertyObj.min;
     } else if (propertyObj.max && value > propertyObj.max) {

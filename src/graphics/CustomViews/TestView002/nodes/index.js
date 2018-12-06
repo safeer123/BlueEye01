@@ -55,7 +55,16 @@ export default function getNodes(inpObj) {
   ]);
   camThetaPhi.setProperty("target_position", [0, 0, 0]);
   camThetaPhi.setProperty("radius", 30);
-  light01.addChildren([camThetaPhi]);
+  // light01.addChildren([camThetaPhi]);
+  camThetaPhi.setTargetObjects([
+    centralLightObj,
+    light01,
+    shape5,
+    shape4,
+    shape3,
+    shape2,
+    shape1
+  ]);
 
   const oneEye = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
   oneEye.setProperty("position", [70, 5, 0]);

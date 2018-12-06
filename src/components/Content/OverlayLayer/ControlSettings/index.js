@@ -29,7 +29,6 @@ class ControlSettings extends React.Component {
       EventEmitter.on(EventName.RegisterControls, this.registerControl);
       EventEmitter.on(EventName.UnregisterControls, this.unregisterControl);
       EventEmitter.on(EventName.ClearControls, this.clearControls);
-      EventEmitter.on(EventName.ViewChanged, () => this.viewChanged());
       EventEmitter.on(EventName.ToggleControlEnableFlag, this.toggleEnable);
     }
   }
@@ -43,6 +42,10 @@ class ControlSettings extends React.Component {
       } else if (controlType === ControlTypes.ObjectControl) {
         this.setState({ objectControls: {} });
       }
+      const { selectedControls } = this.state;
+      this.setState({
+        selectedControls: selectedControls.filter(c => c.type !== controlType)
+      });
     }, 0);
   };
 
@@ -112,18 +115,6 @@ class ControlSettings extends React.Component {
       }
     }, 0);
   };
-
-  viewChanged() {
-    const { selectedControls } = this.state;
-    if (selectedControls.length > 0) {
-      this.setState({ selectedControls: [] });
-      setTimeout(() => {
-        selectedControls.forEach(control => {
-          this.handleDropdown(control.id);
-        });
-      }, 20);
-    }
-  }
 
   handleClose(selectedControl) {
     const { selectedControls } = this.state;

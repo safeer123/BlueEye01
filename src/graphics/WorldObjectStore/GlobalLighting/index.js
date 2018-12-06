@@ -36,8 +36,6 @@ export default class GlobalLighting extends SceneSetter {
       );
       return [...netColor, 1.0];
     });
-
-    this.addSceneSettingProps(["sun_direction", "sun_light_color"]);
     this.setControls();
   }
 

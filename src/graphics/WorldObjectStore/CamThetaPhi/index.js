@@ -30,29 +30,61 @@ export default class CamThetaPhi extends Camera {
     this.setControls();
   }
 
+  setTargetObjects(targetWOList) {
+    if (targetWOList && targetWOList.length > 0) {
+      this.targetWOList = targetWOList;
+      this.targetWOList[0].addChildren([this]);
+    }
+  }
+
   setControls() {
     const modeName = "Camera-θφ";
     const DPHI = 0.01;
     const DTHETA = 0.01;
     const STEPDIST = 1;
+
     const phiPlus = dPhi => {
       const phi = (this.getProperty("phi") + dPhi) % (2 * Math.PI);
       this.setProperty("phi", phi);
     };
+
     const thetaPlus = dTheta => {
       const theta = (this.getProperty("theta") + dTheta) % Math.PI;
       this.setProperty("theta", theta);
     };
+
     const radiusPlus = dR => {
       const radius = this.getProperty("radius") + dR;
       this.setProperty("radius", radius);
     };
+
     const summary = () => {
       const phiInDeg = Utils.radToDeg(this.getProperty("phi"));
       const thetaInDeg = Utils.radToDeg(this.getProperty("theta"));
       return [modeName, `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`];
     };
+
+    let targetIndex = 0;
+    const switchTargetObject = () => {
+      if (this.targetWOList && this.targetWOList.length > 0) {
+        this.targetWOList[targetIndex].clearChild(this);
+        targetIndex = parseInt(
+          (targetIndex + 1) % this.targetWOList.length,
+          10
+        );
+        this.targetWOList[targetIndex].addChildren([this]);
+      }
+    };
+
     const controls = [
+      {
+        name: "Change target",
+        input: ["Alt+t"],
+        action: () => {
+          switchTargetObject();
+        },
+        controlButton: () => BTN.DoubleRight
+      },
       {
         name: "φ- Rotation",
         input: ["ArrowLeft"],
@@ -91,7 +123,7 @@ export default class CamThetaPhi extends Camera {
         summary
       },
       {
-        name: "distance (mouse)",
+        name: "Distance (mouse)",
         input: ["wheel"],
         action: e => {
           radiusPlus(STEPDIST * (e.dy > 0 ? 1 : -1) * 1);
@@ -99,7 +131,7 @@ export default class CamThetaPhi extends Camera {
         summary
       },
       {
-        name: "distance (touch)",
+        name: "Distance (touch)",
         input: ["pinch"],
         action: e => {
           radiusPlus(STEPDIST * (e.scale > 1 ? 1 : -1) * 0.4);

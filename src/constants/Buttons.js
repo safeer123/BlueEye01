@@ -6,6 +6,7 @@ const BTN = {
   DotCircle: "far fa-dot-circle",
   Left: "fa fa-chevron-circle-left",
   Right: "fa fa-chevron-circle-right",
+  DoubleRight: "fa fa-angle-double-right circle-border",
   Up: "fa fa-chevron-circle-up",
   Down: "fa fa-chevron-circle-down",
   Minus: "fa fa-minus-circle",
