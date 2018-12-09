@@ -14,8 +14,8 @@ export default class CustomPopover extends React.Component {
       <div className={`custom-popover ${className}`}>
         <div>
           {this.props.displayItemList.map(displayItem => {
-            let { text, key } = displayItem;
-            if (text.length > 25) text = `${text.substr(0, 50)}..`;
+            const { text, key } = displayItem;
+            // if (text.length > 25) text = `${text.substr(0, 50)}..`;
             return <p key={key}>{text}</p>;
           })}
         </div>

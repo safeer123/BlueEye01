@@ -5,8 +5,11 @@ const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 const SpeechGrammarList =
   window.SpeechGrammarList || window.webkitSpeechGrammarList;
-const SpeechRecognitionEvent =
-  window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
+
+const grammar =
+  "#JSGF V1.0; grammar colors; public <color> = blue | eye | lock | unlock | tower ;";
+
+const CharCount = 25;
 
 class SpeechProcessor {
   constructor() {
@@ -17,7 +20,7 @@ class SpeechProcessor {
       this.recognition = new SpeechRecognition();
 
       const speechRecognitionList = new SpeechGrammarList();
-      // speechRecognitionList.addFromString(grammar, 1);
+      speechRecognitionList.addFromString(grammar, 1);
       this.recognition.grammars = speechRecognitionList;
 
       this.recognition.continuous = true;
@@ -28,7 +31,6 @@ class SpeechProcessor {
       EventEmitter.on(EventName.ToggleSpeechDetection, this.startDetection);
 
       this.recognition.onresult = this.onResult;
-      this.recognition.onspeechend = this.onSpeechEnd;
       this.recognition.onnomatch = this.onNoMatch;
       this.recognition.onerror = this.onError;
       this.recognition.onspeechstart = this.onSpeechStart;
@@ -64,10 +66,10 @@ class SpeechProcessor {
     }
   };
 
-  displayOut = displayOutList => {
+  displayOut = (displayOutList, duration = 2) => {
     EventEmitter.emit(EventName.DisplayOutRequest, {
       displayOutList,
-      duration: 2
+      duration
     });
   };
 
@@ -82,12 +84,14 @@ class SpeechProcessor {
     // We then return the transcript property of the SpeechRecognitionAlternative object
 
     const last = event.results.length - 1;
-    const output = event.results[last][0].transcript;
-    const confidence = Number.parseInt(
-      event.results[0][0].confidence * 100,
-      10
+    const [{ transcript, confidence }] = event.results[last];
+    const confidencePercent = Number.parseInt(confidence * 100, 10);
+    // console.log(event.results);
+    const displayTimeout = 2 + 2 * parseInt(transcript.length / CharCount, 10);
+    this.displayOut(
+      [`** ${transcript} ** (${confidencePercent}%)`],
+      displayTimeout
     );
-    this.displayOut([`** ${output} ** (${confidence}%)`]);
   };
 
   onNoMatch = event => {

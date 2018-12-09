@@ -4,13 +4,13 @@ import TwoEyesView from "./TwoEyesView";
 
 const ViewList = [
   {
-    id: 1,
+    id: 0,
     name: "Single Node View",
     short: "SNV",
     canvasViewClass: SingleNodeView
   },
   {
-    id: 0,
+    id: 1,
     name: "VR View",
     short: "VR",
     canvasViewClass: TwoEyesView

@@ -9,7 +9,7 @@ class MessagePane extends React.Component {
     super(props);
 
     this.state = {
-      pairMode: true,
+      pairMode: false,
       padding: 50,
       overlayState: {
         visible: false,
