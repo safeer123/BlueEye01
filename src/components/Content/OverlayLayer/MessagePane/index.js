@@ -11,6 +11,7 @@ class MessagePane extends React.Component {
     this.state = {
       pairMode: false,
       padding: 50,
+      highlightClass: "",
       overlayState: {
         visible: false,
         expiryTime: new Date(),
@@ -25,6 +26,7 @@ class MessagePane extends React.Component {
     );
 
     EventEmitter.on(EventName.TogglePairMode, this.togglePairMode);
+    EventEmitter.on(EventName.HighlightMessage, this.highlight);
   }
 
   togglePairMode = obj => {
@@ -33,6 +35,10 @@ class MessagePane extends React.Component {
     } else {
       this.setState({ pairMode: !this.state.pairMode });
     }
+  };
+
+  highlight = highlightTag => {
+    this.setState({ highlightClass: highlightTag });
   };
 
   // State update handler
@@ -54,6 +60,7 @@ class MessagePane extends React.Component {
       const expTime = this.state.overlayState.expiryTime;
       if (new Date() > expTime) {
         this.setState({
+          highlightClass: "",
           overlayState: {
             visible: false,
             displayItemList: [],
@@ -68,7 +75,7 @@ class MessagePane extends React.Component {
     <CustomPopover
       visible={this.state.overlayState.visible}
       displayItemList={this.state.overlayState.displayItemList}
-      className={className}
+      className={`${className} ${this.state.highlightClass}`}
     />
   );
 

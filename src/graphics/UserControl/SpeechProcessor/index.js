@@ -1,5 +1,7 @@
+import React from "react";
 import EventEmitter from "../../lib/EventEmitter";
 import { EventName } from "../../../constants/Events";
+import ProcessSpeech from "./process";
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -9,7 +11,7 @@ const SpeechGrammarList =
 const grammar =
   "#JSGF V1.0; grammar colors; public <color> = blue | eye | lock | unlock | tower ;";
 
-const CharCount = 25;
+const CharCount = 15;
 
 class SpeechProcessor {
   constructor() {
@@ -88,10 +90,15 @@ class SpeechProcessor {
     const confidencePercent = Number.parseInt(confidence * 100, 10);
     // console.log(event.results);
     const displayTimeout = 2 + 2 * parseInt(transcript.length / CharCount, 10);
-    this.displayOut(
-      [`** ${transcript} ** (${confidencePercent}%)`],
-      displayTimeout
-    );
+    this.displayOut([transcript], displayTimeout);
+    EventEmitter.emit(EventName.HighlightMessage, "speech");
+
+    // Search for matching command
+    const result = ProcessSpeech.search(transcript);
+    if (result) {
+      EventEmitter.emit(EventName.HighlightMessage, "success");
+    }
+    // console.log(result);
   };
 
   onNoMatch = event => {

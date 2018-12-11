@@ -16,7 +16,8 @@ const EventName = {
   ToggleSpeechDetection: "ToggleSpeechDetection",
   SwitchControlLayerVisibility: "SwitchControlLayerVisibility",
   ToggleControlEnableFlag: "ToggleControlEnableFlag",
-  TogglePairMode: "TogglePairMode"
+  TogglePairMode: "TogglePairMode",
+  HighlightMessage: "HighlightMessage"
 };
 
 export { EventName };

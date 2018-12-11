@@ -27,3 +27,12 @@
     right: 10px;
     top: 10px;
 }
+
+.success {
+    color: rgba(8, 172, 8, 0.781);
+    font-weight: bold;
+}
+
+.speech {
+    color: rgb(52, 146, 158);
+}
