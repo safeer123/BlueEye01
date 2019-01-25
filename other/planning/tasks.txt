@@ -350,10 +350,6 @@ DONE ---> Spherical Camera - add a method setTargetObjects list=[objs]
 	- Create a control that switches the target
 ===========================================
 
-Set clear color - Where/Who should be setting this ??
-
-EventEmitter.setMaxListeners - check whether we have to set this
-
 
 Speech Recognition - Step 1
 	- Microphone is for Enabling entire speechRecognition service
@@ -366,9 +362,10 @@ Speech Recognition - Step 2
 	- Create a config structure for this
 	- using hot words create buckets and branching
 
-Find out objects in the view
-Provide Speech suggestions at run time
-"Turn on speech suggestions" is one command :)
+Speech Suggestions (Complex thing - will do at the end)
+	- Find out objects in the view
+	- Provide Speech suggestions at run time
+	- "Turn on speech suggestions" is one command :)
 
 Implement custom scrollbar for the control-items-container box
 	- right now pointer-events:none will disable default scrolling
@@ -382,8 +379,8 @@ Remove redux connect in components where we dont use it
 
 
 fix: gamepadconnected event is not triggered in chrome on mobile
- Use online tester applications to verify
- Somehow keys are triggered in KeyboardListener as Undefined - strange !!
+	- Use online tester applications to verify
+	- Somehow keys are triggered in KeyboardListener as Undefined - strange !!
 
 Implement device orientation as single input in control list
 

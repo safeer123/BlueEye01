@@ -13,7 +13,7 @@ class ProcessSpeech {
     LockBlueEye.forEach(c => this.insertCommandSet(c, [...c.keys]));
 
     // tree formed
-    console.log(this.rootNode);
+    // console.log(this.rootNode);
   }
 
   insertCommandSet = (commandObj, keys, node) => {
@@ -41,6 +41,7 @@ class ProcessSpeech {
         wordList.forEach((w, index) => {
           wordLookup[w] = { index };
         });
+        wordLookup.wordList = wordList;
         hotKeys.some(k => {
           result = this.findMatch(wordLookup, this.rootNode.children[k]);
           return result;
@@ -71,15 +72,22 @@ class ProcessSpeech {
     let result = null;
     const { commands } = node;
     if (commands && commands.length > 0) {
-      commands.some(c => {
-        const { match } = c;
+      commands.some(data => {
+        const { match } = data;
         if (match && match.length > 0) {
+          const params = {};
           const matchFound = match.every((w, i) => {
-            const word = w.toLowerCase();
-            return wordLookup[word] && wordLookup[word].index === i;
+            if (typeof w === "function") {
+              return w(wordLookup.wordList[i], params);
+            }
+            if (typeof w === "string") {
+              const word = w.toLowerCase();
+              return wordLookup[word] && wordLookup[word].index === i;
+            }
+            return false;
           });
           if (matchFound) {
-            result = c;
+            result = { data, params };
             return true;
           }
         }

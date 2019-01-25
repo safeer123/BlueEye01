@@ -97,6 +97,9 @@ class SpeechProcessor {
     const result = ProcessSpeech.search(transcript);
     if (result) {
       EventEmitter.emit(EventName.HighlightMessage, "success");
+      if (result.data && result.data.action && result.params) {
+        result.data.action(result.params);
+      }
     }
     // console.log(result);
   };
