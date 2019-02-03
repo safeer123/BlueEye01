@@ -4,6 +4,7 @@ import WOFACTORY from "../Factory";
 import NodeTypes from "../constants/NodeTypes";
 import WorldObject from "../../WorldObject";
 import BTN from "../../../constants/Buttons";
+import { VoiceCmds } from "./voice";
 
 export default class GlowingSphere extends WorldObject {
   constructor(inObj, configList = []) {
@@ -37,14 +38,19 @@ export default class GlowingSphere extends WorldObject {
   }
 
   setControls() {
-    const powerSwitch = () => {
+    const powerSwitch = flag => {
       const isON = this.getProperty("isON");
-      this.setProperty("isON", !isON);
+      if (typeof flag === "undefined") {
+        this.setProperty("isON", !isON);
+      } else {
+        this.setProperty("isON", flag);
+      }
     };
     const controls = [
       {
         name: "Power",
         input: ["0"],
+        voice: VoiceCmds(powerSwitch, "1.0"),
         controlButton: () => BTN.Power(this.getProperty("isON")),
         action: () => powerSwitch()
       }

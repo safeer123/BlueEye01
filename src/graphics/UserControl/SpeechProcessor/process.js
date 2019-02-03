@@ -1,4 +1,7 @@
+// import test commands
 import { LockBlueEye } from "./sampleConfig";
+import { EventName } from "../../../constants/Events";
+import EventEmitter from "../../../graphics/lib/EventEmitter";
 
 class Node {
   commands = null; // commands
@@ -10,10 +13,33 @@ class ProcessSpeech {
     this.rootNode = new Node();
 
     // Test commandSets
-    LockBlueEye.forEach(c => this.insertCommandSet(c, [...c.keys]));
+    this.registerCommands(LockBlueEye);
 
-    // tree formed
-    // console.log(this.rootNode);
+    EventEmitter.on(EventName.RegisterControls, this.registerControl);
+    EventEmitter.on(EventName.ClearControls, this.clearControls);
+  }
+
+  registerControl = controlObj => {
+    const { controls } = controlObj;
+    if (controls) {
+      controls.forEach(c => {
+        if (c.voice) {
+          this.registerCommands(c.voice);
+        }
+      });
+    }
+  };
+
+  clearControls = () => {
+    this.clearCommands();
+  };
+
+  registerCommands(commandList = []) {
+    commandList.forEach(c => this.insertCommandSet(c, [...c.keys]));
+  }
+
+  clearCommands() {
+    this.rootNode = new Node();
   }
 
   insertCommandSet = (commandObj, keys, node) => {
@@ -82,7 +108,7 @@ class ProcessSpeech {
             }
             if (typeof w === "string") {
               const word = w.toLowerCase();
-              return wordLookup[word] && wordLookup[word].index === i;
+              return wordLookup[word] /* && wordLookup[word].index === i */;
             }
             return false;
           });

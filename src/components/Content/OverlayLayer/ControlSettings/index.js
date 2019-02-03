@@ -35,16 +35,12 @@ class ControlSettings extends React.Component {
 
   unregisterControl = controlObjId => {};
 
-  clearControls = controlType => {
+  clearControls = () => {
     setTimeout(() => {
-      if (controlType === ControlTypes.GlobalControl) {
-        this.setState({ globalControls: {} });
-      } else if (controlType === ControlTypes.ObjectControl) {
-        this.setState({ objectControls: {} });
-      }
-      const { selectedControls } = this.state;
       this.setState({
-        selectedControls: selectedControls.filter(c => c.type !== controlType)
+        selectedControls: [],
+        globalControls: {},
+        objectControls: {}
       });
     }, 0);
   };

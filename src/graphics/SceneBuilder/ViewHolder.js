@@ -52,8 +52,7 @@ export default class ViewHolder extends GraphicsLayer {
   };
 
   clearControls = () => {
-    EventEmitter.emit(EventName.ClearControls, ControlTypes.ObjectControl);
-    EventEmitter.emit(EventName.ClearControls, ControlTypes.GlobalControl);
+    EventEmitter.emit(EventName.ClearControls);
   };
 
   registerViewControls() {

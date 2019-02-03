@@ -7,14 +7,7 @@ export default class ControlModeManager {
     this.controlModes = {};
     this.currentModeKey = "default";
 
-    this.registeredControls = {
-      [ControlTypes.GlobalControl]: {},
-      [ControlTypes.ObjectControl]: {}
-    };
-    this.controlsById = {
-      [ControlTypes.GlobalControl]: {},
-      [ControlTypes.ObjectControl]: {}
-    };
+    this.clearControls();
     EventEmitter.on(EventName.RegisterControls, this.registerControl);
     EventEmitter.on(EventName.UnregisterControls, this.unregisterControl);
     EventEmitter.on(EventName.ClearControls, this.clearControls);
@@ -57,9 +50,15 @@ export default class ControlModeManager {
   unregisterControl = controlObjId => {};
 
   // Clears all registered controls of type controlType(input)
-  clearControls = controlType => {
-    this.registeredControls[controlType] = {};
-    this.controlsById[controlType] = {};
+  clearControls = () => {
+    this.registeredControls = {
+      [ControlTypes.GlobalControl]: {},
+      [ControlTypes.ObjectControl]: {}
+    };
+    this.controlsById = {
+      [ControlTypes.GlobalControl]: {},
+      [ControlTypes.ObjectControl]: {}
+    };
   };
 
   fireAction(inputKeys, value) {
