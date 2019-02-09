@@ -19,9 +19,7 @@ export default class ControlModeManager {
   registerControl = controlObj => {
     const { id, type, controls } = controlObj;
 
-    const isEnabled = () => {
-      return controlObj && controlObj.enabled;
-    };
+    const isEnabled = () => controlObj && controlObj.enabled;
 
     // We have already registered controls for this object
     if (this.controlsById[type][id]) return;

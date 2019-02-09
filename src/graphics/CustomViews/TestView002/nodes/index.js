@@ -67,7 +67,7 @@ export default function getNodes(inpObj) {
   ]);
 
   const oneEye = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
-  oneEye.setProperty("position", [70, 5, 0]);
+  oneEye.setProperty("position", [100, 5, 0]);
   oneEye.setProperty("radius", 150);
   oneEye.setProperty("base_phi", Math.PI);
 

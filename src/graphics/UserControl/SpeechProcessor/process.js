@@ -13,7 +13,7 @@ class ProcessSpeech {
     this.rootNode = new Node();
 
     // Test commandSets
-    this.registerCommands(LockBlueEye);
+    this.registerCommands(LockBlueEye, () => true);
 
     EventEmitter.on(EventName.RegisterControls, this.registerControl);
     EventEmitter.on(EventName.ClearControls, this.clearControls);
@@ -21,10 +21,11 @@ class ProcessSpeech {
 
   registerControl = controlObj => {
     const { controls } = controlObj;
+    const enableCheck = () => controlObj && controlObj.enabled;
     if (controls) {
       controls.forEach(c => {
         if (c.voice) {
-          this.registerCommands(c.voice);
+          this.registerCommands(c.voice, enableCheck);
         }
       });
     }
@@ -34,8 +35,10 @@ class ProcessSpeech {
     this.clearCommands();
   };
 
-  registerCommands(commandList = []) {
-    commandList.forEach(c => this.insertCommandSet(c, [...c.keys]));
+  registerCommands(commandList = [], enableCheck) {
+    commandList.forEach(c => {
+      this.insertCommandSet({ ...c, enableCheck }, [...c.keys]);
+    });
   }
 
   clearCommands() {
@@ -99,9 +102,18 @@ class ProcessSpeech {
     const { commands } = node;
     if (commands && commands.length > 0) {
       commands.some(data => {
-        const { match } = data;
+        const { match, enableCheck } = data;
+        if (!enableCheck()) return false;
         if (match && match.length > 0) {
           const params = {};
+
+          // If number of words are not same we reject first
+          console.log(wordLookup.wordList.length, match.length);
+          if (wordLookup.wordList.length !== match.length) {
+            return false;
+          }
+
+          // Now check words and conditionals in the match array
           const matchFound = match.every((w, i) => {
             if (typeof w === "function") {
               return w(wordLookup.wordList[i], params);
@@ -112,6 +124,7 @@ class ProcessSpeech {
             }
             return false;
           });
+
           if (matchFound) {
             result = { data, params };
             return true;

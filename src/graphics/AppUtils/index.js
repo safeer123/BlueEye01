@@ -193,4 +193,6 @@ Utils.lockScreenOrientationAsLandscape = () => {
   }
 };
 
+Utils.OR = (...args) => t => args.indexOf(t) !== -1;
+
 export default Utils;

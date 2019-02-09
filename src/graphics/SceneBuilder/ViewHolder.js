@@ -39,6 +39,17 @@ export default class ViewHolder extends GraphicsLayer {
   // This is the main animation loop which gets invoked at screen refresh time
   animationLoop(timestamp) {
     if (this.userControl) this.userControl.loop(timestamp);
+
+    const { nodes } = this.nodeObj;
+    const onTickNode = node => {
+      if (node.onTick) node.onTick(timestamp);
+      // process nodes down the tree
+      const { children } = node;
+      if (children.length > 0) {
+        children.forEach(childNode => onTickNode(childNode));
+      }
+    };
+    nodes.forEach(node => onTickNode(node));
   }
 
   switchView = ({ step, index }) => {

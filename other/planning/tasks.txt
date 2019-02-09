@@ -348,19 +348,61 @@ DONE ---> Are we calling AbstractCamera:getProjectionViewMatrix() multiple times
 	- It should get called once per render call
 DONE ---> Spherical Camera - add a method setTargetObjects list=[objs]
 	- Create a control that switches the target
-===========================================
-
-
-Speech Recognition - Step 1
+	
+DONE ---> Speech Recognition - Step 1
 	- Microphone is for Enabling entire speechRecognition service
 	- Microphone grey inactive - can be toggled
-	- We can activate it from global settings as well
-	- Microphone red/green active - red(not speaking) green(while speaking)
-
-Speech Recognition - Step 2
+	- Microphone red/green active - while active inactive
+	
+DONE ---> Speech Recognition - Step 2 - processing
 	- Voice commands has "hot word" list in priority order - then the command
 	- Create a config structure for this
 	- using hot words create buckets and branching
+DONE ---> while switch view control settings dropdown should close - no need to close
+DONE ---> implement voice control for - glowing sphere - light power switching
+	- pass the name of the light to the voice command config
+DONE ---> Debug: Why voice cmd not working with OEV - Fixed
+===========================================
+
+
+
+Implement voice control for space walk
+	- "move forwards by 20.0"
+	- "move backwards by 20.0"
+	- "turn left by 30.0"
+	- "turn right by 40.0"
+	- make incremental changes over time
+	- add onTick calls
+
+summary displayOut
+	- implement summary displayOut in controlModeMananger
+	- Keep it different from voice command display
+	
+Create a class SceneGraph
+	- All static members
+	- render(nodes)
+	- onTick(nodes)
+	- registerControls(nodes)
+	- etc
+
+	
+Four tall light towers
+	- cylindrical stands
+	- light holder box on top
+	- hemispherical light
+	- circular base
+	.. bring old points here
+	- voice control for power and color of light
+	
+Control Settings buttons
+	- Change 'Select Controls' to 'N Control Sets'
+	- Add clear all 'X' button on right side
+	
+Glowing Sphere - create setName methode and pass the name to voice config
+	
+We should be able to scroll by pan horizontally all control sets if overflowing
+	
+Microphone activation control from global settings as well
 
 Speech Suggestions (Complex thing - will do at the end)
 	- Find out objects in the view
@@ -394,11 +436,6 @@ Remove following deprecated types
 Gamepad controller should be providing list of pressed keys
 
 implement more tower lights and pass the control key as a method
-
-displayOut css change
-implement summary displayOut in controlModeMananger
-
-while switch view control settings dropdown should close - no need to close
 
 Implement unregisterControl
 
