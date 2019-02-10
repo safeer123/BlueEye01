@@ -1,5 +1,6 @@
 const EventName = {
   DisplayOutRequest: "DisplayOutRequest",
+  DisplaySummaryRequest: "DisplaySummaryRequest",
   SwitchView: "SwitchView",
   ViewChanged: "ViewChanged",
   SetViewList: "SetViewList",

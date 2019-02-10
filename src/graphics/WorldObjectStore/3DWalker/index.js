@@ -3,6 +3,8 @@ import config from "./config";
 import OrientationListener from "../OrientationListener";
 import Utils from "../../AppUtils";
 import { VoiceCmdsTurn, VoiceCmdsWalk } from "./voice";
+import { EventName } from "../../../constants/Events";
+import EventEmitter from "../../lib/EventEmitter";
 
 // Define Space3DWalker
 // This is an orientation listener capable of walking in 3D space
@@ -64,11 +66,13 @@ export default class Space3DWalker extends OrientationListener {
   phiPlus = dPhi => {
     const basePhi = (this.getProperty("base_phi") + dPhi) % (2 * Math.PI);
     this.setProperty("base_phi", basePhi);
+    this.displaySummary();
   };
 
   thetaPlus = dTheta => {
     const baseTheta = (this.getProperty("base_theta") + dTheta) % Math.PI;
     this.setProperty("base_theta", baseTheta);
+    this.displaySummary();
   };
 
   walk = d => {
@@ -95,6 +99,27 @@ export default class Space3DWalker extends OrientationListener {
     );
     */
     this.setProperty("position", newPosition);
+    this.displaySummary();
+  };
+
+  summary = () => {
+    const position = this.getProperty("position");
+    const phiInDeg = Utils.radToDeg(this.getProperty("base_phi"));
+    const thetaInDeg = Utils.radToDeg(this.getProperty("base_theta"));
+    return [
+      `(X: ${position[0].toFixed(1)}, 
+        Y: ${position[1].toFixed(1)}, 
+        Z: ${position[2].toFixed(1)})`,
+      `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`
+    ];
+  };
+
+  displaySummary = () => {
+    EventEmitter.emit(EventName.DisplaySummaryRequest, {
+      title: this.Id,
+      displayOutList: this.summary(),
+      duration: 3
+    });
   };
 
   setControls() {
@@ -105,20 +130,7 @@ export default class Space3DWalker extends OrientationListener {
     const DTHETA = 0.03;
     const STEPDIST = 1;
 
-    const { phiPlus, thetaPlus, walk } = this;
-
-    const summary = () => {
-      const position = this.getProperty("position");
-      const phiInDeg = Utils.radToDeg(this.getProperty("base_phi"));
-      const thetaInDeg = Utils.radToDeg(this.getProperty("base_theta"));
-      return [
-        `${this.Id}`,
-        `(X: ${position[0].toFixed(1)}, 
-          Y: ${position[1].toFixed(1)}, 
-          Z: ${position[2].toFixed(1)})`,
-        `(φ: ${phiInDeg}°, θ: ${thetaInDeg}°)`
-      ];
-    };
+    const { phiPlus, thetaPlus, walk, summary } = this;
 
     const controls = [
       {
