@@ -29,12 +29,12 @@ export default class Scene {
     this.relevantSceneSetters = null;
   }
 
-  setSceneSetters(sceneSetters) {
+  setSceneSetters = sceneSetters => {
     this.sceneSetters = sceneSetters;
 
     // Recalculation needed for relevantSceneSetters
     this.relevantSceneSetters = null;
-  }
+  };
 
   processNodeList() {
     // We should find all scene setters

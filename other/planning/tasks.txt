@@ -362,23 +362,22 @@ DONE ---> while switch view control settings dropdown should close - no need to 
 DONE ---> implement voice control for - glowing sphere - light power switching
 	- pass the name of the light to the voice command config
 DONE ---> Debug: Why voice cmd not working with OEV - Fixed
-===========================================
-
-
-
-Implement voice control for space walk
-	- "move forwards by 20.0"
-	- "move backwards by 20.0"
-	- "turn left by 30.0"
-	- "turn right by 40.0"
+DONE ---> Implement voice control for space walk
+	- "walk by 20.0"
+	- "walk backwards by 20.0"
+	- "turn left/right/up/down by 30.0"
 	- make incremental changes over time
 	- add onTick calls
-
-summary displayOut
-	- implement summary displayOut in controlModeMananger
+DONE ---> summary displayOut
+	- implement summary displayOut in the overlay components
 	- Keep it different from voice command display
-	
+===========================================
+
+Bug-fix alt+t for changing the targets not working
+once we try this pan and weels not working
+
 Create a class SceneGraph
+	- singleton
 	- All static members
 	- render(nodes)
 	- onTick(nodes)
@@ -397,6 +396,8 @@ Four tall light towers
 Control Settings buttons
 	- Change 'Select Controls' to 'N Control Sets'
 	- Add clear all 'X' button on right side
+	
+Summary display should be enabled/disabled
 	
 Glowing Sphere - create setName methode and pass the name to voice config
 	
