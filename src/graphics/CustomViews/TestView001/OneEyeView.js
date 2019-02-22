@@ -7,26 +7,24 @@ export default class OneEyeView extends SingleCanvasView {
     this.canvas = canvas;
   }
 
-  setNodeObj(nodeObj) {
-    const { nodes, oneEyeCam, initScene } = nodeObj;
-    this.nodes = nodes;
-    this.oneEyeCam = oneEyeCam;
-    this.initScene = initScene;
-  }
-
   createScene() {
+    const {
+      nodeObj: { nodes, oneEyeCam, initScene },
+      sceneSetters
+    } = this.sceneData;
     // Define scene and right scene
     const scene = new Scene("MAIN_SCENE");
-    scene.setNodeList(this.nodes);
+    scene.setNodeList(nodes);
+    scene.setSceneSetters(sceneSetters);
 
     // Set active camera Ids
-    const mainCamId = this.oneEyeCam.getCamId();
+    const mainCamId = oneEyeCam.getCamId();
     scene.setActiveCameraId(mainCamId);
 
     // Set scenes in CanvasView
     const { canvas } = this;
     this.setSingleScene(scene, canvas);
 
-    this.initScene();
+    initScene();
   }
 }

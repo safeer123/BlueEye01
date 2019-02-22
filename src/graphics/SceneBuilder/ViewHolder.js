@@ -4,6 +4,7 @@ import { EventName } from "../../constants/Events";
 import EventEmitter from "../lib/EventEmitter";
 import { ControlTypes } from "../../constants";
 import BTN from "./../../constants/Buttons";
+import SceneGraph from "./SceneGraph";
 
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
@@ -17,7 +18,9 @@ export default class ViewHolder extends GraphicsLayer {
 
   // Derived class should pass nodeObj and viewList
   init(nodeObj, viewList) {
-    this.nodeObj = nodeObj;
+    const { sceneSetters } = SceneGraph.initializeNodes(nodeObj.nodes);
+    this.sceneData = { nodeObj, sceneSetters };
+
     // Register all controls here
     this.clearControls();
     this.registerViewControls();
@@ -40,16 +43,10 @@ export default class ViewHolder extends GraphicsLayer {
   animationLoop(timestamp) {
     if (this.userControl) this.userControl.loop(timestamp);
 
-    const { nodes } = this.nodeObj;
-    const onTickNode = node => {
-      if (node.onTick) node.onTick(timestamp);
-      // process nodes down the tree
-      const { children } = node;
-      if (children.length > 0) {
-        children.forEach(childNode => onTickNode(childNode));
-      }
-    };
-    nodes.forEach(node => onTickNode(node));
+    const {
+      nodeObj: { nodes }
+    } = this.sceneData;
+    SceneGraph.onTick(nodes, timestamp);
   }
 
   switchView = ({ step, index }) => {
@@ -96,27 +93,11 @@ export default class ViewHolder extends GraphicsLayer {
   }
 
   registerObjectControls() {
-    const { nodes } = this.nodeObj;
+    const {
+      nodeObj: { nodes }
+    } = this.sceneData;
     if (nodes) {
-      // How to register one node
-      const registerNodeControls = node => {
-        // register controls here
-        if (node.getUserControls) {
-          const controlObj = node.getUserControls();
-          if (controlObj) {
-            controlObj.type = ControlTypes.ObjectControl;
-            controlObj.id = node.Id;
-            EventEmitter.emit(EventName.RegisterControls, controlObj);
-          }
-        }
-        // process nodes down the tree
-        const { children } = node;
-        if (children.length > 0) {
-          children.forEach(childNode => registerNodeControls(childNode));
-        }
-      };
-      // Do this for all nodes
-      nodes.forEach(node => registerNodeControls(node));
+      SceneGraph.registerObjectControls(nodes);
     }
   }
 
@@ -180,7 +161,7 @@ export default class ViewHolder extends GraphicsLayer {
 
   createCanvasView(CustomCanvasView) {
     const canvasView = new CustomCanvasView(this.canvas, this.preRender);
-    canvasView.setNodeObj(this.nodeObj);
+    canvasView.setSceneData(this.sceneData);
     return canvasView;
   }
 

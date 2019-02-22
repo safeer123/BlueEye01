@@ -10,39 +10,43 @@ export default class SingleNodeView extends SingleCanvasView {
   }
 
   onEnter() {
+    const {
+      nodeObj: { camThetaPhi }
+    } = this.sceneData;
     EventEmitter.emit(EventName.ToggleControlEnableFlag, {
-      id: this.camThetaPhi.Id,
+      id: camThetaPhi.Id,
       flag: true
     });
   }
 
   onExit() {
+    const {
+      nodeObj: { camThetaPhi }
+    } = this.sceneData;
     EventEmitter.emit(EventName.ToggleControlEnableFlag, {
-      id: this.camThetaPhi.Id,
+      id: camThetaPhi.Id,
       flag: false
     });
   }
 
-  setNodeObj(nodeObj) {
-    const { nodes, camThetaPhi, initScene } = nodeObj;
-    this.nodes = nodes;
-    this.camThetaPhi = camThetaPhi;
-    this.initScene = initScene;
-  }
-
   createScene() {
+    const {
+      nodeObj: { nodes, camThetaPhi, initScene },
+      sceneSetters
+    } = this.sceneData;
     // Define scene and right scene
     const scene = new Scene("MAIN_SCENE");
-    scene.setNodeList(this.nodes);
+    scene.setNodeList(nodes);
+    scene.setSceneSetters(sceneSetters);
 
     // Set active camera Ids
-    const mainCamId = this.camThetaPhi.getId();
+    const mainCamId = camThetaPhi.getId();
     scene.setActiveCameraId(mainCamId);
 
     // Set scenes in CanvasView
     const { canvas } = this;
     this.setSingleScene(scene, canvas);
 
-    this.initScene();
+    initScene();
   }
 }

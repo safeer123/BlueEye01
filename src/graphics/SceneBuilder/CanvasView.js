@@ -26,6 +26,9 @@ export default class CanvasView {
     // Timestamp is passed
     this.animationLoop = null;
 
+    // Scene Data containing nodes
+    this.sceneData = null;
+
     EventEmitter.on(EventName.UpdateScene, this.updateSceneOnce);
   }
 
@@ -47,6 +50,10 @@ export default class CanvasView {
   updateSceneOnce = () => {
     this.renderOnce = true;
   };
+
+  setSceneData(sceneData) {
+    this.sceneData = sceneData;
+  }
 
   registerAnimationLoop(loop) {
     this.animationLoop = loop;

@@ -8,23 +8,20 @@ export default class SplitScreenView extends SplitScreenCanvasView {
     this.canvas = canvas;
   }
 
-  setNodeObj(nodeObj) {
-    const { nodes, camLeft, camRight, initScene } = nodeObj;
-    this.nodes = nodes;
-    this.camLeft = camLeft;
-    this.camRight = camRight;
-    this.initScene = initScene;
-  }
-
   createScene() {
+    const {
+      nodeObj: { nodes, camLeft, camRight, initScene },
+      sceneSetters
+    } = this.sceneData;
     // Define left scene and right scene
     const leftScene = new Scene("LEFT_SCENE");
-    leftScene.setNodeList(this.nodes);
+    leftScene.setNodeList(nodes);
+    leftScene.setSceneSetters(sceneSetters);
     const rightScene = leftScene.clone("RIGHT_SCENE");
 
     // Set active camera Ids
-    const leftCamId = this.camLeft.getId();
-    const rightCamId = this.camRight.getId();
+    const leftCamId = camLeft.getId();
+    const rightCamId = camRight.getId();
     leftScene.setActiveCameraId(leftCamId);
     rightScene.setActiveCameraId(rightCamId);
 
@@ -32,6 +29,6 @@ export default class SplitScreenView extends SplitScreenCanvasView {
     const { canvas } = this;
     this.setLeftRightScenes(leftScene, rightScene, canvas);
 
-    this.initScene();
+    initScene();
   }
 }
