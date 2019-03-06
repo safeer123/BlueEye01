@@ -6,7 +6,7 @@ import { ControlTypes } from "../../constants";
 class SceneGraph {
   // Initialize all nides. Set scene updater and extract a list of
   // Scene setters from the nodes
-  initializeNodes(nodeList) {
+  static initializeNodes(nodeList) {
     // We should find all scene setters
     const sceneUpdater = () => EventEmitter.emit(EventName.UpdateScene);
     const sceneSetters = [];
@@ -32,20 +32,20 @@ class SceneGraph {
     };
   }
 
-  onTickNode = (node, t) => {
+  static onTickNode = (node, t) => {
     if (node.onTick) node.onTick(t);
     // process nodes down the tree
     const { children } = node;
     if (children.length > 0) {
-      children.forEach(childNode => this.onTickNode(childNode, t));
+      children.forEach(childNode => SceneGraph.onTickNode(childNode, t));
     }
   };
 
-  onTick(nodes, timestamp) {
-    nodes.forEach(node => this.onTickNode(node, timestamp));
+  static onTick(nodes, timestamp) {
+    nodes.forEach(node => SceneGraph.onTickNode(node, timestamp));
   }
 
-  registerObjectControls(nodes) {
+  static registerObjectControls(nodes) {
     if (nodes) {
       // How to register one node
       const registerNodeControls = node => {
@@ -71,4 +71,4 @@ class SceneGraph {
 }
 
 // Singleton class
-export default new SceneGraph();
+export default SceneGraph;
