@@ -126,7 +126,9 @@ export default class WorldObject extends Node {
     }
 
     // repeate down the hierarchy
-    this.children.forEach(childNode => childNode.computeScene(sceneConfig));
+    this.children.forEach(childNode => {
+      childNode.computeScene(sceneConfig);
+    });
   }
 
   render() {

@@ -72,6 +72,7 @@ export default class CamThetaPhi extends Camera {
           (targetIndex + 1) % this.targetWOList.length,
           10
         );
+        // console.log(`Selected target: ${this.targetWOList[targetIndex].Id}`);
         this.targetWOList[targetIndex].addChildren([this]);
       }
     };
@@ -117,8 +118,8 @@ export default class CamThetaPhi extends Camera {
         name: "θφ Rotation",
         input: ["pan"],
         action: e => {
-          phiPlus(DPHI * e.velocityX);
-          thetaPlus(-DTHETA * e.velocityY);
+          phiPlus(2 * DPHI * e.velocityX);
+          thetaPlus(2 * -DTHETA * e.velocityY);
         },
         summary
       },
