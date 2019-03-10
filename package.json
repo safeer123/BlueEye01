@@ -8,7 +8,7 @@
     "prod": "webpack -p --env.prod=true",
     "start": "webpack-dev-server --host localhost --inline --env.prod=false --port=4088",
     "test": "cross-env NODE_ENV=test jest",
-    "lint": "eslint src --fix",
+    "lint": "eslint src/app --fix",
     "build": "react-scripts build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
