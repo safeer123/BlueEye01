@@ -1,10 +1,8 @@
-import TestView from "./CustomViews/TestView002";
-
 export default class GLController {
-  constructor(wrapperDiv) {
+  constructor(wrapperDiv, ViewHolderClass) {
     // List of views we are going to build
     this.viewList = [];
-    this.viewList.push(new TestView(wrapperDiv));
+    this.viewList.push(new ViewHolderClass(wrapperDiv));
   }
 
   clearAll() {

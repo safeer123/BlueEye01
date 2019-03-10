@@ -13,12 +13,6 @@ canvas {
     width: 100%;
     height: 100%;
 }
-.main-footer{
-    background-color: #064a62;
-    width: 100%;
-    height: 0px;
-    color: #DDD;
-}
 
 .wrapper {
     display: block;

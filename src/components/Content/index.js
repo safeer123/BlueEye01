@@ -1,11 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import Fullscreen from "react-full-screen";
-import GLController from "../../graphics/GLController";
-import Utils from "../../graphics/AppUtils";
-import OverlayLayer from "./OverlayLayer";
-import EventEmitter from "../../graphics/lib/EventEmitter";
-import { EventName } from "../../constants/Events";
+import { GLController, EventEmitter, EventName, Utils } from "../../graphics";
+import OverlayComponent from "../../graphics/OverlayComponent";
+import SampleViewList from "../../SampleViews/config";
 import "./index.css";
 
 class Content extends React.Component {
@@ -24,7 +22,10 @@ class Content extends React.Component {
 
   componentDidMount() {
     console.log("Initializing graphics controller..");
-    this.glController = new GLController(this.canvasWrapper);
+    this.glController = new GLController(
+      this.canvasWrapper,
+      SampleViewList[1].viewHolder
+    );
 
     window.addEventListener("resize", this.resizeHandler);
     this.resizeHandler();
@@ -78,7 +79,7 @@ class Content extends React.Component {
               this.canvasWrapper = r;
             }}
           />
-          <OverlayLayer />
+          <OverlayComponent />
         </Fullscreen>
       </div>
     );
