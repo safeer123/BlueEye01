@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import MessagePane from "./MessagePane";
 import ViewButtonsPanel from "./ViewButtonsPanel";
 import "./index.css";
@@ -52,6 +53,16 @@ class Overlay extends React.Component {
         <ViewButtonsPanel show={show} />
         {show && <SpeakButton />}
         {this.displayLoader()}
+        {show && (
+          <div className="back-home">
+            <Button
+              bsStyle="primary"
+              onClick={() => this.props.navigateToHome()}
+            >
+              HOME
+            </Button>
+          </div>
+        )}
       </div>
     );
   }

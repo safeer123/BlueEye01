@@ -27,13 +27,16 @@ class Content extends React.Component {
 
   componentDidMount() {
     console.log("Initializing graphics controller..");
-    this.glController = new GLController(
-      this.canvasWrapper,
-      SampleViewList[1].viewHolder
-    );
+    const { viewIndex } = this.props.match.params;
+    if (viewIndex >= 0) {
+      this.glController = new GLController(
+        this.canvasWrapper,
+        SampleViewList[viewIndex].viewHolder
+      );
 
-    window.addEventListener("resize", this.resizeHandler);
-    this.resizeHandler();
+      window.addEventListener("resize", this.resizeHandler);
+      this.resizeHandler();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,6 +71,10 @@ class Content extends React.Component {
     this.setState({ isFullscreenMode: invertedMode });
   }
 
+  navigateToHome = () => {
+    window.location = "/";
+  };
+
   render() {
     return (
       <div
@@ -84,7 +91,7 @@ class Content extends React.Component {
               this.canvasWrapper = r;
             }}
           />
-          <OverlayComponent />
+          <OverlayComponent navigateToHome={this.navigateToHome} />
         </Fullscreen>
       </div>
     );

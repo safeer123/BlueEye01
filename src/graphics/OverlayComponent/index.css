@@ -53,3 +53,12 @@
 .overlay-layer .hidden {
     opacity: 0;
 }
+
+.overlay-layer .back-home {
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+    font-size: 25px;
+    pointer-events: all;
+    z-index: 10;
+}
