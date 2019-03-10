@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const WebpackMerge = require("webpack-merge");
 const Webpack = require("webpack");
 const path = require("path");
-const webAppPath = "./src";
+const webAppPath = "./src/app/";
 const appEntry = "/index.js";
 const htmlTemplatePath = "./public/index.html";
 
@@ -132,7 +132,7 @@ const commonConfig = () => ({
     }),
     new CopyWebpackPlugin([
       {
-        from: __dirname + "/src/images",
+        from: __dirname + "/src/app/images",
         to: __dirname + "/dist/images/"
       }
     ]),

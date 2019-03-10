@@ -1,9 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import Fullscreen from "react-full-screen";
-import { GLController, EventEmitter, EventName, Utils } from "../../graphics";
-import OverlayComponent from "../../graphics/OverlayComponent";
-import SampleViewList from "../../SampleViews/config";
+import {
+  GLController,
+  EventEmitter,
+  EventName,
+  Utils
+} from "../../../graphics";
+import OverlayComponent from "../../../graphics/OverlayComponent";
+import SampleViewList from "../../../SampleViews/config";
 import "./index.css";
 
 class Content extends React.Component {
