@@ -1,6 +1,6 @@
 import Utils from "./../AppUtils";
 import EventEmitter from "../lib/EventEmitter";
-import { EventName } from "../../constants/Events";
+import { EventName } from "../constants";
 
 // Define CanvasView
 // This class holds multiple scene objects

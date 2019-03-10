@@ -3,7 +3,7 @@ import config from "./config";
 import OrientationListener from "../OrientationListener";
 import Utils from "../../AppUtils";
 import { VoiceCmdsTurn, VoiceCmdsWalk } from "./voice";
-import { EventName } from "../../../constants/Events";
+import { EventName } from "../../constants";
 import EventEmitter from "../../lib/EventEmitter";
 
 // Define Space3DWalker

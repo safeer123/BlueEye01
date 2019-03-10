@@ -1,7 +1,6 @@
 import EventEmitter from "../lib/EventEmitter";
-import { EventName } from "../../constants/Events";
 import SceneSetter from "../WorldObjectStore/SceneSetter";
-import { ControlTypes } from "../../constants";
+import { EventName, ControlTypes } from "../constants";
 
 class SceneGraph {
   // Initialize all nides. Set scene updater and extract a list of

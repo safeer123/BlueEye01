@@ -10,12 +10,11 @@ import SplitScreenCanvasView from "./SceneBuilder/CustomCanvasViews/SplitScreenC
 import Scene from "./SceneBuilder/Scene";
 
 import EventEmitter from "./lib/EventEmitter";
-import { EventName } from "../constants/Events";
 
 import WorldObject from "./WorldObject";
 import OBJ0 from "./Geometry/Objects3D/objects";
-import BTN from "./../constants/Buttons";
-import { ControlTypes } from "./../constants";
+
+import { ControlTypes, BTN, EventName } from "./constants";
 
 import Utils from "./AppUtils";
 

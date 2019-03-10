@@ -1,6 +1,6 @@
 // import test commands
 import { LockBlueEye } from "./sampleConfig";
-import { EventName } from "../../../constants/Events";
+import { EventName } from "../../constants";
 import EventEmitter from "../../../graphics/lib/EventEmitter";
 
 class Node {

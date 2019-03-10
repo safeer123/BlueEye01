@@ -1,7 +1,6 @@
-import SceneSetter from "../WorldObjectStore/SceneSetter";
 import SceneSetterTypes from "../WorldObjectStore/constants/SceneSetterTypes";
 import EventEmitter from "../lib/EventEmitter";
-import { EventName } from "../../constants/Events";
+import { EventName } from "../constants";
 
 /** *****************************
 Define Scene class

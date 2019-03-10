@@ -1,9 +1,7 @@
 import GraphicsLayer from "../lib/GraphicsLayer";
 import UserControl from "../UserControl";
-import { EventName } from "../../constants/Events";
 import EventEmitter from "../lib/EventEmitter";
-import { ControlTypes } from "../../constants";
-import BTN from "./../../constants/Buttons";
+import { ControlTypes, EventName, BTN } from "../constants";
 import SceneGraph from "./SceneGraph";
 
 // ViewHolder (Smart Graphics Layer)

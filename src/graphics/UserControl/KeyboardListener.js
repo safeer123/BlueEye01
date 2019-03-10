@@ -1,4 +1,4 @@
-import { EventName } from "../../constants/Events";
+import { EventName } from "../constants";
 import EventEmitter from "../lib/EventEmitter";
 
 class KeyboardListener {

@@ -1,6 +1,6 @@
 import React from "react";
 import EventEmitter from "../../lib/EventEmitter";
-import { EventName } from "../../../constants/Events";
+import { EventName } from "../../constants";
 import ProcessSpeech from "./process";
 
 const SpeechRecognition =

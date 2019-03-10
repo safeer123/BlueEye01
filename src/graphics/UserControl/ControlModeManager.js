@@ -1,6 +1,5 @@
 import EventEmitter from "../lib/EventEmitter";
-import { EventName } from "../../constants/Events";
-import { ControlTypes } from "../../constants";
+import { EventName, ControlTypes } from "../constants";
 
 export default class ControlModeManager {
   constructor() {

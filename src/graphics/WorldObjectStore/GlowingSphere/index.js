@@ -3,7 +3,7 @@ import OBJ0 from "../../Geometry/Objects3D/objects";
 import WOFACTORY from "../Factory";
 import NodeTypes from "../constants/NodeTypes";
 import WorldObject from "../../WorldObject";
-import BTN from "../../../constants/Buttons";
+import { BTN } from "../../constants";
 import { VoiceCmds } from "./voice";
 
 export default class GlowingSphere extends WorldObject {

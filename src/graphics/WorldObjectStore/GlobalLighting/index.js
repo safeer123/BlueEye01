@@ -4,7 +4,7 @@ import SceneSetter from "../SceneSetter";
 import config from "./config";
 import Utils from "../../AppUtils";
 import SceneSetterTypes from "../constants/SceneSetterTypes";
-import BTN from "../../../constants/Buttons";
+import { BTN } from "../../constants";
 
 export default class GlobalLighting extends SceneSetter {
   constructor(inObj, configList = []) {

@@ -21,4 +21,4 @@ const EventName = {
   HighlightMessage: "HighlightMessage"
 };
 
-export { EventName };
+export default EventName;

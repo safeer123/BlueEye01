@@ -2,7 +2,7 @@ import { addVectors, Matrix4 } from "../../lib/m4";
 import config from "./config";
 import Camera from "../AbstractCamera";
 import Utils from "../../AppUtils";
-import BTN from "./../../../constants/Buttons";
+import { BTN } from "../../constants";
 
 export default class CamThetaPhi extends Camera {
   constructor(inObj, configList = []) {
