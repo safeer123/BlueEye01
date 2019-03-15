@@ -71,10 +71,6 @@ class Content extends React.Component {
     this.setState({ isFullscreenMode: invertedMode });
   }
 
-  navigateToHome = () => {
-    window.location = "/";
-  };
-
   render() {
     return (
       <div
@@ -91,7 +87,7 @@ class Content extends React.Component {
               this.canvasWrapper = r;
             }}
           />
-          <OverlayComponent navigateToHome={this.navigateToHome} />
+          <OverlayComponent navigateToHome={this.props.navigateToHome} />
         </Fullscreen>
       </div>
     );

@@ -2,7 +2,7 @@ import React from "react";
 import SampleViewList from "../../../SampleViews/config";
 import "./index.css";
 
-export default () => (
+export default props => (
   <div className="home-wrapper">
     <div className="home-thumbnails">
       {SampleViewList.map((sampleView, i) => (
@@ -12,7 +12,9 @@ export default () => (
           onKeyDown={null}
           className="home-thumbnail"
           onClick={() => {
-            window.location = `./sample/${i}`;
+            if (props.navigateToPage) {
+              props.navigateToPage(i);
+            }
           }}
         >
           <h3>{sampleView.name}</h3>
