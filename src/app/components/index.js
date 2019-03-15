@@ -9,10 +9,10 @@ import Home from "./Home";
 import "./css/index.css";
 import "./css/buttonStyles.css";
 
-const publicUrl = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "";
+const publicUrl = "";
 
 const App = () => (
-  <Router>
+  <Router basename={process.env.PUBLIC_URL}>
     <div className="wrapper">
       <Route path={`${publicUrl}/`} exact component={Home} />
       <Route path={`${publicUrl}/sample/:viewIndex`} component={Content} />
