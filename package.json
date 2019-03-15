@@ -8,7 +8,7 @@
     "prod": "webpack -p --env.prod=true",
     "start": "webpack-dev-server --host localhost --inline --env.prod=false --port=4088",
     "test": "cross-env NODE_ENV=test jest",
-    "lint": "eslint src/app --fix",
+    "lint": "eslint src --fix",
     "build": "react-scripts build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
@@ -25,7 +25,7 @@
       "node_modules"
     ]
   },
-  "author": "Optym",
+  "author": "Safeer",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
