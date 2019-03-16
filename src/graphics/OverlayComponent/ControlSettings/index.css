@@ -9,6 +9,10 @@
     height: 100%;
 }
 
+.overlay-layer .controls-wrapper .dropdown-menu {
+    min-width: 260px;
+}
+
 
 .overlay-layer .obj-settings {
     font-size: 25px;
@@ -32,7 +36,9 @@
 }
 
 .obj-settings .dropdown button {
-    background-color: #337ab7;
+    background-color: #393e42;
+    color: #FFF;
+    border-radius: 10;
 }
 
 .obj-settings .control-item-select {

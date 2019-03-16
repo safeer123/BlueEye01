@@ -1,5 +1,5 @@
 import React from "react";
-import { SplitButton, MenuItem } from "react-bootstrap";
+import { SplitButton, MenuItem, FormControl } from "react-bootstrap";
 import {
   objControlListForTest,
   globalControlListForTest
@@ -9,6 +9,10 @@ import { EventEmitter, EventName, BTN, ControlTypes } from "../../";
 import "./index.css";
 
 const UseTestControls = false;
+const SearchInput = {
+  GLOBAL_CONTROL_SEARCH: 0,
+  OBJECT_CONTROL_SEARCH: 1
+};
 
 class ControlSettings extends React.Component {
   constructor(props) {
@@ -17,7 +21,11 @@ class ControlSettings extends React.Component {
       settingsEnabled: false,
       selectedControls: [],
       globalControls: {},
-      objectControls: {}
+      objectControls: {},
+      searchKey: {
+        [SearchInput.GLOBAL_CONTROL_SEARCH]: "",
+        [SearchInput.OBJECT_CONTROL_SEARCH]: ""
+      }
     };
     if (UseTestControls) {
       this.state.globalControls = globalControlListForTest;
@@ -78,17 +86,35 @@ class ControlSettings extends React.Component {
     }
   }
 
-  getMenuItems(controlObjList) {
-    return controlObjList.map((obj, i) => {
+  getMenuItems(controlObjList, searchKey = "") {
+    const itemList = [];
+    controlObjList.forEach((obj, i) => {
       const { id } = obj;
+      const label = this.idToLabel(id);
       const elemKey = `${id}_${i}`;
-      return (
-        <MenuItem key={elemKey} eventKey={id}>
-          {this.idToLabel(id)}
-        </MenuItem>
-      );
+      const addItem = searchKey
+        ? label.toLowerCase().includes(searchKey.toLowerCase())
+        : true;
+      if (addItem) {
+        itemList.push(
+          <MenuItem key={elemKey} eventKey={id}>
+            {label}
+          </MenuItem>
+        );
+      }
     });
+    return itemList;
   }
+
+  getSearchBox = searchType => (
+    <FormControl
+      type="string"
+      value={this.state.searchKey[searchType]}
+      onChange={e => this.searchInputChange(searchType, e.target.value)}
+      onFocus={() => this.enableDisableKeyListener(false)}
+      onBlur={() => this.enableDisableKeyListener(true)}
+    />
+  );
 
   registerControl = controlObj => {
     setTimeout(() => {
@@ -122,6 +148,23 @@ class ControlSettings extends React.Component {
     this.setState({ settingsEnabled: !this.state.settingsEnabled });
   };
 
+  searchInputChange = (SearchInputType, value) => {
+    // console.log(SearchInputType, value);
+    this.setState({
+      searchKey: {
+        ...this.state.searchKey,
+        [SearchInputType]: value
+      }
+    });
+  };
+
+  enableDisableKeyListener = flag => {
+    const event = flag
+      ? EventName.EnableKeyboardListener
+      : EventName.DisableKeyboardListener;
+    EventEmitter.emit(event);
+  };
+
   idToLabel = id => id.replace(new RegExp("_", "g"), " ");
 
   render() {
@@ -141,34 +184,42 @@ class ControlSettings extends React.Component {
             <i className={settingsBTN} onClick={() => this.toggleSettings()} />
             {settingsEnabled && (
               <SplitButton
-                className="control-item-select"
-                bsStyle="primary"
-                title="Select Control"
+                title="Controls"
                 id="controls-dropdown"
                 onSelect={e => this.handleDropdown(e)}
               >
-                <MenuItem header>Global Controls</MenuItem>
-                {this.getMenuItems(Object.values(globalControls))}
+                <MenuItem header>
+                  Global Controls
+                  {this.getSearchBox(SearchInput.GLOBAL_CONTROL_SEARCH)}
+                </MenuItem>
+                {this.getMenuItems(
+                  Object.values(globalControls),
+                  this.state.searchKey[SearchInput.GLOBAL_CONTROL_SEARCH]
+                )}
                 <MenuItem divider />
-                <MenuItem header>Object Controls</MenuItem>
-                {this.getMenuItems(Object.values(objectControls))}
+                <MenuItem header>
+                  Object Controls
+                  {this.getSearchBox(SearchInput.OBJECT_CONTROL_SEARCH)}
+                </MenuItem>
+                {this.getMenuItems(
+                  Object.values(objectControls),
+                  this.state.searchKey[SearchInput.OBJECT_CONTROL_SEARCH]
+                )}
               </SplitButton>
             )}
           </div>
         </div>
-        {settingsEnabled &&
-          selectedControls &&
-          selectedControls.length > 0 && (
-            <div className={`control-items-container ${hidden}`}>
-              {selectedControls.map(selectedControl => (
-                <ControlGroup
-                  selectedControl={selectedControl}
-                  handleClose={() => this.handleClose(selectedControl)}
-                  key={selectedControl.id}
-                />
-              ))}
-            </div>
-          )}
+        {settingsEnabled && selectedControls && selectedControls.length > 0 && (
+          <div className={`control-items-container ${hidden}`}>
+            {selectedControls.map(selectedControl => (
+              <ControlGroup
+                selectedControl={selectedControl}
+                handleClose={() => this.handleClose(selectedControl)}
+                key={selectedControl.id}
+              />
+            ))}
+          </div>
+        )}
       </div>
     );
   }
