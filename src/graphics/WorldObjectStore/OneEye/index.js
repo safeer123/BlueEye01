@@ -10,7 +10,7 @@ export default class OneEye extends Space3DWalker {
     super(inObj, [config, ...configList]);
 
     const inObjForCam = { ...inObj, renderConfig: null };
-    this.camera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObjForCam]);
+    this.camera = WOFACTORY.create(NodeTypes.CAMERA_ABSTRACT, [inObjForCam]);
 
     this.camera.setPropertyGetter("camera_position", () => [0, 0, 0]);
     this.camera.setPropertyGetter("target_position", () => [

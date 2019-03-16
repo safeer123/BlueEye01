@@ -27,12 +27,12 @@ export default function getNodes(inpObj) {
   const targetPos = [0, 0, 0];
   const upVec = [0, 1, 0];
 
-  const camLeft = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj(null)]);
+  const camLeft = WOFACTORY.create(NodeTypes.CAMERA_ABSTRACT, [inObj(null)]);
   camLeft.setProperty("camera_position", leftCamPos);
   camLeft.setProperty("target_position", targetPos);
   camLeft.setProperty("up_vector", upVec);
 
-  const camRight = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [inObj(null)]);
+  const camRight = WOFACTORY.create(NodeTypes.CAMERA_ABSTRACT, [inObj(null)]);
   camRight.setProperty("camera_position", rightCamPos);
   camRight.setProperty("target_position", targetPos);
   camRight.setProperty("up_vector", upVec);
@@ -44,12 +44,12 @@ export default function getNodes(inpObj) {
   camThetaPhi.setProperty("radius", 40);
   shapes.addChildren([camThetaPhi]);
 
-  const oneEyeCam = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
+  const oneEyeCam = WOFACTORY.create(NodeTypes.CAMERA_ONE_EYE, [inObj()]);
   oneEyeCam.setProperty("position", [0, 0, 40]);
   oneEyeCam.setProperty("radius", 40);
   oneEyeCam.setProperty("base_phi", 1.5 * Math.PI);
 
-  const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
+  const twoEyes = WOFACTORY.create(NodeTypes.CAMERA_TWO_EYES, [inObj()]);
   twoEyes.setProperty("position", [0, 0, -40]);
   twoEyes.setProperty("radius", 40);
   twoEyes.setProperty("base_phi", 0.5 * Math.PI);

@@ -65,12 +65,12 @@ export default function getNodes(inpObj) {
     shape1
   ]);
 
-  const oneEye = WOFACTORY.create(NodeTypes.ONE_EYE_CAMERA, [inObj()]);
+  const oneEye = WOFACTORY.create(NodeTypes.CAMERA_ONE_EYE, [inObj()]);
   oneEye.setProperty("position", [100, 5, 0]);
   oneEye.setProperty("radius", 150);
   oneEye.setProperty("base_phi", Math.PI);
 
-  const twoEyes = WOFACTORY.create(NodeTypes.TWO_EYES, [inObj()]);
+  const twoEyes = WOFACTORY.create(NodeTypes.CAMERA_TWO_EYES, [inObj()]);
   twoEyes.setProperty("position", [-10, 5, 0]);
   twoEyes.setProperty("radius", 150);
   twoEyes.setProperty("base_phi", Math.PI);

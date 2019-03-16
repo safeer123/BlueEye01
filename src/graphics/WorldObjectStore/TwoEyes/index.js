@@ -10,10 +10,10 @@ export default class TwoEyes extends Space3DWalker {
     super(inObj, [config, ...configList]);
 
     const inObjForCam = { ...inObj, renderConfig: null };
-    this.leftCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
+    this.leftCamera = WOFACTORY.create(NodeTypes.CAMERA_ABSTRACT, [
       inObjForCam
     ]);
-    this.rightCamera = WOFACTORY.create(NodeTypes.ABSTRACT_CAMERA, [
+    this.rightCamera = WOFACTORY.create(NodeTypes.CAMERA_ABSTRACT, [
       inObjForCam
     ]);
 

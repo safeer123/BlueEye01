@@ -14,14 +14,14 @@ import GlobalLighting from "./../GlobalLighting";
 const TypeNodeMapping = [
   { type: NodeTypes.ABSTRACT_NODE, Class: Node },
   { type: NodeTypes.ABSTRACT_WORLD_OBJECT, Class: WorldObject },
-  { type: NodeTypes.ABSTRACT_CAMERA, Class: AbstractCamera },
+  { type: NodeTypes.CAMERA_ABSTRACT, Class: AbstractCamera },
   { type: NodeTypes.CAMERA_SPHERICAL_PATH, Class: CamThetaPhi },
-  { type: NodeTypes.ONE_EYE_CAMERA, Class: OneEye },
+  { type: NodeTypes.CAMERA_ONE_EYE, Class: OneEye },
   { type: NodeTypes.COMPOSITE_CUSTOM_SHAPES, Class: CompositeShapes0 },
   { type: NodeTypes.ABSTRACT_LIGHT, Class: AbstractPointLight },
   { type: NodeTypes.GLOWING_SPHERE, Class: GlowingSphere },
   { type: NodeTypes.GLOBAL_LIGHTING, Class: GlobalLighting },
-  { type: NodeTypes.TWO_EYES, Class: TwoEyes }
+  { type: NodeTypes.CAMERA_TWO_EYES, Class: TwoEyes }
 ];
 
 export { TypeNodeMapping };
