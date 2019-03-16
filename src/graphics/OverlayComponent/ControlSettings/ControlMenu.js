@@ -3,7 +3,7 @@ import { shortenKeys } from "./constants";
 import { EventEmitter, EventName, BTN } from "../../";
 import "./index.css";
 
-class ControlGroup extends React.Component {
+class ControlMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -86,4 +86,4 @@ class ControlGroup extends React.Component {
   }
 }
 
-export default ControlGroup;
+export default ControlMenu;

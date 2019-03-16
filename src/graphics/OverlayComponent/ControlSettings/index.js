@@ -4,7 +4,7 @@ import {
   objControlListForTest,
   globalControlListForTest
 } from "./sampleControls";
-import ControlGroup from "./ControlGroup";
+import ControlMenu from "./ControlMenu";
 import { EventEmitter, EventName, BTN, ControlTypes } from "../../";
 import "./index.css";
 
@@ -36,6 +36,7 @@ class ControlSettings extends React.Component {
       EventEmitter.on(EventName.ClearControls, this.clearControls);
       EventEmitter.on(EventName.ToggleControlEnableFlag, this.toggleEnable);
     }
+    this.selectedControlById = {};
   }
 
   unregisterControl = controlObjId => {};
@@ -47,6 +48,7 @@ class ControlSettings extends React.Component {
         globalControls: {},
         objectControls: {}
       });
+      this.selectedControlById = {};
     }, 0);
   };
 
@@ -68,20 +70,23 @@ class ControlSettings extends React.Component {
   };
 
   duplicateControlSelected(id) {
-    return this.state.selectedControls.some(c => c.id === id);
+    return Boolean(this.selectedControlById[id]);
   }
 
   handleDropdown(id) {
     // console.log(id);
     if (this.duplicateControlSelected(id)) return;
     const { globalControls, objectControls } = this.state;
+    let controlToAdd = null;
     if (objectControls[id]) {
-      this.setState({
-        selectedControls: [...this.state.selectedControls, objectControls[id]]
-      });
+      controlToAdd = objectControls[id];
     } else if (globalControls[id]) {
+      controlToAdd = globalControls[id];
+    }
+    if (controlToAdd) {
+      this.selectedControlById[id] = controlToAdd;
       this.setState({
-        selectedControls: [...this.state.selectedControls, globalControls[id]]
+        selectedControls: [...this.state.selectedControls, controlToAdd]
       });
     }
   }
@@ -97,7 +102,11 @@ class ControlSettings extends React.Component {
         : true;
       if (addItem) {
         itemList.push(
-          <MenuItem key={elemKey} eventKey={id}>
+          <MenuItem
+            key={elemKey}
+            eventKey={id}
+            disabled={Boolean(this.selectedControlById[id])}
+          >
             {label}
           </MenuItem>
         );
@@ -136,10 +145,10 @@ class ControlSettings extends React.Component {
   };
 
   handleClose(selectedControl) {
-    const { selectedControls } = this.state;
-    const index = selectedControls.indexOf(selectedControl);
-    if (index > -1) {
-      selectedControls.splice(index, 1);
+    if (this.selectedControlById[selectedControl.id]) {
+      let selectedControls = [...this.state.selectedControls];
+      selectedControls = selectedControls.filter(c => c !== selectedControl);
+      delete this.selectedControlById[selectedControl.id];
       this.setState({ selectedControls });
     }
   }
@@ -165,6 +174,13 @@ class ControlSettings extends React.Component {
     EventEmitter.emit(event);
   };
 
+  clearAll = () => {
+    this.setState({
+      selectedControls: []
+    });
+    this.selectedControlById = {};
+  };
+
   idToLabel = id => id.replace(new RegExp("_", "g"), " ");
 
   render() {
@@ -177,6 +193,7 @@ class ControlSettings extends React.Component {
     const { show } = this.props;
     const hidden = show ? "" : "hidden";
     const settingsBTN = BTN.Settings(settingsEnabled);
+    const closeBTN = BTN.Close;
     return (
       <div className="controls-wrapper">
         <div className={`obj-settings ${hidden}`}>
@@ -207,12 +224,15 @@ class ControlSettings extends React.Component {
                 )}
               </SplitButton>
             )}
+            {settingsEnabled && selectedControls.length > 0 && (
+              <i className={`${closeBTN} close-icon`} onClick={this.clearAll} />
+            )}
           </div>
         </div>
         {settingsEnabled && selectedControls && selectedControls.length > 0 && (
           <div className={`control-items-container ${hidden}`}>
             {selectedControls.map(selectedControl => (
-              <ControlGroup
+              <ControlMenu
                 selectedControl={selectedControl}
                 handleClose={() => this.handleClose(selectedControl)}
                 key={selectedControl.id}

@@ -25,6 +25,12 @@
     pointer-events: visiblefill;
 }
 
+.controls-wrapper .close-icon {
+    font-size: 25px;
+    margin-left: 10px;
+    color: #989898;
+}
+
 .obj-settings .container {
     width: 100%;
     max-width: 100%;
