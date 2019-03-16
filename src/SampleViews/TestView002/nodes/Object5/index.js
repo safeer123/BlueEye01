@@ -11,7 +11,14 @@ class Shape5 extends WorldObject {
 
   defineGeometry() {
     const radius = 4;
-    const sphere = new OBJ0.Sphere3D(radius);
+    const sphere = new OBJ0.Sphere3D(radius, {
+      getColor: (i, j, options) => {
+        const { color, deltaColor } = options;
+        const even = i % 2 === 0;
+        const colorPlus = color.map(c => c + deltaColor);
+        return even ? color : colorPlus;
+      }
+    });
     sphere.model().translate(0, radius, 0);
 
     const planeSide = 4;

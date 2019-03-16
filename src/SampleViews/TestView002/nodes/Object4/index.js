@@ -24,7 +24,9 @@ class Shape4 extends WorldObject {
       .translate(0, sideLength * 0.5, sideLength * 0.5)
       .xRotate(-Math.PI / 4)
       .translate(sideLength, 0, sideLength * Math.sqrt(2));
-    box2.setOptions({ color: [0.4, 0.7, 0.3, 1] });
+    box2.setOptions({
+      color: [0.4, 0.7, 0.3, 1]
+    });
 
     this.geometryList = [box1, box2];
     return this.geometryList;

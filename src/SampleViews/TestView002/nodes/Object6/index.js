@@ -16,7 +16,15 @@ class LightTower extends WorldObject {
   }
 
   defineGeometry() {
-    const cylinder3D = new OBJ0.Cylinder3D(3, 5, { deltaColor: 0.1 });
+    const cylinder3D = new OBJ0.Cylinder3D(3, 5, {
+      deltaColor: 0.1,
+      getColor: (i, j, options) => {
+        const { color, deltaColor, dYCount } = options;
+        const changeColWhen = i % 2 === 0 || j === 1 || j === dYCount;
+        const colorPlus = color.map(c => c + deltaColor);
+        return changeColWhen ? color : colorPlus;
+      }
+    });
     // cylinder3D.model().translate(0, 2.5, 0);
     this.geometryList = [cylinder3D];
     return this.geometryList;

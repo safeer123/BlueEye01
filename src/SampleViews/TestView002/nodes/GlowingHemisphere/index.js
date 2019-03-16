@@ -25,11 +25,11 @@ class GlowingHemiSphere extends WorldObject {
   }
 
   defineGeometry() {
-    const color = [0.6, 0.8, 0.45, 1];
+    const color = [0.8, 0.8, 0.8, 1];
     const radius = 3;
     const hemiSphere1 = new OBJ0.Hemisphere3D(radius, {
       dThetaCount: 10,
-      deltaColor: 0.1,
+      deltaColor: 0.0,
       color
     });
 

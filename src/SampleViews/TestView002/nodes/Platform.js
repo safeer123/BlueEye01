@@ -40,7 +40,14 @@ class Carpet extends WorldObject {
     this.discSurface = new OBJ0.Sector3D(radius, {
       dThetaCount: 100,
       dRCount: 10,
-      color: DiscColor
+      color: DiscColor,
+      getColor: (i, j, options) => {
+        const { color, deltaColor } = options;
+        const evenI = i % 2 === 0;
+        const evenJ = j % 2 === 0;
+        const colorPlus = color.map(c => c + deltaColor);
+        return evenI || evenJ ? color : colorPlus;
+      }
     });
     this.discSurface.model().translate(0, baseY, 0);
     return [

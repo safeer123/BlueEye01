@@ -33,7 +33,10 @@ export default class GlowingSphere extends WorldObject {
 
   defineGeometry() {
     const radius = this.getProperty("radius");
-    const shape = new OBJ0.Sphere3D(radius, { color: [0.8, 0.8, 0.8, 1] });
+    const shape = new OBJ0.Sphere3D(radius, {
+      color: [0.8, 0.8, 0.8, 1],
+      deltaColor: 0.0
+    });
     return [shape];
   }
 
