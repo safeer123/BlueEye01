@@ -3,19 +3,22 @@ import UserControl from "../UserControl";
 import EventEmitter from "../lib/EventEmitter";
 import { ControlTypes, EventName, BTN } from "../constants";
 import SceneGraph from "./SceneGraph";
+import Remember from "../lib/Remember";
 
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
 // Switch View option based on swipe gesture or Control+v
 export default class ViewHolder extends GraphicsLayer {
   // Construct canvas and webgl context
-  constructor(wrapperElem) {
+  constructor(wrapperElem, properties = {}) {
     super(wrapperElem);
+    this.properties = properties;
     this.userControl = new UserControl(wrapperElem, this.displayOutHandler);
   }
 
   // Derived class should pass nodeObj and viewList
-  init(nodeObj, viewList) {
+  init(viewHolderId, nodeObj, viewList) {
+    this.viewHolderId = viewHolderId;
     const { sceneSetters } = SceneGraph.initializeNodes(nodeObj.nodes);
     this.sceneData = { nodeObj, sceneSetters };
 
@@ -31,11 +34,20 @@ export default class ViewHolder extends GraphicsLayer {
     }
 
     if (this.viewList.length > 0) {
-      this.setCurrentViewByIndex(0);
+      let startViewIndex = 0;
+      if (this.properties.RememberSelectedViewsOnRefresh) {
+        const rememberedIndex = Remember.get(this.getViewIndexStorageKey());
+        if (rememberedIndex !== null) {
+          startViewIndex = rememberedIndex;
+        }
+      }
+      this.setCurrentViewByIndex(startViewIndex);
     }
 
     EventEmitter.on(EventName.SwitchView, this.switchView.bind(this));
   }
+
+  getViewIndexStorageKey = () => `${this.viewHolderId}_VIEW_INDEX`;
 
   // This is the main animation loop which gets invoked at screen refresh time
   animationLoop(timestamp) {
@@ -122,6 +134,9 @@ export default class ViewHolder extends GraphicsLayer {
     this.setCurrentView(this.viewList[index]);
     this.currentViewIndex = index;
     EventEmitter.emit(EventName.ViewChanged, index);
+    if (this.properties.RememberSelectedViewsOnRefresh) {
+      Remember.set(this.getViewIndexStorageKey(), index);
+    }
   }
 
   setCurrentView(view) {

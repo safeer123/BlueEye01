@@ -3,6 +3,8 @@ import OneEyeView from "./OneEyeView";
 import TwoEyesView from "./TwoEyesView";
 import FourByFourView from "./FourByFourView";
 
+const ViewHolderId = "XA098D12G1000TK";
+
 const ViewList = [
   {
     id: 2,
@@ -30,4 +32,4 @@ const ViewList = [
   }
 ];
 
-export { ViewList };
+export { ViewList, ViewHolderId };

@@ -5,7 +5,7 @@ import {
 } from "../../graphics";
 
 import getNodes from "./nodes";
-import { ViewList } from "./config";
+import { ViewList, ViewHolderId } from "./config";
 
 // TestView001 ViewHolder (Smart Graphics Layer)
 export default class TestView001 extends ViewHolder {
@@ -23,6 +23,6 @@ export default class TestView001 extends ViewHolder {
       renderConfigNoLight
     };
     const nodeObj = getNodes(inObj);
-    super.init(nodeObj, ViewList);
+    super.init(ViewHolderId, nodeObj, ViewList);
   }
 }

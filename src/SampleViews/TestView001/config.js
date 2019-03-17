@@ -3,6 +3,8 @@ import SingleNodeView from "./SingleNodeView";
 import OneEyeView from "./OneEyeView";
 import TwoEyesView from "./TwoEyesView";
 
+const ViewHolderId = "9AJ77D99FLLMOI";
+
 const ViewList = [
   {
     id: 1,
@@ -30,4 +32,4 @@ const ViewList = [
   }
 ];
 
-export { ViewList };
+export { ViewList, ViewHolderId };
