@@ -6,7 +6,6 @@ const Obj5Type = "Obj5Type";
 class Shape5 extends WorldObject {
   constructor(inObj) {
     super(inObj, [config]);
-    this.model().translate(20, 0, 2);
   }
 
   defineGeometry() {
@@ -45,7 +44,7 @@ class Shape5 extends WorldObject {
         getColor
       }
     );
-    plane.model().translate(20, 0, 0);
+    plane.model().translate(0, 0, -7);
 
     this.geometryList = [sphere, plane];
     return this.geometryList;

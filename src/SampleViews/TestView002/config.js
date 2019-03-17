@@ -1,6 +1,7 @@
 import SingleNodeView from "./SingleNodeView";
 import OneEyeView from "./OneEyeView";
 import TwoEyesView from "./TwoEyesView";
+import FourByFourView from "./FourByFourView";
 
 const ViewList = [
   {
@@ -16,10 +17,16 @@ const ViewList = [
     canvasViewClass: TwoEyesView
   },
   {
-    id: 0,
+    id: 3,
     name: "One Eye View",
     short: "OEV",
     canvasViewClass: OneEyeView
+  },
+  {
+    id: 0,
+    name: "Four By Four",
+    short: "4X4",
+    canvasViewClass: FourByFourView
   }
 ];
 

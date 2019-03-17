@@ -6,7 +6,6 @@ const Obj3Type = "Obj3Type";
 class Shape3 extends WorldObject {
   constructor(inObj) {
     super(inObj, [config]);
-    this.model().translate(-40, 0, 2);
   }
 
   defineGeometry() {

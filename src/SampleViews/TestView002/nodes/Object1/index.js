@@ -6,7 +6,6 @@ const Obj1Type = "Obj1Type";
 class CylinderShape extends WorldObject {
   constructor(inObj) {
     super(inObj, [config]);
-    this.model().translate(-80, 0, -1);
   }
 
   defineGeometry() {

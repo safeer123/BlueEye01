@@ -2,6 +2,7 @@
 import { WOFACTORY, NodeTypes } from "../../../graphics";
 
 import PlatformType from "./Platform";
+import Carpet1Type from "./Carpet1";
 import Obj1Type from "./Object1";
 import Obj2Type from "./Object2";
 import Obj3Type from "./Object3";
@@ -23,23 +24,49 @@ export default function getNodes(inpObj) {
 
   const platform = WOFACTORY.create(PlatformType, [inObj()]);
 
+  const carpet1 = WOFACTORY.create(Carpet1Type, [inObj()]);
+  platform.addChildren([carpet1]);
+
   const shape1 = WOFACTORY.create(Obj1Type, [inObj()]);
-  platform.addChildren([shape1]);
+  shape1.model().translate(-67, 0, -1);
+  carpet1.addChildren([shape1]);
 
   const shape2 = WOFACTORY.create(Obj2Type, [inObj()]);
-  platform.addChildren([shape2]);
+  shape2.model().translate(-50, 0, 1);
+  carpet1.addChildren([shape2]);
 
   const shape3 = WOFACTORY.create(Obj3Type, [inObj()]);
-  platform.addChildren([shape3]);
+  shape3.model().translate(-30, 0, 2);
+  carpet1.addChildren([shape3]);
 
   const shape4 = WOFACTORY.create(Obj4Type, [inObj()]);
-  platform.addChildren([shape4]);
+  shape4.model().translate(30, 0, -5);
+  carpet1.addChildren([shape4]);
 
   const shape5 = WOFACTORY.create(Obj5Type, [inObj()]);
-  platform.addChildren([shape5]);
+  shape5.model().translate(60, 0, 2);
+  carpet1.addChildren([shape5]);
 
   const light01 = WOFACTORY.create(LightTowerType, [inObj()]);
-  platform.addChildren([light01]);
+  light01.model().translate(85, 0, 0);
+  carpet1.addChildren([light01]);
+
+  const light02 = WOFACTORY.create(LightTowerType, [inObj()]);
+  light02.model().translate(-85, 0, 0);
+  carpet1.addChildren([light02]);
+
+  const carpet2 = WOFACTORY.create(Carpet1Type, [inObj()]);
+  carpet2.model().translate(0, 0.1, 0);
+  carpet2.model().yRotate(Math.PI * 0.5);
+  platform.addChildren([carpet2]);
+
+  const light03 = WOFACTORY.create(LightTowerType, [inObj()]);
+  light03.model().translate(85, 0, 0);
+  carpet2.addChildren([light03]);
+
+  const light04 = WOFACTORY.create(LightTowerType, [inObj()]);
+  light04.model().translate(-85, 0, 0);
+  carpet2.addChildren([light04]);
 
   const globalLightObj = WOFACTORY.create(NodeTypes.GLOBAL_LIGHTING, [inObj()]);
   globalLightObj.setProperty("theta", 0.1 * Math.PI);
@@ -47,7 +74,7 @@ export default function getNodes(inpObj) {
   const centralLightObj = WOFACTORY.create(NodeTypes.GLOWING_SPHERE, [inObj()]);
   centralLightObj.setProperty("isON", true);
   centralLightObj.setProperty("translation", [0, 5, 0]);
-  platform.addChildren([centralLightObj]);
+  carpet1.addChildren([centralLightObj]);
 
   const camThetaPhi = WOFACTORY.create(NodeTypes.CAMERA_SPHERICAL_PATH, [
     inObj()
@@ -84,6 +111,7 @@ export default function getNodes(inpObj) {
   // return all root nodes
   return {
     nodes: [globalLightObj, platform, twoEyes, oneEye],
+    platform,
     camThetaPhi,
     twoEyes,
     oneEye,

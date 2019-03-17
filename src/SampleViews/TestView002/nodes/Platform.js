@@ -1,40 +1,35 @@
-import { WOFACTORY, OBJ0, WorldObject } from "../../../graphics";
+import { WOFACTORY, OBJ0, WorldObject, NodeTypes } from "../../../graphics";
 
 const PlatformType = "PlatformType";
 
-class Carpet extends WorldObject {
+class DiscPlane extends WorldObject {
   constructor(inObj) {
     super(inObj, []);
+    this.camList = [];
+
+    this.createCam(inObj, [0, 140, 0], [0, 0, 0], [0, 0, 1], 0);
+    this.createCam(inObj, [70, 70, 0], [0, 0, 0], [0, 1, 0], 1);
+    this.createCam(inObj, [-70, 0, -70], [0, 0, 0], [0, 1, 0], 2);
+    this.createCam(inObj, [70, 30, 70], [0, 0, 0], [0, 1, 0], 3);
+  }
+
+  createCam(inObj, pos, targetPos, up, index) {
+    const cam1 = WOFACTORY.create(NodeTypes.CAMERA_ABSTRACT, [inObj]);
+    cam1.model().translate(0, 100, 0);
+    cam1.setProperty("camera_position", pos);
+    cam1.setProperty("target_position", targetPos);
+    cam1.setProperty("up_vector", up);
+    this.addChildren([cam1]);
+    this.camList[index] = cam1;
+  }
+
+  getCam(i) {
+    return this.camList[i];
   }
 
   defineGeometry() {
     const baseY = -2;
-    const p1 = [-100, 0, 10];
-    const p2 = [-100, 0, -10];
-    const p3 = [100, 0, -10];
-    const p4 = [100, 0, 10];
-    const offset = 5;
-    const baseP1 = [-100, baseY, 10 + offset];
-    const baseP2 = [-100, baseY, -(10 + offset)];
-    const baseP3 = [100, baseY, -(10 + offset)];
-    const baseP4 = [100, baseY, 10 + offset];
-    const TrackColor = [0.04, 0.14, 0.27, 1];
     const DiscColor = [0.2, 0.25, 0.3, 1];
-    this.carpetSurface = new OBJ0.QuadSurface3D(p1, p2, p3, p4, {
-      divCount1: 20,
-      divCount2: 4,
-      color: TrackColor
-    });
-    this.sideSurface1 = new OBJ0.QuadSurface3D(p4, baseP4, baseP1, p1, {
-      divCount1: 20,
-      divCount2: 1,
-      color: DiscColor
-    });
-    this.sideSurface2 = new OBJ0.QuadSurface3D(p2, baseP2, baseP3, p3, {
-      divCount1: 20,
-      divCount2: 1,
-      color: DiscColor
-    });
 
     const radius = 100;
     this.discSurface = new OBJ0.Sector3D(radius, {
@@ -50,15 +45,10 @@ class Carpet extends WorldObject {
       }
     });
     this.discSurface.model().translate(0, baseY, 0);
-    return [
-      this.carpetSurface,
-      this.sideSurface1,
-      this.sideSurface2,
-      this.discSurface
-    ];
+    return [this.discSurface];
   }
 }
 
-WOFACTORY.registerType(PlatformType, Carpet);
+WOFACTORY.registerType(PlatformType, DiscPlane);
 
 export default PlatformType;

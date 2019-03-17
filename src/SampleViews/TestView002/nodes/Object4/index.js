@@ -6,7 +6,6 @@ const Obj4Type = "Obj4Type";
 class Shape4 extends WorldObject {
   constructor(inObj) {
     super(inObj, [config]);
-    this.model().translate(-20, 0, 2);
   }
 
   defineGeometry() {
