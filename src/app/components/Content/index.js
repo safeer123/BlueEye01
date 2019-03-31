@@ -20,8 +20,8 @@ class Content extends React.Component {
       isFullscreenMode: false
     };
     this.resizeHandler = this.resizeHandler.bind(this);
-    EventEmitter.on(EventName.FullscreenSwitch, () =>
-      this.handleFullscreenSwitch()
+    EventEmitter.on(EventName.FullscreenSwitch, e =>
+      this.handleFullscreenSwitch(e)
     );
   }
 
@@ -66,9 +66,13 @@ class Content extends React.Component {
     }
   }
 
-  handleFullscreenSwitch() {
-    const invertedMode = !this.state.isFullscreenMode;
-    this.setState({ isFullscreenMode: invertedMode });
+  handleFullscreenSwitch({ flag = null }) {
+    if (flag !== null) {
+      this.setState({ isFullscreenMode: flag });
+    } else {
+      const invertedMode = !this.state.isFullscreenMode;
+      this.setState({ isFullscreenMode: invertedMode });
+    }
   }
 
   render() {

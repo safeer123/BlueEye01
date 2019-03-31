@@ -1,9 +1,10 @@
-import GraphicsLayer from "../lib/GraphicsLayer";
-import UserControl from "../UserControl";
-import EventEmitter from "../lib/EventEmitter";
-import { ControlTypes, EventName, BTN } from "../constants";
-import SceneGraph from "./SceneGraph";
-import Remember from "../lib/Remember";
+import GraphicsLayer from "../../lib/GraphicsLayer";
+import UserControl from "../../UserControl";
+import EventEmitter from "../../lib/EventEmitter";
+import { ControlTypes, EventName, BTN } from "../../constants";
+import SceneGraph from "../SceneGraph";
+import Remember from "../../lib/Remember";
+import { VoiceViewCmds } from "./voice";
 
 // ViewHolder (Smart Graphics Layer)
 // List of CanvasViews having viewports and respective scenes
@@ -75,9 +76,13 @@ export default class ViewHolder extends GraphicsLayer {
 
   registerViewControls() {
     let fullscreenState = false;
-    const fullscreenSwitch = () => {
-      fullscreenState = !fullscreenState;
-      EventEmitter.emit(EventName.FullscreenSwitch);
+    const fullscreenSwitch = ({ flag = null }) => {
+      if (flag !== null) {
+        fullscreenState = flag;
+      } else {
+        fullscreenState = !fullscreenState;
+      }
+      EventEmitter.emit(EventName.FullscreenSwitch, { flag: fullscreenState });
     };
     const viewSwitch = () => this.switchView({ step: 1 });
     const controlObject = {
@@ -95,7 +100,8 @@ export default class ViewHolder extends GraphicsLayer {
           name: "Switch views",
           input: ["Control+v"],
           controlButton: () => BTN.Picture,
-          action: viewSwitch
+          action: viewSwitch,
+          voice: VoiceViewCmds(viewSwitch)
         }
       ]
     };
