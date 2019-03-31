@@ -23,7 +23,7 @@ const ViewIndexCheck = (token, params) => {
   return isPositiveNumber;
 };
 
-const VoiceViewCmds = (switchView, viewList) => {
+const VoiceViewCmds = (switchView, getCurrentView, viewList) => {
   const shortNames = viewList.map(v => v.short.toLowerCase());
   return [
     {
@@ -58,6 +58,16 @@ const VoiceViewCmds = (switchView, viewList) => {
         if (index >= 0 && index < viewList.length) {
           switchView({ index: parseInt(index, 10) });
         }
+      }
+    },
+    {
+      keys: ["current", "view"],
+      match: ["current", "view"],
+      action: () => {
+        const currView = getCurrentView();
+        displaySummary("Current View", [
+          `${currView.name} (${currView.short})`
+        ]);
       }
     }
   ];

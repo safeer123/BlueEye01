@@ -89,6 +89,7 @@ export default class ViewHolder extends GraphicsLayer {
       EventEmitter.emit(EventName.FullscreenSwitch, { flag: fullscreenState });
     };
     const viewSwitch = () => this.switchView({ step: 1 });
+    const getCurrentView = () => this.viewList[this.currentViewIndex];
     const controlObject = {
       id: "VIEW_CONTROLS",
       type: ControlTypes.GlobalControl,
@@ -105,7 +106,7 @@ export default class ViewHolder extends GraphicsLayer {
           input: ["Control+v"],
           controlButton: () => BTN.Picture,
           action: viewSwitch,
-          voice: VoiceViewCmds(this.switchView, this.viewList)
+          voice: VoiceViewCmds(this.switchView, getCurrentView, this.viewList)
         }
       ]
     };
