@@ -7,7 +7,7 @@ import renderConfigLight from "./Geometry/Objects3D/renderConfigLight";
 import ViewHolder from "./SceneBuilder/ViewHolder";
 import SingleCanvasView from "./SceneBuilder/CustomCanvasViews/SingleCanvasView";
 import SplitScreenCanvasView from "./SceneBuilder/CustomCanvasViews/SplitScreenCanvasView";
-import FourByFourCanvasView from "./SceneBuilder/CustomCanvasViews/FourByFourCanvasView";
+import TwoByTwoCanvasView from "./SceneBuilder/CustomCanvasViews/TwoByTwoCanvasView";
 import Scene from "./SceneBuilder/Scene";
 
 import EventEmitter from "./lib/EventEmitter";
@@ -28,7 +28,7 @@ export {
   ViewHolder,
   SingleCanvasView,
   SplitScreenCanvasView,
-  FourByFourCanvasView,
+  TwoByTwoCanvasView,
   Scene,
   EventEmitter,
   EventName,

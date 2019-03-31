@@ -1,6 +1,6 @@
-import { FourByFourCanvasView, Scene } from "../../graphics";
+import { TwoByTwoCanvasView, Scene } from "../../graphics";
 
-export default class FourByFourView extends FourByFourCanvasView {
+export default class TwoByTwoView extends TwoByTwoCanvasView {
   constructor(canvas, preRender) {
     super(canvas, preRender);
     this.canvas = canvas;

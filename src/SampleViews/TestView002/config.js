@@ -1,7 +1,7 @@
 import SingleNodeView from "./SingleNodeView";
 import OneEyeView from "./OneEyeView";
 import TwoEyesView from "./TwoEyesView";
-import FourByFourView from "./FourByFourView";
+import TwoByTwoView from "./TwoByTwoView";
 
 const ViewHolderId = "XA098D12G1000TK";
 
@@ -26,9 +26,9 @@ const ViewList = [
   },
   {
     id: 0,
-    name: "Four By Four",
-    short: "4X4",
-    canvasViewClass: FourByFourView
+    name: "Two By Two",
+    short: "2X2",
+    canvasViewClass: TwoByTwoView
   }
 ];
 

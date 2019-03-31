@@ -1,11 +1,11 @@
 import CanvasView from "../CanvasView";
 import LayoutGenerator from "../LayoutGenerator";
 
-export default class FourByFourCanvasView extends CanvasView {
+export default class TwoByTwoCanvasView extends CanvasView {
   constructor(canvas, preRender) {
     super(preRender);
     this.updateViewports(canvas);
-    this.setName("FourByFourCanvasView");
+    this.setName("TwoByTwoCanvasView");
   }
 
   updateViewports(canvas) {
