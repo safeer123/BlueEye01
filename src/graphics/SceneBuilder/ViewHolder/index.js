@@ -23,10 +23,16 @@ export default class ViewHolder extends GraphicsLayer {
     const { sceneSetters } = SceneGraph.initializeNodes(nodeObj.nodes);
     this.sceneData = { nodeObj, sceneSetters };
 
+    this.setupViews(viewList);
+
     // Register all controls here
     this.clearControls();
     this.registerViewControls();
     this.registerObjectControls();
+    EventEmitter.on(EventName.SwitchView, this.switchView.bind(this));
+  }
+
+  setupViews = viewList => {
     this.viewList = [];
     if (viewList) {
       this.viewList = viewList;
@@ -44,9 +50,7 @@ export default class ViewHolder extends GraphicsLayer {
       }
       this.setCurrentViewByIndex(startViewIndex);
     }
-
-    EventEmitter.on(EventName.SwitchView, this.switchView.bind(this));
-  }
+  };
 
   getViewIndexStorageKey = () => `${this.viewHolderId}_VIEW_INDEX`;
 
@@ -101,7 +105,7 @@ export default class ViewHolder extends GraphicsLayer {
           input: ["Control+v"],
           controlButton: () => BTN.Picture,
           action: viewSwitch,
-          voice: VoiceViewCmds(viewSwitch)
+          voice: VoiceViewCmds(this.switchView, this.viewList)
         }
       ]
     };
