@@ -167,7 +167,7 @@ export default class ViewHolder extends GraphicsLayer {
         }
 
         if (this.currentView.onEnter) {
-          setTimeout(() => this.currentView.onEnter(), 0);
+          setTimeout(() => this.currentView.onEnter(), 10);
         }
 
         EventEmitter.emit(EventName.ViewChanged, this.currentViewIndex);

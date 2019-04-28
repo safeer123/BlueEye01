@@ -371,10 +371,27 @@ DONE ---> Implement voice control for space walk
 DONE ---> summary displayOut
 	- implement summary displayOut in the overlay components
 	- Keep it different from voice command display
+DONE ---> Bug-fix alt+t for changing the targets not working
+DONE ---> once we try this pan and weels not working
+
+DONE ---> Correction: 4X4 should be 2X2
+DONE ---> speech (View)
+	- switch view
+	- List of views
+	- Switch to <ViewName>
+	- Current View
+
 ===========================================
 
-Bug-fix alt+t for changing the targets not working
-once we try this pan and weels not working
+Fix: Keyboard not working for the first view
+
+Four tall light towers
+	- cylindrical stands
+	- light holder box on top
+	- hemispherical light
+	- square base
+	.. bring old points here
+voice: control for power and color of light
 
 Create a class SceneGraph
 	- singleton
@@ -383,21 +400,16 @@ Create a class SceneGraph
 	- onTick(nodes)
 	- registerControls(nodes)
 	- etc
-
-	
-Four tall light towers
-	- cylindrical stands
-	- light holder box on top
-	- hemispherical light
-	- circular base
-	.. bring old points here
-	- voice control for power and color of light
 	
 Control Settings buttons
 	- Change 'Select Controls' to 'N Control Sets'
 	- Add clear all 'X' button on right side
 	
 Summary display should be enabled/disabled
+
+speech (Global)
+	- My coordinates
+	- My direction
 	
 Glowing Sphere - create setName methode and pass the name to voice config
 	

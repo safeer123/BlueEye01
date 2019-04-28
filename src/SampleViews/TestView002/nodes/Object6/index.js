@@ -4,22 +4,37 @@ import GlowingHemiSphereType from "../GlowingHemisphere";
 
 const LightTowerType = "LIGHT_TOWER";
 
+const baseSideLength = 4;
+const baseHeight = 0.1;
+const stickHeight = 8.0;
+const holderHeight = 1.5;
+const stickRadius = 0.5;
+
 class LightTower extends WorldObject {
   constructor(inObj) {
     super(inObj, [config]);
 
     this.glowingObj = WOFACTORY.create(GlowingHemiSphereType, [inObj]);
     this.addChildren([this.glowingObj]);
-    this.glowingObj.model().translate(0, 10, 0);
+    this.glowingObj
+      .model()
+      .translate(0, stickHeight + baseHeight + holderHeight, 0);
     this.setControls();
   }
 
   defineGeometry() {
-    const cylinder3DBase = new OBJ0.Cylinder3D(2, 0.5, {
+    const base = new OBJ0.Box3D();
+    base
+      .model()
+      .scale(baseSideLength, baseHeight, baseSideLength)
+      .translate(0, baseHeight * 0.5, 0)
+      .yRotate(-Math.PI / 4);
+    base.setOptions({
+      color: [0.2, 0.2, 0.3, 1],
       deltaColor: 0.0
     });
 
-    const cylinder3DStick = new OBJ0.Cylinder3D(1, 9, {
+    const cylinder3DStick = new OBJ0.Cylinder3D(stickRadius, stickHeight, {
       deltaColor: 0.1,
       getColor: (i, j, options) => {
         const { color, deltaColor, dYCount } = options;
@@ -28,15 +43,15 @@ class LightTower extends WorldObject {
         return changeColWhen ? color : colorPlus;
       }
     });
-    cylinder3DStick.model().translate(0, 0.5, 0);
+    cylinder3DStick.model().translate(0, baseHeight, 0);
 
-    const cylinder3DHolder = new OBJ0.Cylinder3D(3, 1.5, {
+    const cylinder3DHolder = new OBJ0.Cylinder3D(3, holderHeight, {
       deltaColor: 0.0
     });
-    cylinder3DHolder.model().translate(0, 8.5, 0);
+    cylinder3DHolder.model().translate(0, stickHeight + baseHeight, 0);
 
     // cylinder3D.model().translate(0, 2.5, 0);
-    this.geometryList = [cylinder3DBase, cylinder3DStick, cylinder3DHolder];
+    this.geometryList = [base, cylinder3DStick, cylinder3DHolder];
     return this.geometryList;
   }
 
